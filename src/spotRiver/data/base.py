@@ -185,7 +185,7 @@ class SyntheticDataset(Dataset):
 class FileDataset(Dataset):
     """Base class for datasets that are stored in a local file.
 
-    Small datasets that are part of the river package inherit from this class.
+    Small datasets that are part of the spotRiver package inherit from this class.
 
     Parameters
     ----------
@@ -330,4 +330,42 @@ class RemoteDataset(FileDataset):
         content["URL"] = self.url
         content["Size"] = utils.pretty.humanize_bytes(self.size)
         content["Downloaded"] = str(self.is_downloaded)
+        return content
+
+
+class GenericFileDataset(Dataset):
+    """Base class for datasets that are stored in a local file.
+
+    Small datasets that are part of the spotRiver package inherit from this class.
+
+    Parameters
+    ----------
+    filename
+        The file's name.
+    directory
+        The directory where the file is contained. Defaults to the location of the `datasets`
+        module.
+    desc
+        Extra dataset parameters to pass as keyword arguments.
+
+    """
+
+    def __init__(self, filename, target, converters, parse_dates, directory=None, **desc):
+        super().__init__(**desc)
+        self.filename = filename
+        self.directory = directory
+        self.target = target
+        self.converters = converters
+        self.parse_dates = parse_dates
+
+    @property
+    def path(self):
+        if self.directory:
+            return pathlib.Path(self.directory).joinpath(self.filename)
+        return pathlib.Path(__file__).parent.joinpath(self.filename)
+
+    @property
+    def _repr_content(self):
+        content = super()._repr_content
+        content["Path"] = str(self.path)
         return content

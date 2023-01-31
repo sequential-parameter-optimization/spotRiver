@@ -130,7 +130,7 @@ class HyperRiver:
 
                 `hour` (bool): If `True`, an hourly component is added.
 
-                `weekdy` (bool): If `True`, an weekday component is added.
+                `weekday` (bool): If `True`, an weekday component is added.
 
                 `month` (bool): If `True`, an monthly component is added.
 

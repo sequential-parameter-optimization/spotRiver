@@ -127,15 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-docs/.DS_Store
-notebooks/.DS_Store
-src/spotRiver/data/.DS_Store
-src/spotRiver/.DS_Store
-src/spotRiver/fun/.DS_Store
-test/.DS_Store
-src/.DS_Store
-spotRiver.code-workspace
 .DS_Store
+spotRiver.code-workspace
 notebooks/data/opm_2001-2020.csv
 notebooks/opm.csv
 notebooks/opm_cat.csv

@@ -1,15 +1,12 @@
 [build-system]
-requires = ["scipy",
-            "setuptools>=61.0",
-            "graphviz",
-            "numpy",
-            "scikit-learn",
-            "matplotlib"]
+requires = [
+  "setuptools>=61.0",
+  "setuptools_scm[toml]",
+]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "spotRiver"
-version = "0.0.10"
 authors = [
   { name="T. Bartz-Beielstein", email="tbb@bartzundbartz.de" }
 ]
@@ -21,19 +18,20 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Operating System :: OS Independent",
 ]
-# PEP 621 dependencies declaration
-# adapt to your dependencies manager
 dependencies = [
-  "mkdocstrings-python"
+  "numpy",
+  "river >= 0.15.0",
+  "pytest [tests]",
+  "spotPython [docs] >= 0.0.2",
 ]
+dynamic=["version"]
 
 [project.urls]
 "Homepage" = "https://www.spotseven.de"
+Issues = "https://github.com/sequential-parameter-optimization/spotRiver/issues"
+Repository = "https://github.com/sequential-parameter-optimization/spotRiver"
 
 [tool.setuptools]
-# ...
-# By default, include-package-data is true in pyproject.toml, so you do
-# NOT have to specify this line.
 include-package-data = true
 
 [tool.setuptools.packages.find]
@@ -43,3 +41,10 @@ where = ["src"]
 line-length = 120
 target-version = ["py310"]
 
+[tool.setuptools_scm]
+write_to = "src/spotRiver/_version.py"
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]

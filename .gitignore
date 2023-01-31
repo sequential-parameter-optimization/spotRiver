@@ -132,3 +132,4 @@ spotRiver.code-workspace
 notebooks/data/opm_2001-2020.csv
 notebooks/opm.csv
 notebooks/opm_cat.csv
+src/spotRiver/_version.py

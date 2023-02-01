@@ -9,6 +9,7 @@ class GenericData(base.GenericFileDataset):
     Args:
         base (_type_): _description_
     """
+
     def __init__(self, filename, target, n_features, n_samples, converters, parse_dates, directory, task=base.REG):
         """Generic File Data
 
@@ -30,13 +31,8 @@ class GenericData(base.GenericFileDataset):
             target=target,
             converters=converters,
             parse_dates=parse_dates,
-            directory=directory
+            directory=directory,
         )
 
     def __iter__(self):
-        return stream.iter_csv(
-            self.path,
-            target=self.target,
-            converters=self.converters,
-            parse_dates=self.parse_dates
-        )
+        return stream.iter_csv(self.path, target=self.target, converters=self.converters, parse_dates=self.parse_dates)

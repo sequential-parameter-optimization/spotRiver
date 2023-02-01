@@ -136,3 +136,4 @@ test/.DS_Store
 src/.DS_Store
 spotRiver.code-workspace
 .DS_Store
+notebooks/data/opm_2001-2020.csv

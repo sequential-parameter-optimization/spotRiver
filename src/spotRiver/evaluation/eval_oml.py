@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from river.evaluate import iter_progressive_val_score
 
 
-def eval_oml_iter_progressive(dataset, metric, models):
+def eval_oml_iter_progressive(dataset, metric, models, step=100, verbose=False):
     """ Evaluate OML Models
 
     Args:
@@ -19,8 +19,10 @@ def eval_oml_iter_progressive(dataset, metric, models):
     for model_name, model in models.items():
         result_i = {"step": [], "error": [], "r_time": [], "memory": []}
         for checkpoint in iter_progressive_val_score(
-            dataset, model, metric, measure_time=True, measure_memory=True, step=100
+            dataset, model, metric, measure_time=True, measure_memory=True, step=step
         ):
+            if verbose:
+                print(checkpoint["Step"])
             result_i["step"].append(checkpoint["Step"])
             result_i["error"].append(checkpoint[metric_name].get())
             # Convert timedelta object into seconds

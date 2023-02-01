@@ -1,7 +1,6 @@
 import abc
 import inspect
 import itertools
-import os
 import pathlib
 import re
 import shutil
@@ -9,6 +8,8 @@ import tarfile
 import typing
 import zipfile
 from urllib import request
+from pathlib import Path
+from os import environ, path
 
 from river import utils
 
@@ -21,13 +22,29 @@ MO_BINARY_CLF = "Multi-output binary classification"
 MO_REG = "Multi-output regression"
 
 
-def get_data_home():
-    """Return the location where remote datasets are to be stored."""
+def get_data_home(data_home=None) -> str:
+    """Return the location where remote datasets are to be stored.
+        By default the data directory is set to a folder named 'spotriver_data' in the
+        user home folder. Alternatively, it can be set by the 'SPOTRIVER_DATA' environment
+        variable or programmatically by giving an explicit folder path. The '~'
+        symbol is expanded to the user home folder.
+        If the folder does not already exist, it is automatically created.
 
-    data_home = os.environ.get("RIVER_DATA", os.path.join("~", "river_data"))
-    data_home = os.path.expanduser(data_home)
-    if not os.path.exists(data_home):
-        os.makedirs(data_home)
+    Args:
+        data_home (str):
+            The path to spotriver data directory. If `None`, the default path
+            is `~/spotriver_data`.
+
+    Returns:
+        data_home (str):
+        The path to the spotriver data directory.
+    """
+    if data_home is None:
+        data_home = environ.get("SPOTRIVER_DATA", Path.home() / "spotriver_data")
+    # Ensure data_home is a Path() object pointing to an absolute path
+    data_home = Path(data_home).absolute()
+    # Create data directory if it does not exists.
+    data_home.mkdir(parents=True, exist_ok=True)
     return data_home
 
 
@@ -243,7 +260,7 @@ class RemoteDataset(FileDataset):
     def __init__(self, url, size, unpack=True, filename=None, **desc):
 
         if filename is None:
-            filename = os.path.basename(url)
+            filename = path.basename(url)
 
         super().__init__(filename=filename, **desc)
         self.url = url
@@ -262,7 +279,7 @@ class RemoteDataset(FileDataset):
         # Determine where to download the archive
         directory = self.path.parent
         directory.mkdir(parents=True, exist_ok=True)
-        archive_path = directory.joinpath(os.path.basename(self.url))
+        archive_path = directory.joinpath(path.basename(self.url))
 
         with request.urlopen(self.url) as r:
 

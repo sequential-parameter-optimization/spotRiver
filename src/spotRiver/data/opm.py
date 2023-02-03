@@ -44,7 +44,6 @@ def fetch_opm(
     data_home: Union[str, Path] = None,
     download_if_missing: bool = True,
     return_X_y: bool = False,
-    return_df: bool = False,
     include_numeric: bool = True,
     include_categorical: bool = False,
 ) -> Union[Tuple[pd.DataFrame, pd.Series], pd.DataFrame, Bunch]:
@@ -156,10 +155,6 @@ def fetch_opm(
 
     if return_X_y:
         return (X, y)
-    elif return_df:
-        return df
-
     return Bunch(data=X, target=y)
-
 
 __all__ = ["fetch_opm"]

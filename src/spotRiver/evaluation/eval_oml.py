@@ -42,7 +42,7 @@ def eval_oml_iter_progressive(dataset, metric, models, step=100, verbose=False):
     return result
 
 
-def plot_oml_iter_progressive(result):
+def plot_oml_iter_progressive(result, log_y=False):
     """Plot evaluation of OML models.
 
     Args:
@@ -65,6 +65,10 @@ def plot_oml_iter_progressive(result):
     ax[0].grid(True)
     ax[1].grid(True)
     ax[2].grid(True)
+    if log_y:
+        ax[0].set_yscale('log')
+        ax[1].set_yscale('log')
+        ax[2].set_yscale('log')
 
     ax[0].legend(loc="upper center", bbox_to_anchor=(0.5, 1.25), ncol=3, fancybox=True, shadow=True)
     plt.tight_layout()

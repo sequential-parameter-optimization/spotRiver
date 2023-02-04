@@ -290,6 +290,7 @@ class HyperRiver:
 
     def fun_HTR_iter_progressive(self, X, fun_control=None):
         """Hyperparameter Tuning of HTR model.
+        See: https://riverml.xyz/0.15.0/api/tree/HoeffdingTreeRegressor/
         Parameters
         ----------
         grace_period

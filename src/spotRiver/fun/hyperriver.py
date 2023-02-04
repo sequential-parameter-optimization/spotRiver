@@ -14,6 +14,7 @@ from spotRiver.utils.features import get_month_distances
 from spotRiver.utils.features import get_hour_distances
 from spotRiver.evaluation.eval_oml import fun_eval_oml_iter_progressive
 from spotRiver.evaluation.eval_oml import eval_oml_iter_progressive
+from spotRiver.utils.selectors import select_splitter
 
 
 class HyperRiver:
@@ -307,7 +308,7 @@ class HyperRiver:
             - 'mean' - Target mean</br>
             - 'model' - Uses the model defined in `leaf_model`</br>
             - 'adaptive' - Chooses between 'mean' and 'model' dynamically</br>
-        leaf_model
+        NOT IMPLEMENTED: leaf_model
             The regression model used to provide responses if `leaf_prediction='model'`. If not
             provided an instance of `river.linear_model.LinearRegression` with the default
             hyperparameters is used.
@@ -361,7 +362,7 @@ class HyperRiver:
             X.shape[1]
         except ValueError:
             X = np.array([X])
-        if X.shape[1] != 5:
+        if X.shape[1] != 10:
             raise Exception
         grace_period = X[:, 0]
         max_depth = X[:, 1]
@@ -369,6 +370,11 @@ class HyperRiver:
         tau = X[:, 3]
         leaf_prediction_list = ["mean", "model", "adaptive"]
         leaf_prediction = X[:, 4]
+        model_selector_decay = X[:, 5]
+        splitter = X[:, 6]
+        min_samples_split = X[:, 7]
+        binary_split = X[:, 8]
+        max_size = X[:, 9]
         z_res = np.array([], dtype=float)
         for i in range(X.shape[0]):
             num = compose.SelectType(numbers.Number) | preprocessing.StandardScaler()
@@ -381,17 +387,22 @@ class HyperRiver:
                 metric=metrics.MAE(),
                 models={
                     "HTR": (
-                        (num + cat) | tree.HoeffdingTreeRegressor(
+                        (num + cat)
+                        | tree.HoeffdingTreeRegressor(
                             grace_period=int(grace_period[i]),
                             max_depth=int(max_depth[i]),
                             delta=float(delta[i]),
                             tau=float(tau[i]),
                             leaf_prediction=leaf_prediction_list[int(leaf_prediction[i])],
-                            splitter=tree.splitter.QOSplitter()
+                            model_selector_decay=float(model_selector_decay[i]),
+                            splitter=select_splitter(int(splitter[i])),
+                            min_samples_split=int(min_samples_split[i]),
+                            binary_split=int(binary_split[i]),
+                            max_size=float(max_size[i])
                         )
                     ),
-                }
+                },
             )
             y = fun_eval_oml_iter_progressive(res, metric=None)
-            z_res = np.append(z_res, y / self.fun_control["data"].n_samples)
+            z_res = np.append(z_res, y / self.fun_control["n_samples"])
         return z_res

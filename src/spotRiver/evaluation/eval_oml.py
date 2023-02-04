@@ -6,7 +6,7 @@ from numpy import zeros
 
 
 def eval_oml_iter_progressive(dataset, metric, models, step=100, verbose=False):
-    """ Evaluate OML Models
+    """Evaluate OML Models
 
     Args:
         dataset:
@@ -29,7 +29,7 @@ def eval_oml_iter_progressive(dataset, metric, models, step=100, verbose=False):
             dataset, model, metric, measure_time=True, measure_memory=True, step=step
         ):
             if verbose:
-                progress_bar(checkpoint["Step"]/n_steps)
+                progress_bar(checkpoint["Step"] / n_steps)
             result_i["step"].append(checkpoint["Step"])
             result_i["error"].append(checkpoint[metric_name].get())
             # Convert timedelta object into seconds
@@ -66,9 +66,9 @@ def plot_oml_iter_progressive(result, log_y=False):
     ax[1].grid(True)
     ax[2].grid(True)
     if log_y:
-        ax[0].set_yscale('log')
-        ax[1].set_yscale('log')
-        ax[2].set_yscale('log')
+        ax[0].set_yscale("log")
+        ax[1].set_yscale("log")
+        ax[2].set_yscale("log")
 
     ax[0].legend(loc="upper center", bbox_to_anchor=(0.5, 1.25), ncol=3, fancybox=True, shadow=True)
     plt.tight_layout()

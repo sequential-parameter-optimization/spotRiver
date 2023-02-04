@@ -1,15 +1,19 @@
+import numbers
 from river import time_series
 from river import compose
 from river import linear_model
 from river import optim
 from river import preprocessing
 from river import metrics
+from river import tree
 from numpy.random import default_rng
 import numpy as np
 from spotRiver.utils.features import get_weekday_distances
 from spotRiver.utils.features import get_ordinal_date
 from spotRiver.utils.features import get_month_distances
 from spotRiver.utils.features import get_hour_distances
+from spotRiver.evaluation.eval_oml import fun_eval_oml_iter_progressive
+from spotRiver.evaluation.eval_oml import eval_oml_iter_progressive
 
 
 class HyperRiver:
@@ -282,4 +286,111 @@ class HyperRiver:
             for j in range(len(y)):
                 z = z + y[j].get()
             z_res = np.append(z_res, z / len(y))
+        return z_res
+
+    def fun_HTR_iter_progressive(self, X, fun_control=None):
+        """Hyperparameter Tuning of HTR model.
+        Parameters
+        ----------
+        grace_period
+            Number of instances a leaf should observe between split attempts.
+        max_depth
+            The maximum depth a tree can reach. If `None`, the tree will grow indefinitely.
+        delta
+            Significance level to calculate the Hoeffding bound. The significance level is given by
+            `1 - delta`. Values closer to zero imply longer split decision delays.
+        tau
+            Threshold below which a split will be forced to break ties.
+        leaf_prediction
+            Prediction mechanism used at leafs.</br>
+            - 'mean' - Target mean</br>
+            - 'model' - Uses the model defined in `leaf_model`</br>
+            - 'adaptive' - Chooses between 'mean' and 'model' dynamically</br>
+        leaf_model
+            The regression model used to provide responses if `leaf_prediction='model'`. If not
+            provided an instance of `river.linear_model.LinearRegression` with the default
+            hyperparameters is used.
+        model_selector_decay
+            The exponential decaying factor applied to the learning models' squared errors, that
+            are monitored if `leaf_prediction='adaptive'`. Must be between `0` and `1`. The closer
+            to `1`, the more importance is going to be given to past observations. On the other hand,
+            if its value approaches `0`, the recent observed errors are going to have more influence
+            on the final decision.
+        nominal_attributes
+            List of Nominal attributes identifiers. If empty, then assume that all numeric attributes
+            should be treated as continuous.
+        splitter
+            The Splitter or Attribute Observer (AO) used to monitor the class statistics of numeric
+            features and perform splits. Splitters are available in the `tree.splitter` module.
+            Different splitters are available for classification and regression tasks. Classification
+            and regression splitters can be distinguished by their property `is_target_class`.
+            This is an advanced option. Special care must be taken when choosing different splitters.
+            By default, `tree.splitter.TEBSTSplitter` is used if `splitter` is `None`.
+        min_samples_split
+            The minimum number of samples every branch resulting from a split candidate must have
+            to be considered valid.
+        binary_split
+            If True, only allow binary splits.
+        max_size
+            The max size of the tree, in Megabytes (MB).
+        memory_estimate_period
+            Interval (number of processed instances) between memory consumption checks.
+        stop_mem_management
+            If True, stop growing as soon as memory limit is hit.
+        remove_poor_attrs
+            If True, disable poor attributes to reduce memory usage.
+        merit_preprune
+            If True, enable merit-based tree pre-pruning.
+
+        fun_control
+            Parameters that are are not tuned:
+                1. `horizon`: (int)
+                2. `grace_period`: (int) Initial period during which the metric is not updated.
+                        This is to fairly evaluate models which need a warming up period to start
+                        producing meaningful forecasts.
+                        The value of this parameter is equal to the `horizon` by default.
+                3. `data`: dataset. Default `AirlinePassengers`.
+
+        Returns
+        -------
+        (float): objective function value. Mean of the MAEs of the predicted values.
+        """
+        self.fun_control.update(fun_control)
+        try:
+            X.shape[1]
+        except ValueError:
+            X = np.array([X])
+        if X.shape[1] != 5:
+            raise Exception
+        grace_period = X[:, 0]
+        max_depth = X[:, 1]
+        delta = X[:, 2]
+        tau = X[:, 3]
+        leaf_prediction_list = ["mean", "model", "adaptive"]
+        leaf_prediction = X[:, 4]
+        z_res = np.array([], dtype=float)
+        for i in range(X.shape[0]):
+            num = compose.SelectType(numbers.Number) | preprocessing.StandardScaler()
+            # cat = compose.SelectType(str) | preprocessing.OneHotEncoder()
+            cat = compose.SelectType(str) | preprocessing.FeatureHasher(n_features=1000, seed=1)
+            res = eval_oml_iter_progressive(
+                dataset=self.fun_control["data"],
+                step=10000,
+                verbose=True,
+                metric=metrics.MAE(),
+                models={
+                    "HTR": (
+                        (num + cat) | tree.HoeffdingTreeRegressor(
+                            grace_period=int(grace_period[i]),
+                            max_depth=int(max_depth[i]),
+                            delta=float(delta[i]),
+                            tau=float(tau[i]),
+                            leaf_prediction=leaf_prediction_list[int(leaf_prediction[i])],
+                            splitter=tree.splitter.QOSplitter()
+                        )
+                    ),
+                }
+            )
+            y = fun_eval_oml_iter_progressive(res, metric=None)
+            z_res = np.append(z_res, y / self.fun_control["data"].n_samples)
         return z_res

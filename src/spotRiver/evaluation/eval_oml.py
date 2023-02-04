@@ -1,6 +1,9 @@
 import matplotlib.pyplot as plt
 from river.evaluate import iter_progressive_val_score
 from spotPython.utils.progress import progress_bar
+from numpy import median
+from numpy import zeros
+
 
 def eval_oml_iter_progressive(dataset, metric, models, step=100, verbose=False):
     """ Evaluate OML Models
@@ -9,6 +12,9 @@ def eval_oml_iter_progressive(dataset, metric, models, step=100, verbose=False):
         dataset:
         metric:
         models:
+        step (int): Iteration number at which to yield results.
+            This only takes into account the predictions, and not the training steps.
+        verbose:
 
     Reference:
         https://riverml.xyz/0.15.0/recipes/on-hoeffding-trees/
@@ -65,3 +71,22 @@ def plot_oml_iter_progressive(result):
     plt.close()
 
     return fig
+
+
+def fun_eval_oml_iter_progressive(result, metric=None):
+    """
+    Wrapper for eval_oml_iter_progressive. Returns one function value,
+    e.g., for objective functions.
+
+    Args:
+        result (_type_): _description_
+        metric (_type_, optional): _description_. Defaults to None.
+    """
+    if metric is None:
+        metric = median
+    model_names = list(result.keys())
+    n = len(model_names)
+    y = zeros([n])
+    for i in range(n):
+        y[i] = metric(result[model_names[i]]["error"])
+    return y

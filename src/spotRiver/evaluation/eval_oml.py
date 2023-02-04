@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from river.evaluate import iter_progressive_val_score
-
+from spotPython.utils.progress import progress_bar
 
 def eval_oml_iter_progressive(dataset, metric, models, step=100, verbose=False):
     """ Evaluate OML Models
@@ -15,6 +15,7 @@ def eval_oml_iter_progressive(dataset, metric, models, step=100, verbose=False):
     """
     metric_name = metric.__class__.__name__
     dataset = list(dataset)
+    n_steps = len(dataset)
     result = {}
     for model_name, model in models.items():
         result_i = {"step": [], "error": [], "r_time": [], "memory": []}
@@ -22,7 +23,7 @@ def eval_oml_iter_progressive(dataset, metric, models, step=100, verbose=False):
             dataset, model, metric, measure_time=True, measure_memory=True, step=step
         ):
             if verbose:
-                print(checkpoint["Step"])
+                progress_bar(checkpoint["Step"]/n_steps)
             result_i["step"].append(checkpoint["Step"])
             result_i["error"].append(checkpoint[metric_name].get())
             # Convert timedelta object into seconds

@@ -368,7 +368,7 @@ class HyperRiver:
         max_depth = X[:, 1]
         delta = X[:, 2]
         tau = X[:, 3]
-        leaf_prediction_list = ["mean", "model", "adaptive"]
+        leaf_prediction_list = ["mean", "adaptive", "model"]
         leaf_prediction = X[:, 4]
         model_selector_decay = X[:, 5]
         splitter = X[:, 6]

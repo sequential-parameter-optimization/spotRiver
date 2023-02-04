@@ -304,10 +304,10 @@ class HyperRiver:
         tau
             Threshold below which a split will be forced to break ties.
         leaf_prediction
-            Prediction mechanism used at leafs.</br>
+            Prediction mechanism used at leafs. NOTE: order differs from the order in river!</br>
             - 'mean' - Target mean</br>
-            - 'model' - Uses the model defined in `leaf_model`</br>
             - 'adaptive' - Chooses between 'mean' and 'model' dynamically</br>
+            - 'model' - Uses the model defined in `leaf_model`</br>
         NOT IMPLEMENTED: leaf_model
             The regression model used to provide responses if `leaf_prediction='model'`. If not
             provided an instance of `river.linear_model.LinearRegression` with the default

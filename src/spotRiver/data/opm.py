@@ -157,4 +157,5 @@ def fetch_opm(
         return (X, y)
     return Bunch(data=X, target=y)
 
+
 __all__ = ["fetch_opm"]

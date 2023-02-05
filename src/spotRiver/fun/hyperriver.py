@@ -396,30 +396,35 @@ class HyperRiver:
             num = compose.SelectType(numbers.Number) | preprocessing.StandardScaler()
             # cat = compose.SelectType(str) | preprocessing.OneHotEncoder()
             cat = compose.SelectType(str) | preprocessing.FeatureHasher(n_features=1000, seed=1)
-            res = eval_oml_iter_progressive(
-                dataset=self.fun_control["data"],
-                step=10000,
-                verbose=True,
-                metric=metrics.MAE(),
-                models={
-                    "HTR": (
-                        (num + cat)
-                        | tree.HoeffdingTreeRegressor(
-                            grace_period=int(grace_period[i]),
-                            max_depth=select_max_depth(int(max_depth[i])),
-                            delta=float(delta[i]),
-                            tau=float(tau[i]),
-                            leaf_prediction=select_leaf_prediction(int(leaf_prediction[i])),
-                            leaf_model=select_leaf_model(int(leaf_model[i])),
-                            model_selector_decay=float(model_selector_decay[i]),
-                            splitter=select_splitter(int(splitter[i])),
-                            min_samples_split=int(min_samples_split[i]),
-                            binary_split=int(binary_split[i]),
-                            max_size=float(max_size[i])
-                        )
-                    ),
-                },
-            )
-            y = fun_eval_oml_iter_progressive(res, metric=None)
+            try:
+                res = eval_oml_iter_progressive(
+                    dataset=self.fun_control["data"],
+                    step=10000,
+                    verbose=True,
+                    metric=metrics.MAE(),
+                    models={
+                        "HTR": (
+                            (num + cat)
+                            | tree.HoeffdingTreeRegressor(
+                                grace_period=int(grace_period[i]),
+                                max_depth=select_max_depth(int(max_depth[i])),
+                                delta=float(delta[i]),
+                                tau=float(tau[i]),
+                                leaf_prediction=select_leaf_prediction(int(leaf_prediction[i])),
+                                leaf_model=select_leaf_model(int(leaf_model[i])),
+                                model_selector_decay=float(model_selector_decay[i]),
+                                splitter=select_splitter(int(splitter[i])),
+                                min_samples_split=int(min_samples_split[i]),
+                                binary_split=int(binary_split[i]),
+                                max_size=float(max_size[i])
+                            )
+                        ),
+                    },
+                )
+                y = fun_eval_oml_iter_progressive(res, metric=None)
+            except Exception as err:
+                y = np.nan
+                print(f"Error in fun(). Call to evaluate failed. {err=}, {type(err)=}")
+                print(f"Setting y to {y:.2f}.")
             z_res = np.append(z_res, y / self.fun_control["n_samples"])
         return z_res

@@ -33,7 +33,12 @@ class HyperRiver:
     def __init__(self, seed=126):
         self.seed = seed
         self.rng = default_rng(seed=self.seed)
-        self.fun_control = {"seed": None, "data": None, "horizon": None, "grace_period": None, "metric": metrics.MAE()}
+        self.fun_control = {"seed": None,
+                            "verbosity": 0,
+                            "data": None,
+                            "horizon": None,
+                            "grace_period": None,
+                            "metric": metrics.MAE()}
 
     # def get_month_distances(x):
     #     return {
@@ -379,20 +384,22 @@ class HyperRiver:
         binary_split = X[:, 9]
         max_size = X[:, 10]
         z_res = np.array([], dtype=float)
+        verbose = False
+        if self.fun_control["verbosity"] > 0:
+            verbose = True
         for i in range(X.shape[0]):
-            #
-            print("grace_period", int(grace_period[i]))
-            print("max_depth", select_max_depth(int(max_depth[i])))
-            print("delta", float(delta[i]))
-            print("tau", float(tau[i]))
-            print("leaf_prediction", select_leaf_prediction(int(leaf_prediction[i])))
-            print("leaf_model", select_leaf_model(int(leaf_model[i])))
-            print("model_selector_decay", float(model_selector_decay[i]))
-            print("splitter", select_splitter(int(splitter[i])))
-            print("min_samples_split", int(min_samples_split[i]))
-            print("binary_split", int(binary_split[i]))
-            print("max_size", float(max_size[i]))
-            #
+            if self.fun_control["verbosity"] > 1:
+                print("grace_period", int(grace_period[i]))
+                print("max_depth", select_max_depth(int(max_depth[i])))
+                print("delta", float(delta[i]))
+                print("tau", float(tau[i]))
+                print("leaf_prediction", select_leaf_prediction(int(leaf_prediction[i])))
+                print("leaf_model", select_leaf_model(int(leaf_model[i])))
+                print("model_selector_decay", float(model_selector_decay[i]))
+                print("splitter", select_splitter(int(splitter[i])))
+                print("min_samples_split", int(min_samples_split[i]))
+                print("binary_split", int(binary_split[i]))
+                print("max_size", float(max_size[i]))
             num = compose.SelectType(numbers.Number) | preprocessing.StandardScaler()
             # cat = compose.SelectType(str) | preprocessing.OneHotEncoder()
             cat = compose.SelectType(str) | preprocessing.FeatureHasher(n_features=1000, seed=1)
@@ -400,7 +407,7 @@ class HyperRiver:
                 res = eval_oml_iter_progressive(
                     dataset=self.fun_control["data"],
                     step=10000,
-                    verbose=True,
+                    verbose=verbose,
                     metric=metrics.MAE(),
                     models={
                         "HTR": (

@@ -38,4 +38,4 @@ class GenericData(base.GenericFileDataset):
 
     def __iter__(self):
         return stream.iter_csv(self.path, target=self.target, converters=self.converters, parse_dates=self.parse_dates,
-                               fraction=self.fraction, seed = 123)
+                               fraction=self.fraction, seed=123)

@@ -10,7 +10,8 @@ class GenericData(base.GenericFileDataset):
         base (_type_): _description_
     """
 
-    def __init__(self, filename, target, n_features, n_samples, converters, parse_dates, directory, task=base.REG, fraction=1.0):
+    def __init__(self, filename, target, n_features, n_samples, converters, parse_dates, directory,
+                 task=base.REG, fraction=1.0):
         """Generic File Data
 
         Args:
@@ -36,4 +37,5 @@ class GenericData(base.GenericFileDataset):
         self.fraction = fraction
 
     def __iter__(self):
-        return stream.iter_csv(self.path, target=self.target, converters=self.converters, parse_dates=self.parse_dates, fraction=self.fraction)
+        return stream.iter_csv(self.path, target=self.target, converters=self.converters, parse_dates=self.parse_dates,
+                               fraction=self.fraction)

@@ -15,6 +15,9 @@ from spotRiver.utils.features import get_hour_distances
 from spotRiver.evaluation.eval_oml import fun_eval_oml_iter_progressive
 from spotRiver.evaluation.eval_oml import eval_oml_iter_progressive
 from spotRiver.utils.selectors import select_splitter
+from spotRiver.utils.selectors import select_leaf_prediction
+from spotRiver.utils.selectors import select_leaf_model
+from spotRiver.utils.selectors import select_max_depth
 
 
 class HyperRiver:
@@ -362,21 +365,34 @@ class HyperRiver:
             X.shape[1]
         except ValueError:
             X = np.array([X])
-        if X.shape[1] != 10:
+        if X.shape[1] != 11:
             raise Exception
         grace_period = X[:, 0]
         max_depth = X[:, 1]
         delta = X[:, 2]
         tau = X[:, 3]
-        leaf_prediction_list = ["mean", "adaptive", "model"]
         leaf_prediction = X[:, 4]
-        model_selector_decay = X[:, 5]
-        splitter = X[:, 6]
-        min_samples_split = X[:, 7]
-        binary_split = X[:, 8]
-        max_size = X[:, 9]
+        leaf_model = X[:, 5]
+        model_selector_decay = X[:, 6]
+        splitter = X[:, 7]
+        min_samples_split = X[:, 8]
+        binary_split = X[:, 9]
+        max_size = X[:, 10]
         z_res = np.array([], dtype=float)
         for i in range(X.shape[0]):
+            #
+            print("grace_period", int(grace_period[i]))
+            print("max_depth", select_max_depth(int(max_depth[i])))
+            print("delta", float(delta[i]))
+            print("tau", float(tau[i]))
+            print("leaf_prediction", select_leaf_prediction(int(leaf_prediction[i])))
+            print("leaf_model", select_leaf_model(int(leaf_model[i])))
+            print("model_selector_decay", float(model_selector_decay[i]))
+            print("splitter", select_splitter(int(splitter[i])))
+            print("min_samples_split", int(min_samples_split[i]))
+            print("binary_split", int(binary_split[i]))
+            print("max_size", float(max_size[i]))
+            #
             num = compose.SelectType(numbers.Number) | preprocessing.StandardScaler()
             # cat = compose.SelectType(str) | preprocessing.OneHotEncoder()
             cat = compose.SelectType(str) | preprocessing.FeatureHasher(n_features=1000, seed=1)
@@ -390,10 +406,11 @@ class HyperRiver:
                         (num + cat)
                         | tree.HoeffdingTreeRegressor(
                             grace_period=int(grace_period[i]),
-                            max_depth=int(max_depth[i]),
+                            max_depth=select_max_depth(int(max_depth[i])),
                             delta=float(delta[i]),
                             tau=float(tau[i]),
-                            leaf_prediction=leaf_prediction_list[int(leaf_prediction[i])],
+                            leaf_prediction=select_leaf_prediction(int(leaf_prediction[i])),
+                            leaf_model=select_leaf_model(int(leaf_model[i])),
                             model_selector_decay=float(model_selector_decay[i]),
                             splitter=select_splitter(int(splitter[i])),
                             min_samples_split=int(min_samples_split[i]),

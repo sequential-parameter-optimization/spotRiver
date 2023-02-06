@@ -8,6 +8,7 @@ from river import metrics
 from river import tree
 from numpy.random import default_rng
 import numpy as np
+from numpy import array
 from spotRiver.utils.features import get_weekday_distances
 from spotRiver.utils.features import get_ordinal_date
 from spotRiver.utils.features import get_month_distances
@@ -33,12 +34,15 @@ class HyperRiver:
     def __init__(self, seed=126):
         self.seed = seed
         self.rng = default_rng(seed=self.seed)
-        self.fun_control = {"seed": None,
-                            "verbosity": 0,
-                            "data": None,
-                            "horizon": None,
-                            "grace_period": None,
-                            "metric": metrics.MAE()}
+        self.fun_control = {
+            "seed": None,
+            "verbosity": 0,
+            "data": None,
+            "horizon": None,
+            "grace_period": None,
+            "metric": metrics.MAE(),
+            "weights": array([1, 0, 0]),
+        }
 
     # def get_month_distances(x):
     #     return {
@@ -423,12 +427,12 @@ class HyperRiver:
                                 splitter=select_splitter(int(splitter[i])),
                                 min_samples_split=int(min_samples_split[i]),
                                 binary_split=int(binary_split[i]),
-                                max_size=float(max_size[i])
+                                max_size=float(max_size[i]),
                             )
                         ),
                     },
                 )
-                y = fun_eval_oml_iter_progressive(res, metric=None)
+                y = fun_eval_oml_iter_progressive(res, metric=None, weights=self.fun_control["weights"])
             except Exception as err:
                 y = np.nan
                 print(f"Error in fun(). Call to evaluate failed. {err=}, {type(err)=}")

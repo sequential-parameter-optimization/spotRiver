@@ -3,6 +3,7 @@ from river.evaluate import iter_progressive_val_score
 from spotPython.utils.progress import progress_bar
 from numpy import median
 from numpy import zeros
+from numpy import array
 
 
 def eval_oml_iter_progressive(dataset, metric, models, step=100, verbose=False):
@@ -77,7 +78,7 @@ def plot_oml_iter_progressive(result, log_y=False):
     return fig
 
 
-def fun_eval_oml_iter_progressive(result, metric=None):
+def fun_eval_oml_iter_progressive(result, metric=None, weights=None):
     """
     Wrapper for eval_oml_iter_progressive. Returns one function value,
     e.g., for objective functions.
@@ -85,12 +86,20 @@ def fun_eval_oml_iter_progressive(result, metric=None):
     Args:
         result (_type_): _description_
         metric (_type_, optional): _description_. Defaults to None.
+        weights (numpy.array): Weights for error, r_time, and memory. None is [1,0,0],
+            which considers error only. Defaults to None.
     """
     if metric is None:
         metric = median
+    if weights is None:
+        weights = array([1, 0, 0])
     model_names = list(result.keys())
     n = len(model_names)
     y = zeros([n])
     for i in range(n):
-        y[i] = metric(result[model_names[i]]["error"])
+        y[i] = (
+            weights[0] * metric(result[model_names[i]]["error"])
+            + weights[1] * metric(result[model_names[i]]["r_time"])
+            + weights[2] * metric(result[model_names[i]]["memory"])
+        )
     return y

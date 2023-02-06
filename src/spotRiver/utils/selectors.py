@@ -13,7 +13,7 @@ def select_splitter(i):
 
 def select_leaf_prediction(i):
     if i not in range(3):
-        raise ValueError('{i} wrong, use int values between 0 and 2.'.format(i=repr(i)))
+        raise ValueError("{i} wrong, use int values between 0 and 2.".format(i=repr(i)))
     elif i == 0:
         return "mean"
     elif i == 1:
@@ -24,7 +24,7 @@ def select_leaf_prediction(i):
 
 def select_leaf_model(i):
     if i not in range(2):
-        raise ValueError('{i} wrong, use int values between 0 and 1.'.format(i=repr(i)))
+        raise ValueError("{i} wrong, use int values between 0 and 1.".format(i=repr(i)))
     elif i == 0:
         return LinearRegression()
     else:

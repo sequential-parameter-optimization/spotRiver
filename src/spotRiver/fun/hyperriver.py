@@ -19,6 +19,17 @@ from spotRiver.utils.selectors import select_splitter
 from spotRiver.utils.selectors import select_leaf_prediction
 from spotRiver.utils.selectors import select_leaf_model
 from spotRiver.utils.selectors import select_max_depth
+import logging
+
+
+logger = logging.getLogger(__name__)
+# configure the handler and formatter as needed
+py_handler = logging.FileHandler(f"{__name__}.log", mode="w")
+py_formatter = logging.Formatter("%(name)s %(asctime)s %(levelname)s %(message)s")
+# add formatter to the handler
+py_handler.setFormatter(py_formatter)
+# add handler to the logger
+logger.addHandler(py_handler)
 
 
 class HyperRiver:
@@ -38,10 +49,12 @@ class HyperRiver:
             "seed": None,
             "verbosity": 0,
             "data": None,
+            "step": 10_000,
             "horizon": None,
             "grace_period": None,
             "metric": metrics.MAE(),
             "weights": array([1, 0, 0]),
+            "log_level": 50,
         }
 
     # def get_month_distances(x):
@@ -370,6 +383,10 @@ class HyperRiver:
         (float): objective function value. Mean of the MAEs of the predicted values.
         """
         self.fun_control.update(fun_control)
+        # TODO: move logger to top
+        self.log_level = self.fun_control["log_level"]
+        logger.setLevel(self.log_level)
+        logger.info(f"Starting the logger at level {self.log_level} for module {__name__}:")
         try:
             X.shape[1]
         except ValueError:
@@ -391,6 +408,7 @@ class HyperRiver:
         verbose = False
         if self.fun_control["verbosity"] > 0:
             verbose = True
+        dataset_list = self.fun_control["data"]
         for i in range(X.shape[0]):
             if self.fun_control["verbosity"] > 1:
                 print("grace_period", int(grace_period[i]))
@@ -409,8 +427,9 @@ class HyperRiver:
             cat = compose.SelectType(str) | preprocessing.FeatureHasher(n_features=1000, seed=1)
             try:
                 res = eval_oml_iter_progressive(
-                    dataset=self.fun_control["data"],
-                    step=10000,
+                    # dataset=self.fun_control["data"],
+                    dataset=dataset_list,
+                    step=self.fun_control["step"],
                     verbose=verbose,
                     metric=metrics.MAE(),
                     models={
@@ -432,6 +451,7 @@ class HyperRiver:
                         ),
                     },
                 )
+                logger.debug("res from eval_oml_iter_progressive: %s", res)
                 y = fun_eval_oml_iter_progressive(res, metric=None, weights=self.fun_control["weights"])
             except Exception as err:
                 y = np.nan

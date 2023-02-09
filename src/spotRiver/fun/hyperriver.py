@@ -42,20 +42,22 @@ class HyperRiver:
 
     """
 
-    def __init__(self, seed=126):
+    def __init__(self, seed=126, log_level=50):
         self.seed = seed
         self.rng = default_rng(seed=self.seed)
         self.fun_control = {
             "seed": None,
-            "verbosity": 0,
             "data": None,
             "step": 10_000,
             "horizon": None,
             "grace_period": None,
             "metric": metrics.MAE(),
             "weights": array([1, 0, 0]),
-            "log_level": 50,
+            "log_level": log_level
         }
+        self.log_level = self.fun_control["log_level"]
+        logger.setLevel(self.log_level)
+        logger.info(f"Starting the logger at level {self.log_level} for module {__name__}:")
 
     # def get_month_distances(x):
     #     return {
@@ -383,10 +385,6 @@ class HyperRiver:
         (float): objective function value. Mean of the MAEs of the predicted values.
         """
         self.fun_control.update(fun_control)
-        # TODO: move logger to top
-        self.log_level = self.fun_control["log_level"]
-        logger.setLevel(self.log_level)
-        logger.info(f"Starting the logger at level {self.log_level} for module {__name__}:")
         try:
             X.shape[1]
         except ValueError:
@@ -405,12 +403,9 @@ class HyperRiver:
         binary_split = X[:, 9]
         max_size = X[:, 10]
         z_res = np.array([], dtype=float)
-        verbose = False
-        if self.fun_control["verbosity"] > 0:
-            verbose = True
         dataset_list = self.fun_control["data"]
         for i in range(X.shape[0]):
-            if self.fun_control["verbosity"] > 1:
+            if self.fun_control["log_level"] <= 10:
                 print("grace_period", int(grace_period[i]))
                 print("max_depth", select_max_depth(int(max_depth[i])))
                 print("delta", float(delta[i]))
@@ -430,7 +425,7 @@ class HyperRiver:
                     # dataset=self.fun_control["data"],
                     dataset=dataset_list,
                     step=self.fun_control["step"],
-                    verbose=verbose,
+                    log_level=self.fun_control["log_level"],
                     metric=metrics.MAE(),
                     models={
                         "HTR": (

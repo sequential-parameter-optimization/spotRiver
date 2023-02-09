@@ -6,7 +6,7 @@ from numpy import zeros
 from numpy import array
 
 
-def eval_oml_iter_progressive(dataset, metric, models, step=100, verbose=False):
+def eval_oml_iter_progressive(dataset, metric, models, step=100, log_level=50):
     """Evaluate OML Models
 
     Args:
@@ -15,7 +15,7 @@ def eval_oml_iter_progressive(dataset, metric, models, step=100, verbose=False):
         models:
         step (int): Iteration number at which to yield results.
             This only takes into account the predictions, and not the training steps.
-        verbose:
+        log_level:
 
     Reference:
         https://riverml.xyz/0.15.0/recipes/on-hoeffding-trees/
@@ -30,7 +30,7 @@ def eval_oml_iter_progressive(dataset, metric, models, step=100, verbose=False):
         for checkpoint in iter_progressive_val_score(
             dataset, model, metric, measure_time=True, measure_memory=True, step=step
         ):
-            if verbose:
+            if log_level <= 20:
                 progress_bar(checkpoint["Step"] / n_steps, message="Eval iter_prog_val_score:")
             result_i["step"].append(checkpoint["Step"])
             result_i["error"].append(checkpoint[metric_name].get())

@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from river.evaluate import iter_progressive_val_score
 from spotPython.utils.progress import progress_bar
-from numpy import median
+from numpy import mean
 from numpy import zeros
 from numpy import array
 
@@ -91,7 +91,7 @@ def fun_eval_oml_iter_progressive(result, metric=None, weights=None):
             which considers error only. Defaults to None.
     """
     if metric is None:
-        metric = median
+        metric = mean
     if weights is None:
         weights = array([1, 0, 0])
     model_names = list(result.keys())

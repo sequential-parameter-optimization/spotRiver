@@ -53,6 +53,7 @@ class HyperRiver:
             "grace_period": None,
             "metric": metrics.MAE(),
             "weights": array([1, 0, 0]),
+            "weight_coeff": 0.0,
             "log_level": log_level
         }
         self.log_level = self.fun_control["log_level"]
@@ -418,15 +419,14 @@ class HyperRiver:
                 print("binary_split", int(binary_split[i]))
                 print("max_size", float(max_size[i]))
             num = compose.SelectType(numbers.Number) | preprocessing.StandardScaler()
-            # cat = compose.SelectType(str) | preprocessing.OneHotEncoder()
             cat = compose.SelectType(str) | preprocessing.FeatureHasher(n_features=1000, seed=1)
             try:
                 res = eval_oml_iter_progressive(
-                    # dataset=self.fun_control["data"],
                     dataset=dataset_list,
                     step=self.fun_control["step"],
                     log_level=self.fun_control["log_level"],
-                    metric=metrics.MAE(),
+                    metric=fun_control["metric"],
+                    weight_coeff=fun_control["weight_coeff"],
                     models={
                         "HTR": (
                             (num + cat)

@@ -6,7 +6,7 @@ from numpy import zeros
 from numpy import array
 
 
-def eval_oml_iter_progressive(dataset, metric, models, step=100, log_level=50):
+def eval_oml_iter_progressive(dataset, metric, models, step=100, weight_coeff=0.0, log_level=50):
     """Evaluate OML Models
 
     Args:
@@ -15,15 +15,17 @@ def eval_oml_iter_progressive(dataset, metric, models, step=100, log_level=50):
         models:
         step (int): Iteration number at which to yield results.
             This only takes into account the predictions, and not the training steps.
+        weight_coeff (float): results are multiplied by (step/n_steps)**weight_coeff,
+            results from the beginning have a lower weight than results from the end,
+            if weight_coeff > 1. If weight_coeff == 0, than results are multiplied by 1
+            and every result has an equal weight.
         log_level:
 
     Reference:
         https://riverml.xyz/0.15.0/recipes/on-hoeffding-trees/
     """
     metric_name = metric.__class__.__name__
-    # dataset = list(dataset)
     n_steps = len(dataset)
-    # print("len dataset:", n_steps)
     result = {}
     for model_name, model in models.items():
         result_i = {"step": [], "error": [], "r_time": [], "memory": []}
@@ -32,13 +34,14 @@ def eval_oml_iter_progressive(dataset, metric, models, step=100, log_level=50):
         ):
             if log_level <= 20:
                 progress_bar(checkpoint["Step"] / n_steps, message="Eval iter_prog_val_score:")
+            w = (checkpoint["Step"] / n_steps) ** weight_coeff
             result_i["step"].append(checkpoint["Step"])
-            result_i["error"].append(checkpoint[metric_name].get())
+            result_i["error"].append(w * checkpoint[metric_name].get())
             # Convert timedelta object into seconds
-            result_i["r_time"].append(checkpoint["Time"].total_seconds())
+            result_i["r_time"].append(w * checkpoint["Time"].total_seconds())
             # Make sure the memory measurements are in MB
             raw_memory = checkpoint["Memory"]
-            result_i["memory"].append(raw_memory * 2**-20)
+            result_i["memory"].append(w * raw_memory * 2**-20)
         result_i["metric_name"] = metric_name
         result[model_name] = result_i
     return result

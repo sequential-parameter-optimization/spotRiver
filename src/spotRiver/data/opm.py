@@ -47,7 +47,7 @@ def fetch_opm(
     include_numeric: bool = True,
     include_categorical: bool = False,
 ) -> Union[Tuple[pd.DataFrame, pd.Series], pd.DataFrame, Bunch]:
-    """Load the Office of Planning and Managment dataset (regression).
+    """Load the Office of Planning and Management dataset (regression).
     Parameters
     ----------
     data_home : str or Path, default=None

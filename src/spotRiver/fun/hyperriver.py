@@ -54,7 +54,7 @@ class HyperRiver:
             "metric": metrics.MAE(),
             "weights": array([1, 0, 0]),
             "weight_coeff": 0.0,
-            "log_level": log_level
+            "log_level": log_level,
         }
         self.log_level = self.fun_control["log_level"]
         logger.setLevel(self.log_level)

@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def generate_drift(data, drift_values=[1.1, 10.0, 0.1, 1.1]):
     """
     Generates a drift array based on the number of rows in the input data and the specified drift values.
@@ -20,4 +21,3 @@ def generate_drift(data, drift_values=[1.1, 10.0, 0.1, 1.1]):
 
     drift = np.concatenate([quotient_array, remain_array])
     return drift
-

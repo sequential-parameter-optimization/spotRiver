@@ -34,7 +34,7 @@ def eval_oml_iter_progressive(dataset, metric, models, step=100, weight_coeff=0.
         ):
             if log_level <= 20:
                 progress_bar(checkpoint["Step"] / n_steps, message="Eval iter_prog_val_score:")
-            w = (checkpoint["Step"] / n_steps)**weight_coeff
+            w = (checkpoint["Step"] / n_steps) ** weight_coeff
             result_i["step"].append(checkpoint["Step"])
             result_i["error"].append(w * checkpoint[metric_name].get())
             # Convert timedelta object into seconds

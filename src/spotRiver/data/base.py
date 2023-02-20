@@ -131,7 +131,6 @@ class Dataset(abc.ABC):
         return content
 
     def __repr__(self):
-
         l_len = max(map(len, self._repr_content.keys()))
         r_len = max(map(len, self._repr_content.values()))
 
@@ -258,7 +257,6 @@ class RemoteDataset(FileDataset):
     """
 
     def __init__(self, url, size, unpack=True, filename=None, **desc):
-
         if filename is None:
             filename = path.basename(url)
 
@@ -272,7 +270,6 @@ class RemoteDataset(FileDataset):
         return pathlib.Path(get_data_home(), self.__class__.__name__, self.filename)
 
     def download(self, force=False, verbose=True):
-
         if not force and self.is_downloaded:
             return
 
@@ -282,7 +279,6 @@ class RemoteDataset(FileDataset):
         archive_path = directory.joinpath(path.basename(self.url))
 
         with request.urlopen(self.url) as r:
-
             # Notify the user
             if verbose:
                 meta = r.info()
@@ -327,7 +323,6 @@ class RemoteDataset(FileDataset):
     def is_downloaded(self):
         """Indicate whether or the data has been correctly downloaded."""
         if self.path.exists():
-
             if self.path.is_file():
                 return self.path.stat().st_size == self.size
             return sum(f.stat().st_size for f in self.path.glob("**/*") if f.is_file())

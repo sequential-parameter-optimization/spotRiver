@@ -84,18 +84,26 @@ def eval_bml(train=None, test=None, horizon=None, model=None):
     )
     if horizon is None:
         for i in range(0, len(test)):
-            series_preds, series_diffs = eval_one(df_eval, i, model, horizon, test, series_preds, series_diffs)
+            series_preds, series_diffs = eval_one(
+                df_eval, i, model, horizon, test, series_preds, series_diffs, is_last=False
+            )
     if horizon is not None:
         if len(test) % horizon == 0:
             for i in range(0, (int(len(test) / horizon) - 1)):
-                series_preds, series_diffs = eval_one(df_eval, i, model, horizon, test, series_preds, series_diffs)
+                series_preds, series_diffs = eval_one(
+                    df_eval, i, model, horizon, test, series_preds, series_diffs, is_last=False
+                )
             series_preds = series_preds.reset_index(drop=True)
             series_diffs = series_diffs.reset_index(drop=True)
         if len(test) % horizon != 0:
             length = np.floor(len(test) / horizon)
             for i in range(0, (int(length))):
-                series_preds, series_diffs = eval_one(df_eval, i, model, horizon, test, series_preds, series_diffs)
-            series_preds, series_diffs = eval_one(df_eval, length, model, horizon, test, series_preds, series_diffs, is_last=True)
+                series_preds, series_diffs = eval_one(
+                    df_eval, i, model, horizon, test, series_preds, series_diffs, is_last=False
+                )
+            series_preds, series_diffs = eval_one(
+                df_eval, length, model, horizon, test, series_preds, series_diffs, is_last=True
+            )
             series_preds = series_preds.reset_index(drop=True)
             series_diffs = series_diffs.reset_index(drop=True)
     df_true = test.copy()

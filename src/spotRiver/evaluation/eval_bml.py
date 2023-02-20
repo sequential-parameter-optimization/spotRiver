@@ -82,7 +82,9 @@ def eval_bml(train=None, test=None, horizon=None, model=None):
             length = floor(len(test) / horizon)
             for i in range(0, (int(length))):
                 series_preds, series_diffs = eval_one(df_eval, i, model, horizon, test, series_preds, series_diffs)
-            series_preds, series_diffs = eval_last(df_eval, length, model, horizon, test, series_preds, series_diffs)
+            series_preds, series_diffs = eval_one(
+                df_eval, length, model, horizon, test, series_preds, series_diffs, is_last=True
+            )
             series_preds = series_preds.reset_index(drop=True)
             series_diffs = series_diffs.reset_index(drop=True)
     df_true = test.copy()
@@ -91,31 +93,25 @@ def eval_bml(train=None, test=None, horizon=None, model=None):
     return df_eval, df_true, series_preds, series_diffs
 
 
-def eval_one(df_eval, i, model, horizon, test, series_preds, series_diffs):
+def eval_one(df_eval, i, model, horizon, test, series_preds, series_diffs, is_last=False):
     start = datetime.now()
     tracemalloc.start()
-    forecast = model.predict(test.iloc[i * horizon : (i + 1) * horizon, :-1])
+    if is_last:
+        forecast = model.predict(test.iloc[int(i * horizon) :, :-1])
+    else:
+        forecast = model.predict(test.iloc[i * horizon : (i + 1) * horizon, :-1])
     preds = Series(forecast)
-    diffs = test.iloc[i * horizon : (i + 1) * horizon, -1].values - preds
+    if is_last:
+        diffs = test.iloc[int(i * horizon) :, -1].values - preds
+    else:
+        diffs = test.iloc[i * horizon : (i + 1) * horizon, -1].values - preds
     current, peak = tracemalloc.get_traced_memory()
     end = datetime.now()
     time = (end - start).total_seconds()
-    df_eval.loc[i + 1] = Series(evaluate_model(diffs, (peak / 10**6), time))
-    series_preds = concat([series_preds, preds])
-    series_diffs = concat([series_diffs, diffs])
-    return series_preds, series_diffs
-
-
-def eval_last(df_eval, length, model, horizon, test, series_preds, series_diffs):
-    start = datetime.now()
-    tracemalloc.start()
-    forecast = model.predict(test.iloc[int(length * horizon) : int((length * horizon + len(test) % horizon - 1)), :-1])
-    preds = Series(forecast)
-    diffs = test.iloc[int(length * horizon) : int((length * horizon + len(test) % horizon - 1)), -1].values - preds
-    current, peak = tracemalloc.get_traced_memory()
-    end = datetime.now()
-    time = (end - start).total_seconds()
-    df_eval.loc[int(length)] = Series(evaluate_model(diffs, (peak / 10**6), time))
+    if is_last:
+        df_eval.loc[i + 1] = Series(evaluate_model(diffs, (peak / 10**6), time))
+    else:
+        df_eval.loc[i + 1] = Series(evaluate_model(diffs, (peak / 10**6), time))
     series_preds = concat([series_preds, preds])
     series_diffs = concat([series_diffs, diffs])
     return series_preds, series_diffs

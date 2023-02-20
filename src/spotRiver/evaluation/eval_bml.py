@@ -49,14 +49,13 @@ def eval_bml(train=None, test=None, horizon=None, model=None):
     )
     series_preds = Series([])
     series_diffs = Series([])
-    start = datetime.now()
+    start_time = datetime.now()
     tracemalloc.start()
     if model is None:
         model = Pipeline([("scaler", preprocessing_sklearn.StandardScaler()), ("lr", LinearRegression())])
-        model.fit(train.iloc[:, :-1], train.iloc[:, -1])
-    current, peak = tracemalloc.get_traced_memory()
-    end = datetime.now()
-    time = (end - start).total_seconds()
+        model.fit(train.drop(columns="target"), train["target"])
+    current_memory, peak_memory = tracemalloc.get_traced_memory()
+    comp_time = (datetime.now() - start_time).total_seconds()
     df_eval.loc[0] = Series(
         {
             "RMSE": None,
@@ -65,28 +64,19 @@ def eval_bml(train=None, test=None, horizon=None, model=None):
             "Underestimation": None,
             "Overestimation": None,
             "MaxResidual": None,
-            "Memory (MB)": round(peak / 10**6, 4),
-            "CompTime (s)": round(time, 4),
+            "Memory (MB)": round(peak_memory / 10**6, 4),
+            "CompTime (s)": round(comp_time, 4),
         }
     )
     if horizon is None:
-        for i in range(0, len(test)):
-            series_preds, series_diffs = eval_one(df_eval, i, model, horizon, test, series_preds, series_diffs, is_last=False)
-    if horizon is not None:
-        if len(test) % horizon == 0:
-            for i in range(0, (int(len(test) / horizon) - 1)):
-                series_preds, series_diffs = eval_one(df_eval, i, model, horizon, test, series_preds, series_diffs, is_last=False)
-            series_preds = series_preds.reset_index(drop=True)
-            series_diffs = series_diffs.reset_index(drop=True)
-        if len(test) % horizon != 0:
-            length = floor(len(test) / horizon)
-            for i in range(0, (int(length))):
-                series_preds, series_diffs = eval_one(df_eval, i, model, horizon, test, series_preds, series_diffs, is_last=False)
+        for i in range(len(test)):
             series_preds, series_diffs = eval_one(
-                df_eval, length, model, horizon, test, series_preds, series_diffs, is_last=True
+                df_eval, i, model, horizon, test, series_preds, series_diffs, is_last=False
             )
-            series_preds = series_preds.reset_index(drop=True)
-            series_diffs = series_diffs.reset_index(drop=True)
+    if horizon is not None:
+        for i in range(0, len(test), horizon):
+            is_last = i + horizon >= len(test)
+            series_preds, series_diffs = eval_one(df_eval, i, model, horizon, test, series_preds, series_diffs, is_last)
     df_true = test.copy()
     df_true["Prediction"] = series_preds
     df_true["Difference"] = series_diffs
@@ -94,24 +84,17 @@ def eval_bml(train=None, test=None, horizon=None, model=None):
 
 
 def eval_one(df_eval, i, model, horizon, test, series_preds, series_diffs, is_last=False):
-    start = datetime.now()
+    start_time = datetime.now()
     tracemalloc.start()
     if is_last:
-        forecast = model.predict(test.iloc[int(i * horizon) :, :-1])
+        test_slice = test.iloc[i:]
     else:
-        forecast = model.predict(test.iloc[i * horizon : (i + 1) * horizon, :-1])
-    preds = Series(forecast)
-    if is_last:
-        diffs = test.iloc[int(i * horizon) :, -1].values - preds
-    else:
-        diffs = test.iloc[i * horizon : (i + 1) * horizon, -1].values - preds
-    current, peak = tracemalloc.get_traced_memory()
-    end = datetime.now()
-    time = (end - start).total_seconds()
-    if is_last:
-        df_eval.loc[i + 1] = Series(evaluate_model(diffs, (peak / 10**6), time))
-    else:
-        df_eval.loc[i + 1] = Series(evaluate_model(diffs, (peak / 10**6), time))
+        test_slice = test.iloc[i : i + horizon]
+    preds = Series(model.predict(test_slice.drop(columns="target")))
+    diffs = test_slice["target"].reset_index(drop=True) - preds.reset_index(drop=True)
+    current_memory, peak_memory = tracemalloc.get_traced_memory()
+    comp_time = (datetime.now() - start_time).total_seconds()
+    df_eval.loc[i + 1] = Series(evaluate_model(diffs, (peak_memory / 10**6), comp_time))
     series_preds = concat([series_preds, preds])
     series_diffs = concat([series_diffs, diffs])
     return series_preds, series_diffs

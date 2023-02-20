@@ -1,4 +1,4 @@
-from numpy import round, floor, array, abs, max, mean, sum
+from numpy import round, floor
 from pandas import DataFrame
 from pandas import concat
 from pandas import Series
@@ -8,26 +8,46 @@ from sklearn.pipeline import Pipeline
 from sklearn import preprocessing as preprocessing_sklearn
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def evaluate_model(diff, memory, time):
-    pos_sum = 0
-    neg_sum = 0
-    for e in diff:
-        if e > 0:
-            pos_sum += e
-        else:
-            neg_sum += e
-    rmse = (diff**2).mean() ** 0.5
-    mae = mean(abs(diff))
-    res_dict = {"AIC": None, "BIC": None}
-    res_dict = res_dict | {
+    """
+    Calculate evaluation metrics for a time series forecast model.
+
+    Args:
+        diff (numpy.ndarray): Array of differences between actual values and predicted values.
+        memory (float): Memory usage in megabytes.
+        time (float): Computation time in seconds.
+
+    Returns:
+        dict: A dictionary of evaluation metrics.
+
+    Evaluation metrics:
+        - AIC (None): Akaike Information Criterion
+        - BIC (None): Bayesian Information Criterion
+        - RMSE: Root Mean Squared Error
+        - MAE: Mean Absolute Error
+        - AbsDiff: Absolute Difference
+        - Underestimation: Total sum of positive differences (where actual value > predicted value)
+        - Overestimation: Total sum of negative differences (where actual value < predicted value)
+        - MaxResidual: Maximum absolute difference
+        - Memory (MB): Memory usage in megabytes
+        - CompTime (s): Computation time in seconds
+    """
+    pos_sum = np.sum(diff[diff > 0])
+    neg_sum = np.sum(diff[diff < 0])
+    rmse = np.sqrt(np.mean(diff**2))
+    mae = np.mean(np.abs(diff))
+    res_dict = {
+        "AIC": None,
+        "BIC": None,
         "RMSE": round(rmse, 2),
         "MAE": round(mae, 2),
-        "AbsDiff": round(sum(abs(array(diff))), 2),
+        "AbsDiff": round(np.sum(np.abs(diff)), 2),
         "Underestimation": round(pos_sum, 2),
-        "Overestimation": round(abs(neg_sum), 2),
-        "MaxResidual": round(max(abs(diff)), 2),
+        "Overestimation": round(np.abs(neg_sum), 2),
+        "MaxResidual": round(np.max(np.abs(diff)), 2),
         "Memory (MB)": round(memory, 4),
         "CompTime (s)": round(time, 4),
     }

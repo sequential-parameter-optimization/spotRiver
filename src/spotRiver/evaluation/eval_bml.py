@@ -1,12 +1,8 @@
-from numpy import round, floor
 from pandas import DataFrame
 from pandas import concat
 from pandas import Series
 from datetime import datetime
 import tracemalloc
-from sklearn.pipeline import Pipeline
-from sklearn import preprocessing as preprocessing_sklearn
-from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -42,14 +38,14 @@ def evaluate_model(diff, memory, time):
     res_dict = {
         "AIC": None,
         "BIC": None,
-        "RMSE": round(rmse, 2),
-        "MAE": round(mae, 2),
-        "AbsDiff": round(np.sum(np.abs(diff)), 2),
-        "Underestimation": round(pos_sum, 2),
-        "Overestimation": round(np.abs(neg_sum), 2),
-        "MaxResidual": round(np.max(np.abs(diff)), 2),
-        "Memory (MB)": round(memory, 4),
-        "CompTime (s)": round(time, 4),
+        "RMSE": np.round(rmse, 2),
+        "MAE": np.round(mae, 2),
+        "AbsDiff": np.round(np.sum(np.abs(diff)), 2),
+        "Underestimation": np.round(pos_sum, 2),
+        "Overestimation": np.round(np.abs(neg_sum), 2),
+        "MaxResidual": np.round(np.max(np.abs(diff)), 2),
+        "Memory (MB)": np.round(memory, 4),
+        "CompTime (s)": np.round(time, 4),
     }
     return res_dict
 
@@ -71,9 +67,6 @@ def eval_bml(train=None, test=None, horizon=None, model=None):
     series_diffs = Series([])
     start = datetime.now()
     tracemalloc.start()
-    if model is None:
-        model = Pipeline([("scaler", preprocessing_sklearn.StandardScaler()), ("lr", LinearRegression())])
-        model.fit(train.iloc[:, :-1], train.iloc[:, -1])
     current, peak = tracemalloc.get_traced_memory()
     end = datetime.now()
     time = (end - start).total_seconds()
@@ -85,8 +78,8 @@ def eval_bml(train=None, test=None, horizon=None, model=None):
             "Underestimation": None,
             "Overestimation": None,
             "MaxResidual": None,
-            "Memory (MB)": round(peak / 10**6, 4),
-            "CompTime (s)": round(time, 4),
+            "Memory (MB)": np.round(peak / 10**6, 4),
+            "CompTime (s)": np.round(time, 4),
         }
     )
     if horizon is None:
@@ -99,7 +92,7 @@ def eval_bml(train=None, test=None, horizon=None, model=None):
             series_preds = series_preds.reset_index(drop=True)
             series_diffs = series_diffs.reset_index(drop=True)
         if len(test) % horizon != 0:
-            length = floor(len(test) / horizon)
+            length = np.floor(len(test) / horizon)
             for i in range(0, (int(length))):
                 series_preds, series_diffs = eval_one(df_eval, i, model, horizon, test, series_preds, series_diffs)
             series_preds, series_diffs = eval_last(df_eval, length, model, horizon, test, series_preds, series_diffs)

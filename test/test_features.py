@@ -1,5 +1,5 @@
 from spotRiver import data
-from spotPython.utils.features import get_hour_distances, get_month_distances, get_ordinal_date, get_weekday_distances
+from spotRiver.utils.features import get_hour_distances, get_month_distances, get_ordinal_date, get_weekday_distances
 
 
 def test_features():

@@ -52,10 +52,12 @@ def evaluate_model(diff, memory, time):
     return res_dict
 
 
-def eval_bml(test: Optional[pd.DataFrame] = None,
-             train: Optional[pd.DataFrame] = None,
-             horizon: Optional[int] = None,
-             model: Optional = None) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
+def eval_bml(
+    test: Optional[pd.DataFrame] = None,
+    train: Optional[pd.DataFrame] = None,
+    horizon: Optional[int] = None,
+    model: Optional = None,
+) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
     """
     Evaluate the performance of a model for a given test set using a specified horizon.
 
@@ -179,6 +181,7 @@ def eval_one(df_eval, i, model, horizon, test, series_preds, series_diffs, is_la
     including the current time period.
     - series_diffs (pandas.Series): A Series containing the differences between the actual values and the
     model's forecasts for the time series up to and including the current time period.
+    - df_eval
     """
     start = datetime.now()
     tracemalloc.start()
@@ -203,7 +206,107 @@ def eval_one(df_eval, i, model, horizon, test, series_preds, series_diffs, is_la
     return series_preds, series_diffs, df_eval
 
 
-def plot_results(
+def eval_bml_landmark(train=None, test=None, horizon=None, model=None):
+    df_eval = pd.DataFrame(
+        columns=[
+            "RMSE",
+            "MAE",
+            "AbsDiff",
+            "Underestimation",
+            "Overestimation",
+            "MaxResidual",
+            "Memory (MB)",
+            "CompTime (s)",
+        ]
+    )
+    series_preds = pd.Series([])
+    series_diffs = pd.Series([])
+    start = datetime.now()
+    tracemalloc.start()
+    model.fit(train.iloc[:, :-1], train.iloc[:, -1])
+    current, peak = tracemalloc.get_traced_memory()
+    end = datetime.now()
+    time = (end - start).total_seconds()
+    df_eval.loc[0] = pd.Series(
+        {
+            "RMSE": None,
+            "MAE": None,
+            "AbsDiff": None,
+            "Underestimation": None,
+            "Overestimation": None,
+            "MaxResidual": None,
+            "Memory (MB)": np.round(peak / 10**6, 4),
+            "CompTime (s)": np.round(time, 4),
+        }
+    )
+    if horizon is None:
+        for i in range(0, len(test)):
+            start = datetime.now()
+            tracemalloc.start()
+            forecast = model.predict(np.array(test.iloc[i, :-1]).reshape(1, -1))
+            preds = pd.Series(forecast, index=[i])
+            diffs = test.iloc[i, -1] - preds
+            current, peak = tracemalloc.get_traced_memory()
+            end = datetime.now()
+            time = (end - start).total_seconds()
+            df_eval.loc[i + 1] = pd.Series(evaluate_model(diffs, (peak / 10**6), time))
+            series_preds = pd.concat([series_preds, preds])
+            series_diffs = pd.concat([series_diffs, diffs])
+    if horizon is not None:
+        if len(test) % horizon == 0:
+            landmark_data = train.copy()
+            for i in range(0, (int(len(test) / horizon) - 1)):
+                series_preds, series_diffs, df_eval, landmark_data = eval_one_landmark(
+                    landmark_data, df_eval, i, model, horizon, test, series_preds, series_diffs
+                )
+        if len(test) % horizon != 0:
+            landmark_data = train.copy()
+            length = np.floor(len(test) / horizon)
+            for i in range(0, (int(length))):
+                series_preds, series_diffs, df_eval, landmark_data = eval_one_landmark(
+                    landmark_data, df_eval, i, model, horizon, test, series_preds, series_diffs
+                )
+            start = datetime.now()
+            tracemalloc.start()
+            forecast = model.predict(
+                test.iloc[int(length * horizon) : int((length * horizon + len(test) % horizon - 1)), :-1]
+            )
+            preds = pd.Series(forecast)
+            diffs = (
+                test.iloc[int(length * horizon) : int((length * horizon + len(test) % horizon - 1)), -1].values - preds
+            )
+            current, peak = tracemalloc.get_traced_memory()
+            end = datetime.now()
+            time = (end - start).total_seconds()
+            df_eval.loc[int(length)] = pd.Series(evaluate_model(diffs, (peak / 10**6), time))
+            series_preds = pd.concat([series_preds, preds])
+            series_diffs = pd.concat([series_diffs, diffs])
+            series_preds = series_preds.reset_index(drop=True)
+            series_diffs = series_diffs.reset_index(drop=True)
+    df_true = test.copy()
+    df_true["Prediction"] = series_preds
+    df_true["Difference"] = series_diffs
+    return df_eval, df_true, series_preds, series_diffs
+
+
+def eval_one_landmark(landmark_data, df_eval, i, model, horizon, test, series_preds, series_diffs):
+    start = datetime.now()
+    tracemalloc.start()
+    forecast = model.predict(test.iloc[i * horizon : (i + 1) * horizon, :-1])
+    preds = pd.Series(forecast)
+    diffs = test.iloc[i * horizon : (i + 1) * horizon, -1].values - preds
+    landmark_data = pd.concat([landmark_data, test.iloc[i * horizon : (i + 1) * horizon, :]])
+    model.fit(landmark_data.iloc[:, :-1], landmark_data.iloc[:, -1])
+    current, peak = tracemalloc.get_traced_memory()
+    end = datetime.now()
+    time = (end - start).total_seconds()
+    df_eval.loc[i + 1] = pd.Series(evaluate_model(diffs, (peak / 10**6), time))
+    series_preds = pd.concat([series_preds, preds])
+    series_diffs = pd.concat([series_diffs, diffs])
+    return series_preds, series_diffs, df_eval, landmark_data
+
+
+def plot_bml_results(
     df_eval: pd.DataFrame = None, metric: bool = False, df_true: pd.DataFrame = None, real_vs_predict: bool = False
 ) -> None:
     """

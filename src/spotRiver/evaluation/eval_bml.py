@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from typing import Optional, Tuple
+import sklearn
 
 
 def evaluate_model(diff, memory, time):
@@ -159,7 +160,41 @@ def eval_bml(
     return df_eval, df_true, series_preds, series_diffs
 
 
-def eval_one(df_eval, i, model, horizon, test, series_preds, series_diffs, is_last=False):
+def eval_one(
+    df_eval: pd.DataFrame,
+    i: int,
+    model: sklearn.base.BaseEstimator,
+    horizon: int,
+    test: pd.DataFrame,
+    series_preds: pd.Series,
+    series_diffs: pd.Series,
+    is_last: bool = False,
+) -> Tuple[pd.Series, pd.Series, pd.DataFrame]:
+    """
+    Evaluate the performance of a time series model for a given time period.
+
+    Args:
+    - df_eval (pandas.DataFrame): DataFrame to store the evaluation metrics.
+    - i (int): Index of the current time period being evaluated.
+    - model (sklearn.base.BaseEstimator): A time series model that has been fit to the training data.
+    - horizon (int): The forecasting horizon, i.e. the number of periods to forecast.
+    - test (pandas.DataFrame): The test data containing the time series to be forecast.
+    - series_preds (pandas.Series): A Series containing the model's forecasts for the time series up to
+    the current time period.
+    - series_diffs (pandas.Series): A Series containing the differences between the actual values
+    and the model's forecasts for the time series up to the current time period.
+    - is_last (bool, optional): A boolean indicating whether the current time period is the last period
+    to be evaluated. Defaults to False.
+
+    Returns:
+    - Tuple[pandas.Series, pandas.Series, pandas.DataFrame]: A tuple containing the following:
+        - series_preds (pandas.Series): A Series containing the model's forecasts for the time series up to and
+        including the current time period.
+        - series_diffs (pandas.Series): A Series containing the differences between the actual values and the
+        model's forecasts for the time series up to and including the current time period.
+        - df_eval (pandas.DataFrame): The DataFrame storing the evaluation metrics.
+    """
+
     """
     Evaluate the performance of a time series model for a given time period.
 
@@ -363,7 +398,26 @@ def eval_one_landmark_or_window(
     return series_preds, series_diffs, df_eval, data
 
 
-def eval_bml_window(train=None, test=None, horizon=None, model=None):
+def eval_bml_window(
+    train: Optional[pd.DataFrame] = None,
+    test: Optional[pd.DataFrame] = None,
+    horizon: Optional[int] = None,
+    model: Optional[object] = None,
+) -> tuple:
+    """
+    Evaluates a machine learning model's predictions on a time series dataset using a fixed window or a
+    sliding window approach. Computes various performance metrics and returns them in a DataFrame.
+
+    Args:
+        train (pd.DataFrame): The training set.
+        test (pd.DataFrame): The test set.
+        horizon (int): If not None, the sliding window approach is used with the specified window size.
+        model (object): A fitted machine learning model.
+
+    Returns:
+        tuple: A tuple containing the evaluation DataFrame, the true values DataFrame, a series of predicted values,
+               and a series of difference values.
+    """
     df_eval = pd.DataFrame(
         columns=[
             "RMSE",

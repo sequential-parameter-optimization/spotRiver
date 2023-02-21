@@ -53,12 +53,14 @@ def evaluate_model(diff, memory, time):
 
 
 def eval_bml(test: Optional[pd.DataFrame] = None,
+             train: Optional[pd.DataFrame] = None,
              horizon: Optional[int] = None,
              model: Optional = None) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
     """
     Evaluate the performance of a model for a given test set using a specified horizon.
 
     Args:
+        train (pandas.DataFrame): Train data to evaluate the model.
         test (pandas.DataFrame): Test data to evaluate the model.
         horizon (int): Forecast horizon, i.e. the number of time steps to predict ahead.
         model: Trained machine learning model to be evaluated.
@@ -109,6 +111,7 @@ def eval_bml(test: Optional[pd.DataFrame] = None,
     series_diffs = Series([])
     start = datetime.now()
     tracemalloc.start()
+    model.fit(train.iloc[:, :-1], train.iloc[:, -1])
     current, peak = tracemalloc.get_traced_memory()
     end = datetime.now()
     time = (end - start).total_seconds()

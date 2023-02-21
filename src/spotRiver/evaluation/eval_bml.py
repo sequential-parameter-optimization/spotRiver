@@ -56,7 +56,7 @@ def eval_bml(
     test: Optional[pd.DataFrame] = None,
     train: Optional[pd.DataFrame] = None,
     horizon: Optional[int] = None,
-    model: Optional = None,
+    model: Optional[object] = None,
 ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
     """
     Evaluate the performance of a model for a given test set using a specified horizon.

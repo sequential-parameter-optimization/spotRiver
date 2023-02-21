@@ -504,7 +504,7 @@ def eval_bml_window(
     return df_eval, df_true, series_preds, series_diffs
 
 
-def plot_bml_results(
+def plot_bml_oml_results(
     df_eval: pd.DataFrame = None, metric: bool = False, df_true: pd.DataFrame = None, real_vs_predict: bool = False
 ) -> None:
     """
@@ -552,7 +552,20 @@ def plot_bml_results(
         plt.show()
 
 
-def eval_oml_horizon(train=None, test=None, horizon=None, model=None):
+def eval_oml_horizon(train: pd.DataFrame = None, test: pd.DataFrame = None, horizon: int = None, model=None) -> tuple:
+    """
+    Evaluate a machine learning model on a dataset with an optional rolling horizon approach.
+
+    Args:
+        train (pd.DataFrame): A dataframe containing the training data.
+        test (pd.DataFrame): A dataframe containing the test data.
+        horizon (int): The length of the rolling horizon, if desired. Defaults to None.
+        model: A machine learning model that supports the learn_one and predict_one methods.
+
+    Returns:
+        A tuple containing the evaluation results, the true values, the predicted values, and the differences between
+        the true and predicted values.
+    """
     df_eval = pd.DataFrame(
         columns=[
             "RMSE",
@@ -650,6 +663,21 @@ def eval_one_oml_horizon(
     series_preds: pd.Series,
     series_diffs: pd.Series,
 ) -> Tuple[pd.Series, pd.Series, pd.DataFrame, pd.DataFrame]:
+    """
+    Evaluate a machine learning model on a single instance.
+
+    Args:
+        df_eval (pd.DataFrame): A dataframe to store evaluation metrics.
+        i (int): The index of the current instance.
+        model (object): The machine learning model to evaluate.
+        horizon (int): The prediction horizon for the time series data.
+        test (pd.DataFrame): The test data for the current task.
+        series_preds (pd.Series): A series to store the model's predictions.
+        series_diffs (pd.Series): A series to store the differences between the model's predictions and the actual values.
+
+    Returns:
+        A tuple containing the updated `series_preds`, `series_diffs`, `df_eval`, and a new `pd.Series` object.
+    """
     preds = pd.Series()
     start = datetime.now()
     tracemalloc.start()

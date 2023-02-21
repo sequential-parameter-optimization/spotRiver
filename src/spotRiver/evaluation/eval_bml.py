@@ -126,13 +126,13 @@ def eval_bml(test: Optional[pd.DataFrame] = None,
     )
     if horizon is None:
         for i in range(0, len(test)):
-            series_preds, series_diffs = eval_one(
+            series_preds, series_diffs, df_eval = eval_one(
                 df_eval, i, model, horizon, test, series_preds, series_diffs, is_last=False
             )
     if horizon is not None:
         if len(test) % horizon == 0:
             for i in range(0, (int(len(test) / horizon) - 1)):
-                series_preds, series_diffs = eval_one(
+                series_preds, series_diffs, df_eval = eval_one(
                     df_eval, i, model, horizon, test, series_preds, series_diffs, is_last=False
                 )
             series_preds = series_preds.reset_index(drop=True)
@@ -140,10 +140,10 @@ def eval_bml(test: Optional[pd.DataFrame] = None,
         if len(test) % horizon != 0:
             length = np.floor(len(test) / horizon)
             for i in range(0, (int(length))):
-                series_preds, series_diffs = eval_one(
+                series_preds, series_diffs, df_eval = eval_one(
                     df_eval, i, model, horizon, test, series_preds, series_diffs, is_last=False
                 )
-            series_preds, series_diffs = eval_one(
+            series_preds, series_diffs, df_eval = eval_one(
                 df_eval, length, model, horizon, test, series_preds, series_diffs, is_last=True
             )
             series_preds = series_preds.reset_index(drop=True)
@@ -197,7 +197,7 @@ def eval_one(df_eval, i, model, horizon, test, series_preds, series_diffs, is_la
         df_eval.loc[i + 1] = Series(evaluate_model(diffs, (peak / 10**6), time))
     series_preds = concat([series_preds, preds])
     series_diffs = concat([series_diffs, diffs])
-    return series_preds, series_diffs
+    return series_preds, series_diffs, df_eval
 
 
 def plot_results(

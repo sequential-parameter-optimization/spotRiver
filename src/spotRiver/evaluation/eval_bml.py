@@ -10,29 +10,32 @@ from typing import Optional, Tuple
 import sklearn
 
 
-def evaluate_model(diff, memory, time):
+def evaluate_model(diff: np.ndarray, memory: float, time: float) -> dict:
     """
     Calculate evaluation metrics for a time series forecast model.
 
     Args:
-        diff (numpy.ndarray): Array of differences between actual values and predicted values.
-        memory (float): Memory usage in megabytes.
-        time (float): Computation time in seconds.
+        diff: Array of differences between actual values and predicted values.
+            It should be a numpy array of shape (n,).
+        memory: Memory usage in megabytes.
+            It should be a float.
+        time: Computation time in seconds.
+            It should be a float.
 
     Returns:
-        dict: A dictionary of evaluation metrics.
+        A dictionary of evaluation metrics.
 
     Evaluation metrics:
-        - AIC (None): Akaike Information Criterion
-        - BIC (None): Bayesian Information Criterion
-        - RMSE: Root Mean Squared Error
-        - MAE: Mean Absolute Error
-        - AbsDiff: Absolute Difference
-        - Underestimation: Total sum of positive differences (where actual value > predicted value)
-        - Overestimation: Total sum of negative differences (where actual value < predicted value)
-        - MaxResidual: Maximum absolute difference
-        - Memory (MB): Memory usage in megabytes
-        - CompTime (s): Computation time in seconds
+        - AIC: Akaike Information Criterion (None).
+        - BIC: Bayesian Information Criterion (None).
+        - RMSE: Root Mean Squared Error.
+        - MAE: Mean Absolute Error.
+        - AbsDiff: Absolute Difference.
+        - Underestimation: Total sum of positive differences (where actual value > predicted value).
+        - Overestimation: Total sum of negative differences (where actual value < predicted value).
+        - MaxResidual: Maximum absolute difference.
+        - Memory (MB): Memory usage in megabytes.
+        - CompTime (s): Computation time in seconds.
     """
     pos_sum = np.sum(diff[diff > 0])
     neg_sum = np.sum(diff[diff < 0])

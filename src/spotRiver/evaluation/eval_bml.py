@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 from typing import Optional, Tuple
 import sklearn
+from river import stream as river_stream
 
 
 def evaluate_model(diff: np.ndarray, memory: float, time: float) -> dict:
@@ -549,3 +550,125 @@ def plot_bml_results(
         plt.title("Actual vs Prediction")
         plt.legend()
         plt.show()
+
+
+def eval_oml_horizon(train=None, test=None, horizon=None, model=None):
+    df_eval = pd.DataFrame(
+        columns=[
+            "RMSE",
+            "MAE",
+            "AbsDiff",
+            "Underestimation",
+            "Overestimation",
+            "MaxResidual",
+            "Memory (MB)",
+            "CompTime (s)",
+        ]
+    )
+    series_preds = pd.Series([])
+    series_diffs = pd.Series([])
+    start = datetime.now()
+    tracemalloc.start()
+    for xi, yi in river_stream.iter_pandas(train.iloc[:, :-1], train.iloc[:, -1]):
+        model = model.learn_one(xi, yi)
+    current, peak = tracemalloc.get_traced_memory()
+    end = datetime.now()
+    time = (end - start).total_seconds()
+    df_eval.loc[0] = pd.Series(
+        {
+            "RMSE": None,
+            "MAE": None,
+            "AbsDiff": None,
+            "Underestimation": None,
+            "Overestimation": None,
+            "MaxResidual": None,
+            "Memory (MB)": np.round(peak / 10**6, 4),
+            "CompTime (s)": np.round(time, 4),
+        }
+    )
+    if horizon is None:
+        # i = 0
+        for i, (xi, yi) in enumerate(river_stream.iter_pandas(test.iloc[:, :-1], test.iloc[:, -1])):
+            start = datetime.now()
+            tracemalloc.start()
+            forecast = model.predict_one(xi)
+            preds = pd.Series(forecast, index=[i])
+            diffs = test.iloc[i, -1] - preds
+            # i += 1
+            model = model.learn_one(xi, yi)
+            current, peak = tracemalloc.get_traced_memory()
+            end = datetime.now()
+            time = (end - start).total_seconds()
+            df_eval.loc[i] = pd.Series(evaluate_model(diffs, (peak / 10**6), time))
+            series_preds = pd.concat([series_preds, preds])
+            series_diffs = pd.concat([series_diffs, diffs])
+    if horizon is not None:
+        if len(test) % horizon == 0:
+            for i in range(0, (int(len(test) / horizon) - 1)):
+                series_preds, series_diffs, df_eval = eval_one_oml_horizon(
+                    df_eval, i, model, horizon, test, series_preds, series_diffs
+                )
+        if len(test) % horizon != 0:
+            length = np.floor(len(test) / horizon)
+            for i in range(0, (int(length))):
+                series_preds, series_diffs, df_eval = eval_one_oml_horizon(
+                    df_eval, i, model, horizon, test, series_preds, series_diffs
+                )
+            preds = pd.Series()
+            # j = 0
+            start = datetime.now()
+            tracemalloc.start()
+            for xi, yi in river_stream.iter_pandas(
+                test.iloc[int(length * horizon) : int((length * horizon + len(test) % horizon - 1)), :-1]
+            ):
+                forecast = model.predict_one(xi)
+                preds = pd.concat([preds, pd.Series(forecast)])
+                # j +=1
+            diffs = (
+                test.iloc[int(length * horizon) : int((length * horizon + len(test) % horizon - 1)), -1].values - preds
+            )
+            current, peak = tracemalloc.get_traced_memory()
+            end = datetime.now()
+            time = (end - start).total_seconds()
+            df_eval.loc[int(length)] = pd.Series(evaluate_model(diffs, (peak / 10**6), time))
+            series_preds = pd.concat([series_preds, preds])
+            series_diffs = pd.concat([series_diffs, diffs])
+            series_preds = series_preds.reset_index(drop=True)
+            series_diffs = series_diffs.reset_index(drop=True)
+    df_true = test.copy()
+    df_true["Prediction"] = series_preds
+    df_true["Difference"] = series_diffs
+    return df_eval, df_true, series_preds, series_diffs
+
+
+def eval_one_oml_horizon(
+    df_eval: pd.DataFrame,
+    i: int,
+    model: object,
+    horizon: int,
+    test: pd.DataFrame,
+    series_preds: pd.Series,
+    series_diffs: pd.Series,
+) -> Tuple[pd.Series, pd.Series, pd.DataFrame, pd.DataFrame]:
+    preds = pd.Series()
+    start = datetime.now()
+    tracemalloc.start()
+    # j = 0
+    for xi, yi in river_stream.iter_pandas(
+        test.iloc[i * horizon : (i + 1) * horizon, :-1], test.iloc[i * horizon : (i + 1) * horizon, -1]
+    ):
+        forecast = model.predict_one(xi)
+        preds = pd.concat([preds, pd.Series(forecast)])
+        # j +=1
+    diffs = test.iloc[i * horizon : (i + 1) * horizon, -1].values - preds
+    for xi, yi in river_stream.iter_pandas(
+        test.iloc[i * horizon : (i + 1) * horizon, :-1], test.iloc[i * horizon : (i + 1) * horizon, -1]
+    ):
+        model = model.learn_one(xi, yi)
+    current, peak = tracemalloc.get_traced_memory()
+    end = datetime.now()
+    time = (end - start).total_seconds()
+    df_eval.loc[i + 1] = pd.Series(evaluate_model(diffs, (peak / 10**6), time))
+    series_preds = pd.concat([series_preds, preds])
+    series_diffs = pd.concat([series_diffs, diffs])
+    return series_preds, series_diffs, df_eval

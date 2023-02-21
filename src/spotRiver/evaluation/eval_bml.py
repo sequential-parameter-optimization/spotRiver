@@ -206,7 +206,22 @@ def eval_one(df_eval, i, model, horizon, test, series_preds, series_diffs, is_la
     return series_preds, series_diffs, df_eval
 
 
-def eval_bml_landmark(train=None, test=None, horizon=None, model=None):
+def eval_bml_landmark(
+    train: Optional[pd.DataFrame] = None,
+    test: Optional[pd.DataFrame] = None,
+    horizon: Optional[int] = None,
+    model: Optional[object] = None,
+) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
+    """
+    Evaluates the model on a set of landmarks, and returns the evaluation results
+    dataframe, true values dataframe, predicted values series, and difference series.
+
+    Parameters:
+        - train (pd.DataFrame): Dataframe containing the training data.
+        - test (pd.DataFrame): Dataframe containing the test data.
+        - horizon (int): The number of time steps to forecast for each landmark.
+        - model (object): An object that implements the model
+    """
     df_eval = pd.DataFrame(
         columns=[
             "RMSE",
@@ -289,20 +304,62 @@ def eval_bml_landmark(train=None, test=None, horizon=None, model=None):
     return df_eval, df_true, series_preds, series_diffs
 
 
-def eval_one_landmark(landmark_data, df_eval, i, model, horizon, test, series_preds, series_diffs):
+def eval_one_landmark(
+    landmark_data: pd.DataFrame,
+    df_eval: pd.DataFrame,
+    i: int,
+    model: object,
+    horizon: int,
+    test: pd.DataFrame,
+    series_preds: pd.Series,
+    series_diffs: pd.Series,
+) -> Tuple[pd.Series, pd.Series, pd.DataFrame, pd.DataFrame]:
+    """
+    Evaluates a machine learning model's performance on a single landmark, or subset of data, by training on that landmark
+    and making predictions on a horizon of data following that landmark.
+
+    Args:
+    - landmark_data: A pandas DataFrame containing the landmark data.
+    - df_eval: A pandas DataFrame to store the evaluation metrics for the model.
+    - i: An integer representing the index of the landmark.
+    - model: A machine learning model that has a `predict` and `fit` method.
+    - horizon: An integer representing the number of time steps to forecast.
+    - test: A pandas DataFrame containing the test data.
+    - series_preds: A pandas Series to store the model's predictions.
+    - series_diffs: A pandas Series to store the differences between the model's predictions and the actual values.
+
+    Returns:
+    - series_preds: A pandas Series containing the model's predictions.
+    - series_diffs: A pandas Series containing the differences between the model's predictions and the actual values.
+    - df_eval: A pandas DataFrame containing the evaluation metrics for the model.
+    - landmark_data: A pandas DataFrame containing the concatenated landmark data and horizon of data used to train the model.
+    """
+    # Record start time and memory usage
     start = datetime.now()
     tracemalloc.start()
+
+    # Make predictions on the horizon of data following the landmark
     forecast = model.predict(test.iloc[i * horizon : (i + 1) * horizon, :-1])
     preds = pd.Series(forecast)
     diffs = test.iloc[i * horizon : (i + 1) * horizon, -1].values - preds
+
+    # Concatenate the landmark data and the current horizon of data and use it to train the model
     landmark_data = pd.concat([landmark_data, test.iloc[i * horizon : (i + 1) * horizon, :]])
     model.fit(landmark_data.iloc[:, :-1], landmark_data.iloc[:, -1])
+
+    # Record end time and memory usage, and compute the time taken to evaluate the model
     current, peak = tracemalloc.get_traced_memory()
     end = datetime.now()
     time = (end - start).total_seconds()
+
+    # Compute evaluation metrics and store results in the df_eval DataFrame
     df_eval.loc[i + 1] = pd.Series(evaluate_model(diffs, (peak / 10**6), time))
+
+    # Concatenate predicted values and differences with the existing series_preds and series_diffs Series
     series_preds = pd.concat([series_preds, preds])
     series_diffs = pd.concat([series_diffs, diffs])
+
+    # Return the updated Series and DataFrame objects
     return series_preds, series_diffs, df_eval, landmark_data
 
 

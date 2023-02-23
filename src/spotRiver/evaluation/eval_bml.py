@@ -413,7 +413,7 @@ def plot_bml_oml_results(
     df_true: pd.DataFrame = None,
     real_vs_predict: bool = False,
     actual_val_name="Vibration",
-    predicted_val_name="Prediction",
+    predicted_val_name="Prediction", 
     **kwargs,
 ) -> None:
     """
@@ -424,30 +424,23 @@ def plot_bml_oml_results(
         metric (bool, optional): If True, plot evaluation metrics. Defaults to False.
         df_true (pd.DataFrame, optional): Dataframe containing actual and predicted values. Defaults to None.
         real_vs_predict (bool, optional): If True, plot actual vs predicted values. Defaults to False.
-        **kwargs: keyword arguments that are supported by plt.plot(), such as color, linestyle, marker, etc.
+        actual_val_name (str, optional): The name of the column that contains the actual values. Defaults to "Vibration".
+        predicted_val_name (str, optional): The name of the column that contains the predicted values. Defaults to "Prediction".
+        **kwargs: Additional keyword arguments that are passed to the plt.plot() function calls.
+
     Returns:
         None
-    The plot_results function takes in four arguments: df_eval, metric, df_true, and real_vs_predict.
-    df_eval and df_true are both optional pandas DataFrames.
-    If df_eval is not None and metric is True, the function plots the Mean Absolute Error, Memory usage,
-    and Computation time on a 3 subplot figure.
-    If df_true is not None and real_vs_predict is True, the function plots the actual and predicted values on a separate figure.
     """
     if df_eval is not None and metric:
         # create a 3 subplot figure to plot evaluation metrics
-        fig, (ax1, ax2, ax3) = plt.subplots(3, figsize=(16, 5), constrained_layout=True, sharex=True)
-
-        # plot MAE
-        ax1.plot(df_eval.index, df_eval["MAE"], **kwargs)
-        ax1.set_title("Mean Absolute Error")
-
-        # plot memory usage
-        ax2.plot(df_eval.index, df_eval["Memory (MB)"], **kwargs)
-        ax2.set_title("Memory (MB)")
-
-        # plot computation time
-        ax3.plot(df_eval.index, df_eval["CompTime (s)"], **kwargs)
-        ax3.set_title("Computation time (s)")
+        fig, axes = plt.subplots(3, figsize=(16, 5), constrained_layout=True, sharex=True)
+        # create a list of metrics and titles
+        metrics = ["MAE", "Memory (MB)", "CompTime (s)"]
+        titles = ["Mean Absolute Error", "Memory (MB)", "Computation time (s)"]
+        # use a loop to plot each metric on a different axis
+        for i in range(3):
+            axes[i].plot(df_eval.index, df_eval[metrics[i]], **kwargs)
+            axes[i].set_title(titles[i])
 
     if df_true is not None and real_vs_predict:
         # plot actual vs predicted values

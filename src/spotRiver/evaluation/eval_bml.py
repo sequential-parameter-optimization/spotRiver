@@ -308,7 +308,7 @@ def eval_bml_window(
             preds = pd.Series(model.predict(w_test.loc[:, w_test.columns != target_column]))
 
         diffs = w_test[target_column].values - preds
-        df_eval.loc[i] = pd.Series(evaluate_model(diffs, rm.memory, rm.time))
+        df_eval.loc[i + 1] = pd.Series(evaluate_model(diffs, rm.memory, rm.time))
 
         series_preds = pd.concat([series_preds, preds], ignore_index=True)
         series_diffs = pd.concat([series_diffs, diffs], ignore_index=True)

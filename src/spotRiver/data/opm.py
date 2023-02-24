@@ -150,7 +150,7 @@ def fetch_opm(
     if len(cols) == 0:
         raise Exception("No columns selected. Did you set both `include_numeric` and `include_categorical` to False?")
 
-    # X = df[cols]
+    X = df[cols]
     # y = df["Sale Amount"]
     y = X.pop("Sale Amount")
 

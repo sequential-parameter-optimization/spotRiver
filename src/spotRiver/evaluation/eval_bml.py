@@ -153,6 +153,8 @@ def eval_bml(model: object, train: pd.DataFrame, test: pd.DataFrame, target_colu
          print (df_eval )
          print (df_true )
     """
+    train = train.reset_index(drop=True)
+    test = test.reset_index(drop=True)
     series_preds = pd.Series([])
     series_diffs = pd.Series([])
 
@@ -211,6 +213,8 @@ def eval_bml_landmark(
        y Prediction Difference
     0 8        -8         -16
     """
+    train = train.reset_index(drop=True)
+    test = test.reset_index(drop=True)
     series_preds = pd.Series([])
     series_diffs = pd.Series([])
 
@@ -278,6 +282,8 @@ def eval_bml_window(
         >>> df_eval, df_true = eval_bml_window(model, train, test, "y", horizon=1)
         >>> print(df_eval)
     """
+    train = train.reset_index(drop=True)
+    test = test.reset_index(drop=True)
     df_all = pd.concat([train, test], ignore_index=True)
     series_preds = pd.Series([])
     series_diffs = pd.Series([])
@@ -368,6 +374,8 @@ def eval_oml_landmark(
     >>> print(df_eval)
     >>> print(df_preds)
     """
+    train = train.reset_index(drop=True)
+    test = test.reset_index(drop=True)
     series_preds = pd.Series([])
     series_diffs = pd.Series([])
 
@@ -496,7 +504,7 @@ def plot_bml_oml_metrics(
 
 def plot_bml_oml_results(
     df_true: list[pd.DataFrame] = None,
-    df_labels: list = list(["Vibration", "Prediction"]),
+    df_label: str = "Actual",
     log_x=False,
     log_y=False,
     **kwargs,
@@ -518,11 +526,10 @@ def plot_bml_oml_results(
         dataset name and two columns with the label names: e.g., "Vibration"
         and "Prediction". If None, no plot is generated. Default is None.
 
-    df_labels : list, optional
+    df_label : optional
         A list of strings containing the labels for each model.
-        The length of this list should match the length of df_true.
         If None or empty, numeric indices are used as labels. Default is
-        ["Vibration", "Prediction"].
+        "Actualon".
 
     log_x : bool, optional
         A flag indicating whether to use logarithmic scale for the x-axis.
@@ -554,9 +561,9 @@ def plot_bml_oml_results(
         # plot actual vs predicted values
         plt.figure(figsize=(16, 5))
         # Plot the actual value only once:
-        plt.plot(df_true[0].index, df_true[0][df_labels[0]], label="Actual", **kwargs)
+        plt.plot(df_true[0].index, df_true[0][df_label], label="Actual", **kwargs)
         for j, df in enumerate(df_true):
-            plt.plot(df.index, df[df_labels[1]], label="Prediction", **kwargs)
+            plt.plot(df.index, df["Prediction"], label="Prediction", **kwargs)
         plt.title("Actual vs Prediction")
         if log_x:
             plt.xscale("log")

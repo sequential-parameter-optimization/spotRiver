@@ -48,7 +48,7 @@ class ResourceMonitor:
 
     def __exit__(self, type, value, traceback):
         self.time = (time.perf_counter_ns() - self._start) / 1.0e9
-        self.memory = tracemalloc.get_traced_memory()[1] / 1.0e6
+        self.memory = np.round(tracemalloc.get_traced_memory()[1] / 1.0e6, 4)
         tracemalloc.stop()
 
     def result(self):
@@ -408,45 +408,87 @@ def eval_oml_landmark(
 
 
 def plot_bml_oml_results(
-    df_eval: pd.DataFrame = None,
+    df_eval: list[pd.DataFrame] = None,
     metric: bool = False,
-    df_true: pd.DataFrame = None,
+    df_true: list[pd.DataFrame] = None,
     real_vs_predict: bool = False,
     actual_val_name="Vibration",
-    predicted_val_name="Prediction", 
+    predicted_val_name="Prediction",
+    log_x=False,
+    log_y=False,
     **kwargs,
 ) -> None:
-    """
+    """Plots evaluation results or actual vs predicted values.
+
     This function creates plots to visualize evaluation results or actual vs predicted values.
     The function does not return anything, it only generates and shows the plots.
+
     Args:
-        df_eval (pd.DataFrame, optional): Dataframe containing evaluation results. Defaults to None.
-        metric (bool, optional): If True, plot evaluation metrics. Defaults to False.
-        df_true (pd.DataFrame, optional): Dataframe containing actual and predicted values. Defaults to None.
-        real_vs_predict (bool, optional): If True, plot actual vs predicted values. Defaults to False.
-        actual_val_name (str, optional): The name of the column that contains the actual values. Defaults to "Vibration".
-        predicted_val_name (str, optional): The name of the column that contains the predicted values. Defaults to "Prediction".
+        df_eval (list[pd.DataFrame], optional): A list of dataframes containing evaluation results. Each dataframe should have columns named "MAE", "Memory (MB)", and "CompTime (s)". Defaults to None.
+        metric (bool, optional): If True, plot evaluation metrics for each element of df_eval. Defaults to False.
+        df_true (list[pd.DataFrame], optional): A lisrt of dataframes containing actual and predicted values. The dataframes should have columns named by actual_val_name and predicted_val_name arguments. Defaults to None.
+        real_vs_predict (bool, optional): If True, plot actual vs predicted values from df_true. Defaults to False.
+        actual_val_name (str, optional): The name of the column that contains the actual values in df_true. Defaults to "Vibration".
+        predicted_val_name (str, optional): The name of the column that contains the predicted values in df_true. Defaults to "Prediction".
+        log_x (bool): Plot log x-axis.
+        log_y (bool): Plot log y-axis.
         **kwargs: Additional keyword arguments that are passed to the plt.plot() function calls.
 
     Returns:
         None
+
+    Example:
+        >>> # create some sample data
+            d1 = {'MAE': [0.1, 0.2], 'Memory (MB)': [10 , 20], 'CompTime (s)': [1 , 2]}
+            d2 = {'MAE': [0.3 , 0.4], 'Memory (MB)': [30 , 40], 'CompTime (s)': [3 , 4]}
+            d3 = {'Vibration': [0.5 , 0.6], 'Prediction': [0.7 , 0.8]}
+
+            # create dataframes from dictionaries
+            df_eval1 = pd.DataFrame(data=d1)
+            df_eval2 = pd.DataFrame(data=d2)
+            df_true = pd.DataFrame(data=d3)
+
+            # create a list of dataframes
+            df_eval_list = [df_eval1 , df_eval2]
+
+            # call the function with different arguments
+
+            # plot evaluation metrics for each element of df_eval_list
+            plot_bml_oml_results(df_eval=df_eval_list , metric=True)
+
+            # plot actual vs predicted values from df_true
+            plot_bml_oml_results(df_true=df_true , real_vs_predict=True)
     """
     if df_eval is not None and metric:
-        # create a 3 subplot figure to plot evaluation metrics
-        fig, axes = plt.subplots(3, figsize=(16, 5), constrained_layout=True, sharex=True)
         # create a list of metrics and titles
         metrics = ["MAE", "Memory (MB)", "CompTime (s)"]
         titles = ["Mean Absolute Error", "Memory (MB)", "Computation time (s)"]
-        # use a loop to plot each metric on a different axis
-        for i in range(3):
-            axes[i].plot(df_eval.index, df_eval[metrics[i]], **kwargs)
-            axes[i].set_title(titles[i])
-
+        # create a 3 subplot figure to plot evaluation metrics for each element
+        fig, axes = plt.subplots(3, figsize=(16, 5), constrained_layout=True, sharex=True)
+        # use a loop to iterate over each element of df_eval
+        for j, df in enumerate(df_eval):
+            # use a loop to plot each metric on a different axis
+            for i in range(3):
+                axes[i].plot(df.index, df[metrics[i]], label=str(j), **kwargs)
+                axes[i].set_title(titles[i])
+                axes[i].legend(loc="upper right")
+                if log_x:
+                    axes[i].set_xscale("log")
+                if log_y:
+                    axes[i].set_yscale("log")
+            # add a suptitle for each element
+            fig.suptitle(f"Element {j+1} of df_eval")
     if df_true is not None and real_vs_predict:
         # plot actual vs predicted values
         plt.figure(figsize=(16, 5))
-        plt.plot(df_true.index, df_true[actual_val_name], label="Actual", **kwargs)
-        plt.plot(df_true.index, df_true[predicted_val_name], label="Prediction", **kwargs)
+        # Plot the actual value only once:
+        plt.plot(df_true[0].index, df_true[0][actual_val_name], label="Actual", **kwargs)
+        for j, df in enumerate(df_true):
+            plt.plot(df.index, df[predicted_val_name], label="Prediction", **kwargs)
         plt.title("Actual vs Prediction")
+        if log_x:
+            plt.xscale("log")
+        if log_y:
+            plt.yscale("log")
         plt.legend()
-        plt.show()
+    plt.show()

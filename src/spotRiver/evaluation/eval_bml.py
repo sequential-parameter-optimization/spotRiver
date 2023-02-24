@@ -414,28 +414,84 @@ def plot_bml_oml_metrics(
     log_y=False,
     **kwargs,
 ) -> None:
+    """Plot metrics for benchmarking machine learning models.
+
+    This function plots three metrics: mean absolute error (MAE), memory usage (MB),
+    and computation time (s) for different machine learning models on a given dataset.
+    The function takes a list of pandas dataframes as input, each containing the metrics
+    for one model. The function also takes an optional list of labels for each model
+    and boolean flags to indicate whether to use logarithmic scales for the x-axis
+    and y-axis.
+
+    Parameters
+    ----------
+    df_eval : list[pd.DataFrame], optional
+        A list of pandas dataframes containing the metrics for each model.
+        Each dataframe should have an index column with the dataset name
+        and three columns with the metric names: "MAE", "Memory (MB)", "CompTime (s)".
+        If None, no plot is generated. Default is None.
+
+    df_labels : list, optional
+        A list of strings containing the labels for each model.
+        The length of this list should match the length of df_eval.
+        If None, numeric indices are used as labels. Default is None.
+
+    log_x : bool, optional
+        A flag indicating whether to use logarithmic scale for the x-axis.
+        If True, log scale is used. If False, linear scale is used. Default is False.
+
+    log_y : bool, optional
+        A flag indicating whether to use logarithmic scale for the y-axis.
+        If True, log scale is used. If False, linear scale is used. Default is False.
+
+    **kwargs : dict
+        Additional keyword arguments passed to plt.plot() function.
+
+    Returns
+    -------
+    None
+
+    Example
+    -------
+    >>> d1 = {'MAE': [0.1, 0.2], 'Memory (MB)': [10 , 20], 'CompTime (s)': [1 , 2]}
+        d2 = {'MAE': [0.3 , 0.4], 'Memory (MB)': [30 , 40], 'CompTime (s)': [3 , 4]}
+        # create dataframes from dictionaries
+        df_eval1 = pd.DataFrame(data=d1)
+        df_eval2 = pd.DataFrame(data=d2)
+        # create a list of dataframes
+        df_eval_list = [df_eval1 , df_eval2]
+        # plot evaluation metrics for each element of df_eval_list
+        plot_bml_oml_metrics(df_eval=df_eval_list)
+    """
+    # Check if input dataframes are provided
     if df_eval is not None:
+        # Convert single dataframe input to a list if needed
         if df_eval.__class__ != list:
-            df_eval = list([df_eval])
+            df_eval = [df_eval]
+        # Define metric names and titles
         metrics = ["MAE", "Memory (MB)", "CompTime (s)"]
         titles = ["Mean Absolute Error", "Memory (MB)", "Computation time (s)"]
+        # Create subplots with shared x-axis
         fig, axes = plt.subplots(3, figsize=(16, 5), constrained_layout=True, sharex=True)
-        # use a loop to iterate over each element of df_eval
+        # Loop over each dataframe in input list
         for j, df in enumerate(df_eval):
-            # use a loop to plot each metric on a different axis
+            # Loop over each metric
             for i in range(3):
+                # Assign label based on input or default value
                 if df_labels is None:
-                    label = str(j)
+                    label = f"{j}"
                 else:
                     label = df_labels[j]
-                axes[i].plot(df.index, df[metrics[i]], label=label, **kwargs)
+                # Plot metric values against dataset names
+                axes[i].plot(df.index.values.tolist(), df[metrics[i]].values.tolist(), label=label, **kwargs)
+                # Set title and legend
                 axes[i].set_title(titles[i])
                 axes[i].legend(loc="upper right")
+                # Set logarithmic scales if specified
                 if log_x:
                     axes[i].set_xscale("log")
                 if log_y:
                     axes[i].set_yscale("log")
-        fig.show()
 
 
 def plot_bml_oml_results(
@@ -445,9 +501,56 @@ def plot_bml_oml_results(
     log_y=False,
     **kwargs,
 ) -> None:
+    """Plot actual vs predicted values for machine learning models.
+
+    This function plots the actual values of a target variable (e.g., vibration)
+    against the predicted values from different machine learning models on
+    a given dataset. The function takes a list of pandas dataframes as input,
+    each containing the actual and predicted values for one model. The function
+    also takes an optional list of labels for each model and boolean flags
+    to indicate whether to use logarithmic scales for the x-axis and y-axis.
+
+    Parameters
+    ----------
+    df_true : list[pd.DataFrame], optional
+        A list of pandas dataframes containing the actual and predicted values
+        for each model. Each dataframe should have an index column with the
+        dataset name and two columns with the label names: e.g., "Vibration"
+        and "Prediction". If None, no plot is generated. Default is None.
+
+    df_labels : list, optional
+        A list of strings containing the labels for each model.
+        The length of this list should match the length of df_true.
+        If None or empty, numeric indices are used as labels. Default is
+        ["Vibration", "Prediction"].
+
+    log_x : bool, optional
+        A flag indicating whether to use logarithmic scale for the x-axis.
+        If True, log scale is used. If False, linear scale is used. Default is False.
+
+    log_y : bool, optional
+        A flag indicating whether to use logarithmic scale for the y-axis.
+        If True, log scale is used. If False, linear scale is used. Default is False.
+
+    **kwargs : dict
+        Additional keyword arguments passed to plt.plot() function.
+
+    Returns
+    -------
+    None
+
+    Example
+    -------
+    >>> d3 = {'Vibration': [0.5 , 0.6], 'Prediction': [0.7 , 0.8]}
+        # create dataframes from dictionaries
+        df_true = pd.DataFrame(data=d3)
+        # plot actual vs predicted values from df_true
+        plot_bml_oml_results(df_true=df_true)
+
+    """
     if df_true is not None:
         if df_true.__class__ != list:
-            df_true = list([df_true])
+            df_true = [df_true]
         # plot actual vs predicted values
         plt.figure(figsize=(16, 5))
         # Plot the actual value only once:

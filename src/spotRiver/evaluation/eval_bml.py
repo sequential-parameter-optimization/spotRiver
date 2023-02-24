@@ -504,7 +504,8 @@ def plot_bml_oml_metrics(
 
 def plot_bml_oml_results(
     df_true: list[pd.DataFrame] = None,
-    df_label: str = "Actual",
+    df_labels: list = None,
+    target_column: str = "Actual",
     log_x=False,
     log_y=False,
     **kwargs,
@@ -526,10 +527,14 @@ def plot_bml_oml_results(
         dataset name and two columns with the label names: e.g., "Vibration"
         and "Prediction". If None, no plot is generated. Default is None.
 
-    df_label : optional
+    df_labels : list, optional
         A list of strings containing the labels for each model.
-        If None or empty, numeric indices are used as labels. Default is
-        "Actualon".
+        The length of this list should match the length of df_eval.
+        If None, numeric indices are used as labels. Default is None.
+
+    target_column : optional
+        String containing the target column.
+        Default is "Actual".
 
     log_x : bool, optional
         A flag indicating whether to use logarithmic scale for the x-axis.
@@ -561,9 +566,14 @@ def plot_bml_oml_results(
         # plot actual vs predicted values
         plt.figure(figsize=(16, 5))
         # Plot the actual value only once:
-        plt.plot(df_true[0].index, df_true[0][df_label], label="Actual", **kwargs)
+        plt.plot(df_true[0].index, df_true[0][target_column], label="Actual", **kwargs)
         for j, df in enumerate(df_true):
-            plt.plot(df.index, df["Prediction"], label="Prediction", **kwargs)
+            # Assign label based on input or default value
+            if df_labels is None:
+                label = f"{j}"
+            else:
+                label = df_labels[j]
+            plt.plot(df.index, df["Prediction"], label=label, **kwargs)
         plt.title("Actual vs Prediction")
         if log_x:
             plt.xscale("log")

@@ -25,6 +25,9 @@ def eval_oml_iter_progressive(dataset, metric, models, step=100, weight_coeff=0.
         https://riverml.xyz/0.15.0/recipes/on-hoeffding-trees/
     """
     metric_name = metric.__class__.__name__
+    # Convert dataset to a list if needed
+    if dataset.__class__ != list:
+        dataset = [dataset]
     n_steps = len(dataset)
     result = {}
     for model_name, model in models.items():

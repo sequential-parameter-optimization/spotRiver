@@ -477,8 +477,8 @@ def plot_bml_oml_metrics(
         if df_eval.__class__ != list:
             df_eval = [df_eval]
         # Define metric names and titles
-        metrics = ["MAE", "Memory (MB)", "CompTime (s)"]
-        titles = ["Mean Absolute Error", "Memory (MB)", "Computation time (s)"]
+        metrics = ["MAE", "CompTime (s)", "Memory (MB)"]
+        titles = ["Mean Absolute Error", "Computation time (s)", "Memory (MB)"]
         # Create subplots with shared x-axis
         fig, axes = plt.subplots(3, figsize=(16, 5), constrained_layout=True, sharex=True)
         # Loop over each dataframe in input list

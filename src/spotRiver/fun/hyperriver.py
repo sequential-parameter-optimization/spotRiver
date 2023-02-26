@@ -15,11 +15,13 @@ from spotRiver.utils.features import get_month_distances
 from spotRiver.utils.features import get_hour_distances
 from spotRiver.evaluation.eval_oml import fun_eval_oml_iter_progressive
 from spotRiver.evaluation.eval_oml import eval_oml_iter_progressive
+from spotRiver.evaluation.eval_nowcast import eval_nowcast_model
 from spotRiver.utils.selectors import select_splitter
 from spotRiver.utils.selectors import select_leaf_prediction
 from spotRiver.utils.selectors import select_leaf_model
 from spotRiver.utils.selectors import select_max_depth
 import logging
+import statistics
 
 
 logger = logging.getLogger(__name__)
@@ -68,6 +70,56 @@ class HyperRiver:
 
     # def get_ordinal_date(x):
     #     return {'ordinal_date': x['month'].toordinal()}
+    def fun_nowcasting(self, X, fun_control=None):
+        """Hyperparameter Tuning of the nowcasting model.
+
+        Returns:
+            (float): objective function value. Mean of the MAEs of the predicted values.
+        """
+        self.fun_control.update(fun_control)
+
+        try:
+            X.shape[1]
+        except ValueError:
+            X = np.array([X])
+        if X.shape[1] != 5:
+            raise Exception
+        lr = X[:, 0]
+        intercept_lr = X[:, 1]
+        hour = X[:, 2]
+        weekday = X[:, 3]
+        month = X[:, 4]
+
+        z_res = np.array([], dtype=float)
+        for i in range(X.shape[0]):
+            h_i = int(hour[i])
+            w_i = int(weekday[i])
+            m_i = int(month[i])
+            # baseline:
+            extract_features = compose.TransformerUnion(get_ordinal_date)
+            if h_i:
+                extract_features = compose.TransformerUnion(get_ordinal_date, get_hour_distances)
+            if w_i:
+                extract_features = compose.TransformerUnion(extract_features, get_weekday_distances)
+            if m_i:
+                extract_features = compose.TransformerUnion(extract_features, get_month_distances)
+            model = compose.Pipeline(
+                ("features", extract_features),
+                ("scale", preprocessing.StandardScaler()),
+                (
+                    "lin_reg",
+                    linear_model.LinearRegression(
+                        intercept_init=0, optimizer=optim.SGD(float(lr[i])), intercept_lr=float(intercept_lr[i])
+                    ),
+                ),
+            )
+            # eval:
+            dates, metric, y_trues, y_preds = eval_nowcast_model(
+                model, dataset=self.fun_control["data"], time_interval="Time"
+            )
+            z = metric.get()
+            z_res = np.append(z_res, z)
+        return z_res
 
     def fun_snarimax(self, X, fun_control=None):
         """Hyperparameter Tuning of the SNARIMAX model.
@@ -244,13 +296,14 @@ class HyperRiver:
             )
             # eval:
             res = time_series.evaluate(
-                self.fun_control["data"], model, metric=self.fun_control["metric"], horizon=self.fun_control["horizon"]
+                self.fun_control["data"],
+                model,
+                metric=self.fun_control["metric"],
+                horizon=self.fun_control["horizon"],
+                agg_func=statistics.mean,
             )
-            y = res.metrics
-            z = 0.0
-            for j in range(len(y)):
-                z = z + y[j].get()
-            z_res = np.append(z_res, z / len(y))
+            z = res.get()
+            z_res = np.append(z_res, z)
         return z_res
 
     def fun_hw(self, X, fun_control=None):
@@ -309,12 +362,10 @@ class HyperRiver:
                 metric=self.fun_control["metric"],
                 horizon=self.fun_control["horizon"],
                 grace_period=self.fun_control["grace_period"],
+                agg_func=statistics.mean,
             )
-            y = res.metrics
-            z = 0.0
-            for j in range(len(y)):
-                z = z + y[j].get()
-            z_res = np.append(z_res, z / len(y))
+            z = res.get()
+            z_res = np.append(z_res, z)
         return z_res
 
     def fun_HTR_iter_progressive(self, X, fun_control=None):

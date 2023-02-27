@@ -391,16 +391,27 @@ def eval_oml_landmark(
         train = pd.concat([train, new_df], ignore_index=True)
         preds = []
         rm = ResourceMonitor()
+        # original implementation:
+        # with rm:
+        #     for xi, _ in river_stream.iter_pandas(
+        #         new_df.loc[:, new_df.columns != target_column], new_df[target_column]
+        #     ):
+        #         pred = model.predict_one(xi)
+        #         preds.append(pred)  # This is falsly measured with the ResourceMonitor
+        #     for xi, yi in river_stream.iter_pandas(
+        #         new_df.loc[:, new_df.columns != target_column], new_df[target_column]
+        #     ):
+        #         model = model.learn_one(xi, yi)
+
+        # Modified code:
         with rm:
-            for xi, _ in river_stream.iter_pandas(
+            for xi, yi in river_stream.iter_pandas(
                 new_df.loc[:, new_df.columns != target_column], new_df[target_column]
             ):
                 pred = model.predict_one(xi)
                 preds.append(pred)  # This is falsly measured with the ResourceMonitor
-            for xi, yi in river_stream.iter_pandas(
-                new_df.loc[:, new_df.columns != target_column], new_df[target_column]
-            ):
                 model = model.learn_one(xi, yi)
+        # End Modified Code
 
         preds = pd.Series(preds)
         diffs = new_df[target_column].values - preds

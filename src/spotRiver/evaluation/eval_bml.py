@@ -7,6 +7,7 @@ from typing import Optional
 from dataclasses import dataclass
 from typing import Tuple
 import matplotlib.pyplot as plt
+import copy
 
 
 class ResourceMonitorError(Exception):
@@ -37,6 +38,8 @@ class ResourceMonitor:
         self.name = name
         self.time = None
         self.memory = None
+        self.current_memory = None
+        self.peak_memory = None
         self._start = None
 
     def __enter__(self):
@@ -48,7 +51,11 @@ class ResourceMonitor:
 
     def __exit__(self, type, value, traceback):
         self.time = (time.perf_counter_ns() - self._start) / 1.0e9
-        self.memory = np.round(tracemalloc.get_traced_memory()[1] / 1.0e6, 4)
+        current, peak = tracemalloc.get_traced_memory()
+        # self.memory = np.round(tracemalloc.get_traced_memory()[1] / 1.0e6, 6)
+        self.memory = peak / (1024 * 1024)
+        # self.current_memory = current/(1024*1024)
+        # self.peak_memory = peak/(1024*1024)
         tracemalloc.stop()
 
     def result(self):
@@ -70,8 +77,8 @@ def evaluate_model(
             "Underestimation": None,
             "Overestimation": None,
             "MaxResidual": None,
-            "Memory (MB)": np.round(memory, 4),
-            "CompTime (s)": np.round(time, 4),
+            "Memory (MB)": np.round(memory, 6),
+            "CompTime (s)": np.round(time, 6),
         }
     else:
         pos_sum = np.sum(diff[diff > 0])
@@ -86,8 +93,8 @@ def evaluate_model(
             "Underestimation": np.round(pos_sum, 2),
             "Overestimation": np.round(np.abs(neg_sum), 2),
             "MaxResidual": np.round(np.max(np.abs(diff)), 2),
-            "Memory (MB)": np.round(memory, 4),
-            "CompTime (s)": np.round(time, 4),
+            "Memory (MB)": np.round(memory, 6),
+            "CompTime (s)": np.round(time, 6),
         }
 
     return res_dict
@@ -391,19 +398,6 @@ def eval_oml_landmark(
         train = pd.concat([train, new_df], ignore_index=True)
         preds = []
         rm = ResourceMonitor()
-        # original implementation:
-        # with rm:
-        #     for xi, _ in river_stream.iter_pandas(
-        #         new_df.loc[:, new_df.columns != target_column], new_df[target_column]
-        #     ):
-        #         pred = model.predict_one(xi)
-        #         preds.append(pred)  # This is falsly measured with the ResourceMonitor
-        #     for xi, yi in river_stream.iter_pandas(
-        #         new_df.loc[:, new_df.columns != target_column], new_df[target_column]
-        #     ):
-        #         model = model.learn_one(xi, yi)
-
-        # Modified code:
         with rm:
             for xi, yi in river_stream.iter_pandas(
                 new_df.loc[:, new_df.columns != target_column], new_df[target_column]
@@ -411,8 +405,6 @@ def eval_oml_landmark(
                 pred = model.predict_one(xi)
                 preds.append(pred)  # This is falsly measured with the ResourceMonitor
                 model = model.learn_one(xi, yi)
-        # End Modified Code
-
         preds = pd.Series(preds)
         diffs = new_df[target_column].values - preds
         df_eval.loc[i + 1] = pd.Series(evaluate_model(diffs, rm.memory, rm.time))
@@ -431,6 +423,7 @@ def plot_bml_oml_metrics(
     df_labels: list = None,
     log_x=False,
     log_y=False,
+    cumulative=True,
     **kwargs,
 ) -> None:
     """Plot metrics for benchmarking machine learning models.
@@ -463,6 +456,14 @@ def plot_bml_oml_metrics(
         A flag indicating whether to use logarithmic scale for the y-axis.
         If True, log scale is used. If False, linear scale is used. Default is False.
 
+    cumulative : bool, optional:
+        A flag indicating whether to plot the cumulative average error as it is done in
+        `plot_oml_iter_progressive()` and in `river`'s ` evaluate.iter_progressive_val_score()`
+        method. Time is shown as a cumulative sum (not averaged). Since memory is calculated
+        in a different way than in `river`'s ` evaluate.iter_progressive_val_score()`, the peak
+        memory from `_ , peak = tracemalloc.get_traced_memory()` is shown in a non-aggregated way.
+        Default is True.
+
     **kwargs : dict
         Additional keyword arguments passed to plt.plot() function.
 
@@ -484,16 +485,21 @@ def plot_bml_oml_metrics(
     """
     # Check if input dataframes are provided
     if df_eval is not None:
+        df_list = copy.deepcopy(df_eval)
         # Convert single dataframe input to a list if needed
-        if df_eval.__class__ != list:
-            df_eval = [df_eval]
+        if df_list.__class__ != list:
+            df_list = [df_list]
         # Define metric names and titles
         metrics = ["MAE", "CompTime (s)", "Memory (MB)"]
         titles = ["Mean Absolute Error", "Computation time (s)", "Memory (MB)"]
         # Create subplots with shared x-axis
         fig, axes = plt.subplots(3, figsize=(16, 5), constrained_layout=True, sharex=True)
         # Loop over each dataframe in input list
-        for j, df in enumerate(df_eval):
+        for j, df in enumerate(df_list):
+            if cumulative:
+                df.MAE = np.cumsum(df.MAE) / range(1, (1 + df.MAE.size))
+                df["CompTime (s)"] = np.cumsum(df["CompTime (s)"])  # / range(1, (1 + df["CompTime (s)"].size))
+                # df["Memory (MB)"] = np.cumsum(df["Memory (MB)"]) / range(1, (1 + df["Memory (MB)"].size))
             # Loop over each metric
             for i in range(3):
                 # Assign label based on input or default value

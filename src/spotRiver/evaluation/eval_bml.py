@@ -308,6 +308,12 @@ def eval_bml_window(
             "CompTime (s)",
         ]
     )
+    # Initial Training
+    rm = ResourceMonitor()
+    with rm:
+        model.fit(train.loc[:, train.columns != target_column], train[target_column])
+    df_eval = pd.DataFrame.from_dict([evaluate_model(np.array([]), rm.memory, rm.time)])
+
     for i, (w_train, w_test) in enumerate(window_gen(df_all, len(train), horizon)):
         rm = ResourceMonitor()
         with rm:
@@ -328,9 +334,10 @@ def eval_bml_window(
 
 def window_gen(df, window_size, horizon):
     i = 0
+    m = min(window_size, horizon)
     while True:
-        train_window = df[i * horizon : window_size + (i * horizon)]
-        test_window = df[window_size + (i * horizon) : window_size + ((i + 1) * horizon)]
+        train_window = df[i * m : window_size + i * m]
+        test_window = df[window_size + i * m : window_size + i * m + horizon]
         if len(test_window) == 0:
             break
         elif len(test_window) < horizon:

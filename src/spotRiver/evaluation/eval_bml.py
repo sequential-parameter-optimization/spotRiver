@@ -165,7 +165,6 @@ def eval_bml(model: object, train: pd.DataFrame, test: pd.DataFrame, target_colu
     series_preds = pd.Series([])
     series_diffs = pd.Series([])
 
-
     # Initial Training
     rm = ResourceMonitor()
     with rm:
@@ -337,7 +336,7 @@ def window_gen(df, window_size, horizon):
     i = 0
     while True:
         train_window = df[i * horizon : i * horizon + window_size]
-        test_window = df[i * horizon + window_size: (i + 1) * horizon + window_size]
+        test_window = df[i * horizon + window_size : (i + 1) * horizon + window_size]
         if len(test_window) == 0:
             break
         elif len(test_window) < horizon:
@@ -403,14 +402,16 @@ def eval_oml_landmark(
     # Landmark Evaluation
     for i, new_df in enumerate(landmark_gen(test, horizon)):
         train = pd.concat([train, new_df], ignore_index=True)
-        preds = []
+        preds = np.zeros(new_df.shape[0])
         rm = ResourceMonitor()
+        j = 0
         with rm:
             for xi, yi in river_stream.iter_pandas(
                 new_df.loc[:, new_df.columns != target_column], new_df[target_column]
             ):
                 pred = model.predict_one(xi)
-                preds.append(pred)  # This is falsly measured with the ResourceMonitor
+                preds[j] = pred  # This is falsly measured with the ResourceMonitor
+                j = j + 1
                 model = model.learn_one(xi, yi)
         preds = pd.Series(preds)
         diffs = new_df[target_column].values - preds

@@ -165,6 +165,7 @@ def eval_bml(model: object, train: pd.DataFrame, test: pd.DataFrame, target_colu
     series_preds = pd.Series([])
     series_diffs = pd.Series([])
 
+
     # Initial Training
     rm = ResourceMonitor()
     with rm:
@@ -334,10 +335,9 @@ def eval_bml_window(
 
 def window_gen(df, window_size, horizon):
     i = 0
-    m = min(window_size, horizon)
     while True:
-        train_window = df[i * m : window_size + i * m]
-        test_window = df[window_size + i * m : window_size + i * m + horizon]
+        train_window = df[i * horizon : i * horizon + window_size]
+        test_window = df[i * horizon + window_size: (i + 1) * horizon + window_size]
         if len(test_window) == 0:
             break
         elif len(test_window) < horizon:

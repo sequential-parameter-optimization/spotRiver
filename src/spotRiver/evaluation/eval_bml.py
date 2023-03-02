@@ -51,11 +51,8 @@ class ResourceMonitor:
 
     def __exit__(self, type, value, traceback):
         self.time = (time.perf_counter_ns() - self._start) / 1.0e9
-        current, peak = tracemalloc.get_traced_memory()
-        # self.memory = np.round(tracemalloc.get_traced_memory()[1] / 1.0e6, 6)
+        _ , peak = tracemalloc.get_traced_memory()
         self.memory = peak / (1024 * 1024)
-        # self.current_memory = current/(1024*1024)
-        # self.peak_memory = peak/(1024*1024)
         tracemalloc.stop()
 
     def result(self):
@@ -100,7 +97,7 @@ def evaluate_model(
     return res_dict
 
 
-def eval_bml(model: object, train: pd.DataFrame, test: pd.DataFrame, target_column: str, horizon: int = 1) -> tuple:
+def eval_bml(model: object, train: pd.DataFrame, test: pd.DataFrame, target_column: str, horizon: int) -> tuple:
     """Evaluate a model on a batch basis.
 
     This function takes a model and two data frames (train and test) as inputs
@@ -119,7 +116,7 @@ def eval_bml(model: object, train: pd.DataFrame, test: pd.DataFrame, target_colu
     target_column : str
         The name of the column containing the target variable.
     horizon : int, optional
-        The number of steps ahead to forecast. Defaults to 1.
+        The number of steps ahead to forecast.
 
     Returns
     -------
@@ -133,7 +130,6 @@ def eval_bml(model: object, train: pd.DataFrame, test: pd.DataFrame, target_colu
         from sklearn.linear_model import LinearRegression
         from sklearn.datasets import make_regression
 
-        # Create a linear regression model
         model = LinearRegression()
 
         # Create synthetic data for regression with 100 observations, 3 features and one target value
@@ -147,23 +143,16 @@ def eval_bml(model: object, train: pd.DataFrame, test: pd.DataFrame, target_colu
         test = pd.DataFrame(X_test, columns=["x1", "x2", "x3"])
         test["y"] = y_test
 
-        # Set the name of the target variable
         target_column = "y"
-
-         # Set the horizon to 5
-         horizon = 5
-
-         # Evaluate the model on a batch basis
-         df_eval , df_true = eval_bml (model , train , test , target_column )
-
-         # Print the results
-         print (df_eval )
-         print (df_true )
+        horizon = 5
+        df_eval , df_true = eval_bml (model , train , test , target_column )
+        print (df_eval )
+        print (df_true )
     """
     train = train.reset_index(drop=True)
     test = test.reset_index(drop=True)
-    series_preds = pd.Series([])
-    series_diffs = pd.Series([])
+    series_preds = pd.Series(dtype=float)
+    series_diffs = pd.Series(dtype=float)
 
     # Initial Training
     rm = ResourceMonitor()
@@ -190,8 +179,7 @@ def eval_bml(model: object, train: pd.DataFrame, test: pd.DataFrame, target_colu
 
 
 def eval_bml_landmark(
-    model: object, train: pd.DataFrame, test: pd.DataFrame, target_column: str, horizon: int = 1
-) -> tuple:
+    model: object, train: pd.DataFrame, test: pd.DataFrame, target_column: str, horizon: int) -> tuple:
     """Evaluate a model on a landmark basis.
 
     Args:
@@ -199,7 +187,7 @@ def eval_bml_landmark(
         train (pd.DataFrame): The initial training data set.
         test (pd.DataFrame): The testing data set that will be added incrementally to the training set.
         target_column (str): The name of the column containing the target variable.
-        horizon (int, optional): The number of steps ahead to forecast. Defaults to 1.
+        horizon (int, optional): The number of steps ahead to forecast.
 
     Returns:
         tuple: A tuple of two data frames. The first one contains evaluation metrics for each landmark.
@@ -222,8 +210,8 @@ def eval_bml_landmark(
     """
     train = train.reset_index(drop=True)
     test = test.reset_index(drop=True)
-    series_preds = pd.Series([])
-    series_diffs = pd.Series([])
+    series_preds = pd.Series(dtype=float)
+    series_diffs = pd.Series(dtype=float)
 
     # Initial Training
     rm = ResourceMonitor()
@@ -234,7 +222,6 @@ def eval_bml_landmark(
     # Landmark Evaluation
     for i, new_df in enumerate(landmark_gen(test, horizon)):
         train = pd.concat([train, new_df], ignore_index=True)
-
         rm = ResourceMonitor()
         with rm:
             preds = pd.Series(model.predict(new_df.loc[:, new_df.columns != target_column]))
@@ -266,8 +253,7 @@ def landmark_gen(df, horizon):
 
 
 def eval_bml_window(
-    model: object, train: pd.DataFrame, test: pd.DataFrame, target_column: str, horizon: int = 1
-) -> tuple:
+    model: object, train: pd.DataFrame, test: pd.DataFrame, target_column: str, horizon: int) -> tuple:
     """Evaluate a model on a rolling window basis.
 
     Args:
@@ -275,7 +261,7 @@ def eval_bml_window(
         train (pd.DataFrame): The training data set.
         test (pd.DataFrame): The testing data set.
         target_column (str): The name of the column containing the target variable.
-        horizon (int, optional): The number of steps ahead to forecast. Defaults to 1.
+        horizon (int, optional): The number of steps ahead to forecast.
 
     Returns:
         tuple: A tuple of two data frames. The first one contains evaluation metrics for each window.
@@ -292,8 +278,8 @@ def eval_bml_window(
     train = train.reset_index(drop=True)
     test = test.reset_index(drop=True)
     df_all = pd.concat([train, test], ignore_index=True)
-    series_preds = pd.Series([])
-    series_diffs = pd.Series([])
+    series_preds = pd.Series(dtype=float)
+    series_diffs = pd.Series(dtype=float)
 
     # Window Evaluation
     df_eval = pd.DataFrame(
@@ -374,23 +360,23 @@ def eval_oml_landmark(
     Examples
     -------
     >>> import pandas as pd
-    >>> import numpy as np
-    >>> from river import linear_model
-    >>> from river import preprocessing
-    >>> model = preprocessing.StandardScaler() | linear_model.LinearRegression()
-    >>> dataset = datasets.TrumpApproval()
-    >>> train = pd.DataFrame(dataset.take(100))
-    >>> test = pd.DataFrame(dataset.take(100))
-    >>> target_column = "Approve"
-    >>> horizon = 10
-    >>> df_eval, df_preds = eval_oml_landmark(model, train, test, target_column, horizon)
-    >>> print(df_eval)
-    >>> print(df_preds)
+        import numpy as np
+        from river import linear_model
+        from river import preprocessing
+        model = preprocessing.StandardScaler() | linear_model.LinearRegression()
+        dataset = datasets.TrumpApproval()
+        train = pd.DataFrame(dataset.take(100))
+        test = pd.DataFrame(dataset.take(100))
+        target_column = "Approve"
+        horizon = 10
+        df_eval, df_preds = eval_oml_landmark(model, train, test, target_column, horizon)
+        print(df_eval)
+        print(df_preds)
     """
     train = train.reset_index(drop=True)
     test = test.reset_index(drop=True)
-    series_preds = pd.Series([])
-    series_diffs = pd.Series([])
+    series_preds = pd.Series(dtype=float)
+    series_diffs = pd.Series(dtype=float)
 
     # Initial Training
     rm = ResourceMonitor()

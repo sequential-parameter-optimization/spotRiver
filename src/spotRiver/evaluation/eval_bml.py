@@ -51,7 +51,7 @@ class ResourceMonitor:
 
     def __exit__(self, type, value, traceback):
         self.time = (time.perf_counter_ns() - self._start) / 1.0e9
-        _ , peak = tracemalloc.get_traced_memory()
+        _, peak = tracemalloc.get_traced_memory()
         self.memory = peak / (1024 * 1024)
         tracemalloc.stop()
 
@@ -179,7 +179,8 @@ def eval_bml(model: object, train: pd.DataFrame, test: pd.DataFrame, target_colu
 
 
 def eval_bml_landmark(
-    model: object, train: pd.DataFrame, test: pd.DataFrame, target_column: str, horizon: int) -> tuple:
+    model: object, train: pd.DataFrame, test: pd.DataFrame, target_column: str, horizon: int
+) -> tuple:
     """Evaluate a model on a landmark basis.
 
     Args:
@@ -220,7 +221,7 @@ def eval_bml_landmark(
     df_eval = pd.DataFrame.from_dict([evaluate_model(np.array([]), rm.memory, rm.time)])
 
     # Landmark Evaluation
-    for i, new_df in enumerate(landmark_gen(test, horizon)):
+    for i, new_df in enumerate(gen_sliding_window(test, horizon)):
         train = pd.concat([train, new_df], ignore_index=True)
         rm = ResourceMonitor()
         with rm:
@@ -239,7 +240,7 @@ def eval_bml_landmark(
     return df_eval, df_true
 
 
-def landmark_gen(df, horizon):
+def gen_sliding_window(df, horizon):
     i = 0
     while True:
         subset = df[i * horizon : (i + 1) * horizon]
@@ -252,8 +253,7 @@ def landmark_gen(df, horizon):
         yield subset
 
 
-def eval_bml_window(
-    model: object, train: pd.DataFrame, test: pd.DataFrame, target_column: str, horizon: int) -> tuple:
+def eval_bml_window(model: object, train: pd.DataFrame, test: pd.DataFrame, target_column: str, horizon: int) -> tuple:
     """Evaluate a model on a rolling window basis.
 
     Args:
@@ -300,7 +300,7 @@ def eval_bml_window(
         model.fit(train.loc[:, train.columns != target_column], train[target_column])
     df_eval = pd.DataFrame.from_dict([evaluate_model(np.array([]), rm.memory, rm.time)])
 
-    for i, (w_train, w_test) in enumerate(window_gen(df_all, len(train), horizon)):
+    for i, (w_train, w_test) in enumerate(gen_horizon_shifted_window(df_all, len(train), horizon)):
         rm = ResourceMonitor()
         with rm:
             model.fit(w_train.loc[:, w_train.columns != target_column], w_train[target_column])
@@ -318,7 +318,7 @@ def eval_bml_window(
     return df_eval, df_true
 
 
-def window_gen(df, window_size, horizon):
+def gen_horizon_shifted_window(df, window_size, horizon):
     i = 0
     while True:
         train_window = df[i * horizon : i * horizon + window_size]
@@ -333,7 +333,12 @@ def window_gen(df, window_size, horizon):
 
 
 def eval_oml_landmark(
-    model: object, train: pd.DataFrame, test: pd.DataFrame, target_column: str, horizon: int = 1
+    model: object,
+    train: pd.DataFrame,
+    test: pd.DataFrame,
+    target_column: str,
+    horizon: int,
+    oml_grace_period: int = None,
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Evaluate an online machine learning model.
@@ -349,7 +354,10 @@ def eval_oml_landmark(
     target_column : str
         The name of the column that contains the target variable.
     horizon : int, optional
-        The number of rows to use for each landmark evaluation. Default is 1.
+        The number of rows to use for each landmark evaluation.
+    oml_grace_period: int, optional
+        (Short) period used for training the OML before evaluation starts. Can be zero.
+        If set to None, than horizon will be used.
 
     Returns
     -------
@@ -369,43 +377,48 @@ def eval_oml_landmark(
         test = pd.DataFrame(dataset.take(100))
         target_column = "Approve"
         horizon = 10
-        df_eval, df_preds = eval_oml_landmark(model, train, test, target_column, horizon)
+        df_eval, df_preds = eval_oml_landmark(model, train, test, target_column, horizon, oml_grace_period)
         print(df_eval)
         print(df_preds)
     """
+    if oml_grace_period is None:
+        oml_grace_period = horizon
     train = train.reset_index(drop=True)
     test = test.reset_index(drop=True)
     series_preds = pd.Series(dtype=float)
     series_diffs = pd.Series(dtype=float)
 
-    # Initial Training
+    # Initial Training on Train Data
+    # For OML, this is performed on a limited subset only (oml_grace_period).
+    train_X = train.loc[:, train.columns != target_column]
+    train_y = train[target_column]
+    train_X = train_X.tail(oml_grace_period)
+    train_y = train_y.tail(oml_grace_period)
     rm = ResourceMonitor()
     with rm:
-        for xi, yi in river_stream.iter_pandas(train.loc[:, train.columns != target_column], train[target_column]):
+        for xi, yi in river_stream.iter_pandas(train_X, train_y):
+            # Only training, no predict, otherwise the following lines should be activated:
+            # y_pred = model.predict_one(xi)
+            # metric = metric.update(yi, y_pred)
             model = model.learn_one(xi, yi)
     df_eval = pd.DataFrame.from_dict([evaluate_model(np.array([]), rm.memory, rm.time)])
 
-    # Landmark Evaluation
-    for i, new_df in enumerate(landmark_gen(test, horizon)):
-        train = pd.concat([train, new_df], ignore_index=True)
-        preds = np.zeros(new_df.shape[0])
+    # Test Data Evaluation
+    for i, new_df in enumerate(gen_sliding_window(test, horizon)):
+        preds = []
+        test_X = new_df.loc[:, new_df.columns != target_column]
+        test_y = new_df[target_column]
         rm = ResourceMonitor()
-        j = 0
         with rm:
-            for xi, yi in river_stream.iter_pandas(
-                new_df.loc[:, new_df.columns != target_column], new_df[target_column]
-            ):
+            for xi, yi in river_stream.iter_pandas(test_X, test_y):
                 pred = model.predict_one(xi)
-                preds[j] = pred  # This is falsly measured with the ResourceMonitor
-                j = j + 1
+                preds.append(pred)  # This is falsly measured with the ResourceMonitor
                 model = model.learn_one(xi, yi)
         preds = pd.Series(preds)
         diffs = new_df[target_column].values - preds
         df_eval.loc[i + 1] = pd.Series(evaluate_model(diffs, rm.memory, rm.time))
-
         series_preds = pd.concat([series_preds, preds], ignore_index=True)
         series_diffs = pd.concat([series_diffs, diffs], ignore_index=True)
-
     df_true = pd.DataFrame(test[target_column])
     df_true["Prediction"] = series_preds
     df_true["Difference"] = series_diffs

@@ -398,7 +398,7 @@ def eval_oml_landmark(
     with rm:
         for xi, yi in river_stream.iter_pandas(train_X, train_y):
             # Only training, no predict, otherwise the following lines should be activated:
-            # y_pred = model.predict_one(xi)
+            y_pred = model.predict_one(xi)
             # metric = metric.update(yi, y_pred)
             model = model.learn_one(xi, yi)
     df_eval = pd.DataFrame.from_dict([evaluate_model(np.array([]), rm.memory, rm.time)])
@@ -532,6 +532,7 @@ def plot_bml_oml_results(
     target_column: str = "Actual",
     log_x=False,
     log_y=False,
+    skip_first_n=0,
     **kwargs,
 ) -> None:
     """Plot actual vs predicted values for machine learning models.
@@ -568,6 +569,9 @@ def plot_bml_oml_results(
         A flag indicating whether to use logarithmic scale for the y-axis.
         If True, log scale is used. If False, linear scale is used. Default is False.
 
+    skip_first_n: int, optional
+        Skip the first n entries in the plot.
+
     **kwargs : dict
         Additional keyword arguments passed to plt.plot() function.
 
@@ -585,18 +589,21 @@ def plot_bml_oml_results(
 
     """
     if df_true is not None:
-        if df_true.__class__ != list:
-            df_true = [df_true]
+        df_plot = copy.deepcopy(df_true)
+        if df_plot.__class__ != list:
+            df_plot = [df_plot]
         # plot actual vs predicted values
         plt.figure(figsize=(16, 5))
         # Plot the actual value only once:
-        plt.plot(df_true[0].index, df_true[0][target_column], label="Actual", **kwargs)
-        for j, df in enumerate(df_true):
+        plt.plot(df_plot[0].index, df_plot[0][target_column], label="Actual", **kwargs)
+        for j, df in enumerate(df_plot):
             # Assign label based on input or default value
             if df_labels is None:
                 label = f"{j}"
             else:
                 label = df_labels[j]
+            # skip first n values
+            df["Prediction"][range(skip_first_n)] = np.nan
             plt.plot(df.index, df["Prediction"], label=label, **kwargs)
         plt.title("Actual vs Prediction")
         if log_x:

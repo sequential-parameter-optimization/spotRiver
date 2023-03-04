@@ -97,8 +97,8 @@ def evaluate_model(
     return res_dict
 
 
-def eval_bml(model: object, train: pd.DataFrame, test: pd.DataFrame, target_column: str, horizon: int) -> tuple:
-    """Evaluate a model on a batch basis.
+def eval_bml_horizon(model: object, train: pd.DataFrame, test: pd.DataFrame, target_column: str, horizon: int) -> tuple:
+    """Evaluate a model on a batch basis using prediction horizons (mini-batches).
 
     This function takes a model and two data frames (train and test) as inputs
     and returns two data frames as outputs. The first output contains evaluation
@@ -145,7 +145,7 @@ def eval_bml(model: object, train: pd.DataFrame, test: pd.DataFrame, target_colu
 
         target_column = "y"
         horizon = 5
-        df_eval , df_true = eval_bml (model , train , test , target_column )
+        df_eval, df_true = eval_bml_horizion(model , train , test , target_column)
         print (df_eval )
         print (df_true )
     """
@@ -332,7 +332,7 @@ def gen_horizon_shifted_window(df, window_size, horizon):
         yield train_window, test_window
 
 
-def eval_oml_landmark(
+def eval_oml_horizon(
     model: object,
     train: pd.DataFrame,
     test: pd.DataFrame,
@@ -377,7 +377,7 @@ def eval_oml_landmark(
         test = pd.DataFrame(dataset.take(100))
         target_column = "Approve"
         horizon = 10
-        df_eval, df_preds = eval_oml_landmark(model, train, test, target_column, horizon, oml_grace_period)
+        df_eval, df_preds = eval_oml_horizon(model, train, test, target_column, horizon, oml_grace_period)
         print(df_eval)
         print(df_preds)
     """
@@ -397,8 +397,8 @@ def eval_oml_landmark(
     rm = ResourceMonitor()
     with rm:
         for xi, yi in river_stream.iter_pandas(train_X, train_y):
-            # Only training, no predict, otherwise the following lines should be activated:
-            y_pred = model.predict_one(xi)
+            # The following line returns y_pred, which is not used, therefore set to "_":
+            _ = model.predict_one(xi)
             # metric = metric.update(yi, y_pred)
             model = model.learn_one(xi, yi)
     df_eval = pd.DataFrame.from_dict([evaluate_model(np.array([]), rm.memory, rm.time)])
@@ -425,7 +425,7 @@ def eval_oml_landmark(
     return df_eval, df_true
 
 
-def plot_bml_oml_metrics(
+def plot_bml_oml_horizon_metrics(
     df_eval: list[pd.DataFrame] = None,
     df_labels: list = None,
     log_x=False,
@@ -526,7 +526,7 @@ def plot_bml_oml_metrics(
                     axes[i].set_yscale("log")
 
 
-def plot_bml_oml_results(
+def plot_bml_oml_horizon_predictions(
     df_true: list[pd.DataFrame] = None,
     df_labels: list = None,
     target_column: str = "Actual",
@@ -585,7 +585,7 @@ def plot_bml_oml_results(
         # create dataframes from dictionaries
         df_true = pd.DataFrame(data=d3)
         # plot actual vs predicted values from df_true
-        plot_bml_oml_results(df_true=df_true)
+        plot_bml_oml_horizon_predictions(df_true=df_true)
 
     """
     if df_true is not None:
@@ -594,8 +594,6 @@ def plot_bml_oml_results(
             df_plot = [df_plot]
         # plot actual vs predicted values
         plt.figure(figsize=(16, 5))
-        # Plot the actual value only once:
-        plt.plot(df_plot[0].index, df_plot[0][target_column], label="Actual", **kwargs)
         for j, df in enumerate(df_plot):
             # Assign label based on input or default value
             if df_labels is None:
@@ -605,6 +603,8 @@ def plot_bml_oml_results(
             # skip first n values
             df["Prediction"][range(skip_first_n)] = np.nan
             plt.plot(df.index, df["Prediction"], label=label, **kwargs)
+        # Plot the actual value only once:
+        plt.plot(df_plot[0].index, df_plot[0][target_column], label="Actual", **kwargs)
         plt.title("Actual vs Prediction")
         if log_x:
             plt.xscale("log")

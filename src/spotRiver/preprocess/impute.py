@@ -5,32 +5,29 @@ from sklearn.impute import SimpleImputer
 
 
 def impute_opm(
-    include_categorical=False,
-    data_home="data",
-    strategy="most_frequent",
-    columns=["lat", "lon"],
-    archive_name="opm_cat.csv",
-    path_or_buf="opm_cat.zip",
-    write_csv=True,
-    return_df=False,
-):
-    """Imputes missing values in a dataframe using a given strategy.
+    include_categorical: bool = False,
+    data_home: str = "data",
+    strategy: str = "most_frequent",
+    columns: list[str] = ["lat", "lon"],
+    archive_name: str = "opm_cat.csv",
+    path_or_buf: str = "opm_cat.zip",
+    write_csv: bool = True,
+    return_df: bool = False,
+) -> pd.DataFrame:
+    """Impute missing values in OPM dataset.
 
-    Parameters:
-        include_categorical (bool): Whether to include categorical features in the dataframe.
-        data_home (str): The path to the data directory.
-        strategy (str): The imputation strategy to use. One of "mean", "median", "most_frequent" or "constant".
-        columns (list of str): The names of the columns to impute. If None, all columns are imputed.
-        archive_name (str): The name of the csv file to write the imputed dataframe to.
-        path_or_buf (str): The path or buffer to write the compressed csv file to.
-        write_csv (bool): Whether to write the imputed dataframe to a csv file.
-        return_df (bool): Whether to return the imputed dataframe as output.
+    Args:
+        include_categorical: Whether to include categorical features. Default is False.
+        data_home: The directory to use as a data store. Default is "data".
+        strategy: The imputation strategy to use. Can be one of "mean", "median", "most_frequent", or "constant". Default is "most_frequent".
+        columns: A list of column names to impute. If None, impute all columns. Default is ["lat", "lon"].
+        archive_name: The name of the archive file to write. Default is "opm_cat.csv".
+        path_or_buf: The file path or buffer to write. Default is "opm_cat.zip".
+        write_csv: Whether to write the imputed data to a CSV file. Default is True.
+        return_df: Whether to return the imputed data as a DataFrame. Default is False.
 
     Returns:
-        pd.DataFrame: The imputed dataframe if return_df is True. Otherwise None.
-
-    Raises:
-        ValueError: If strategy is not one of the valid options or if columns are not in the dataframe.
+        If `return_df` is True, returns a pandas DataFrame containing the imputed data.
     """
     # Validate input parameters
     valid_strategies = ["mean", "median", "most_frequent", "constant"]

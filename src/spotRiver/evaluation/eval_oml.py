@@ -7,19 +7,37 @@ from numpy import array
 
 
 def eval_oml_iter_progressive(dataset, metric, models, step=100, weight_coeff=0.0, log_level=50):
-    """Evaluate OML Models
+    """Evaluate OML Models on Streaming Data
+
+    This function evaluates one or more OML models on a streaming dataset. The evaluation
+    is done iteratively, and the models are tested every `step` iterations. The results
+    are returned as a dictionary of metrics and their values.
 
     Args:
-        dataset:
-        metric:
-        models:
-        step (int): Iteration number at which to yield results.
-            This only takes into account the predictions, and not the training steps.
-        weight_coeff (float): results are multiplied by (step/n_steps)**weight_coeff,
-            results from the beginning have a lower weight than results from the end,
-            if weight_coeff > 1. If weight_coeff == 0, than results are multiplied by 1
-            and every result has an equal weight.
-        log_level:
+        dataset (list or river.Stream): A list of river.Stream objects containing the
+            streaming data to be evaluated. If a single river.Stream object is provided,
+            it is automatically converted to a list.
+        metric (river.metrics.base.MultiClassMetric or river.metrics.base.RegressionMetric):
+            The metric to be used for evaluation.
+        models (dict): A dictionary of OML models to be evaluated. The keys are the names
+            of the models, and the values are the model objects.
+        step (int): Iteration number at which to yield results. This only takes into account
+            the predictions, and not the training steps. Defaults to 100.
+        weight_coeff (float): Results are multiplied by (step/n_steps)**weight_coeff,
+            where n_steps is the total number of iterations. Results from the beginning have
+            a lower weight than results from the end if weight_coeff > 1. If weight_coeff == 0,
+            then results are multiplied by 1 and every result has an equal weight. Defaults to 0.0.
+        log_level (int): The level of logging to use. 0 = no logging, 50 = print only important
+            information. Defaults to 50.
+
+    Returns:
+        dict: A dictionary containing the evaluation results. The keys are the names of the
+            models, and the values are dictionaries with the following keys:
+            - "step": A list of iteration numbers at which the model was evaluated.
+            - "error": A list of the weighted errors for each iteration.
+            - "r_time": A list of the weighted running times for each iteration.
+            - "memory": A list of the weighted memory usages for each iteration.
+            - "metric_name": The name of the metric used for evaluation.
 
     Reference:
         https://riverml.xyz/0.15.0/recipes/on-hoeffding-trees/
@@ -86,20 +104,28 @@ def plot_oml_iter_progressive(result, log_y=False):
 
 
 def fun_eval_oml_iter_progressive(result, metric=None, weights=None):
-    """
-    Wrapper for eval_oml_iter_progressive. Returns one function value,
-    e.g., for objective functions.
+    """Wrapper function for eval_oml_iter_progressive, returning a single function value.
 
     Args:
-        result (_type_): _description_
-        metric (_type_, optional): _description_. Defaults to None.
-        weights (numpy.array): Weights for error, r_time, and memory. None is [1,0,0],
-            which considers error only. Defaults to None.
+        result (dict): A dictionary of evaluation results, as returned by eval_oml_iter_progressive.
+        metric (function, optional): The metric function to use for computing the function value.
+            Defaults to None, in which case the mean function is used.
+        weights (numpy.array, optional): An array of weights for error, r_time, and memory.
+            If None, the weights are set to [1, 0, 0], which considers only the error.
+            Defaults to None.
+
+    Returns:
+        numpy.array: An array of function values, one for each model in the evaluation results.
+
+    Raises:
+        ValueError: If the weights array is not of length 3.
     """
     if metric is None:
         metric = mean
     if weights is None:
         weights = array([1, 0, 0])
+    if len(weights) != 3:
+        raise ValueError("The weights array must be of length 3.")
     model_names = list(result.keys())
     n = len(model_names)
     y = zeros([n])

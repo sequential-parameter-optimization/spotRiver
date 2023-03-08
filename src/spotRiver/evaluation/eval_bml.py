@@ -431,6 +431,7 @@ def plot_bml_oml_horizon_metrics(
     log_x=False,
     log_y=False,
     cumulative=True,
+    grid=True,
     **kwargs,
 ) -> None:
     """Plot metrics for benchmarking machine learning models.
@@ -470,6 +471,9 @@ def plot_bml_oml_horizon_metrics(
         in a different way than in `river`'s ` evaluate.iter_progressive_val_score()`, the peak
         memory from `_ , peak = tracemalloc.get_traced_memory()` is shown in a non-aggregated way.
         Default is True.
+    grid: bool, optional
+        A flag indicating whether to plot a grid.
+        If True, grid is shown. Default is True.
 
     **kwargs : dict
         Additional keyword arguments passed to plt.plot() function.
@@ -519,6 +523,7 @@ def plot_bml_oml_horizon_metrics(
                 # Set title and legend
                 axes[i].set_title(titles[i])
                 axes[i].legend(loc="upper right")
+                axes[i].grid(grid)
                 # Set logarithmic scales if specified
                 if log_x:
                     axes[i].set_xscale("log")
@@ -533,6 +538,7 @@ def plot_bml_oml_horizon_predictions(
     log_x=False,
     log_y=False,
     skip_first_n=0,
+    grid=True,
     **kwargs,
 ) -> None:
     """Plot actual vs predicted values for machine learning models.
@@ -572,6 +578,10 @@ def plot_bml_oml_horizon_predictions(
     skip_first_n: int, optional
         Skip the first n entries in the plot.
 
+    grid: bool, optional
+        A flag indicating whether to plot a grid.
+        If True, grid is shown. Default is True.
+
     **kwargs : dict
         Additional keyword arguments passed to plt.plot() function.
 
@@ -610,5 +620,6 @@ def plot_bml_oml_horizon_predictions(
             plt.xscale("log")
         if log_y:
             plt.yscale("log")
+        plt.grid(grid)
         plt.legend()
     plt.show()

@@ -432,6 +432,8 @@ def plot_bml_oml_horizon_metrics(
     log_y=False,
     cumulative=True,
     grid=True,
+    fig_width=16,
+    fig_height=5,
     **kwargs,
 ) -> None:
     """Plot metrics for benchmarking machine learning models.
@@ -471,9 +473,16 @@ def plot_bml_oml_horizon_metrics(
         in a different way than in `river`'s ` evaluate.iter_progressive_val_score()`, the peak
         memory from `_ , peak = tracemalloc.get_traced_memory()` is shown in a non-aggregated way.
         Default is True.
+
     grid: bool, optional
         A flag indicating whether to plot a grid.
         If True, grid is shown. Default is True.
+
+    fig_width: float, optional. Default: 16
+        width in inches.
+
+    fig_height: float, optional. Default: 5
+        height in inches.
 
     **kwargs : dict
         Additional keyword arguments passed to plt.plot() function.
@@ -504,7 +513,7 @@ def plot_bml_oml_horizon_metrics(
         metrics = ["MAE", "CompTime (s)", "Memory (MB)"]
         titles = ["Mean Absolute Error", "Computation time (s)", "Memory (MB)"]
         # Create subplots with shared x-axis
-        fig, axes = plt.subplots(3, figsize=(16, 5), constrained_layout=True, sharex=True)
+        fig, axes = plt.subplots(3, figsize=(fig_width, fig_height), constrained_layout=True, sharex=True)
         # Loop over each dataframe in input list
         for j, df in enumerate(df_list):
             if cumulative:
@@ -539,6 +548,8 @@ def plot_bml_oml_horizon_predictions(
     log_y=False,
     skip_first_n=0,
     grid=True,
+    fig_width=16,
+    fig_height=5,
     **kwargs,
 ) -> None:
     """Plot actual vs predicted values for machine learning models.
@@ -582,6 +593,12 @@ def plot_bml_oml_horizon_predictions(
         A flag indicating whether to plot a grid.
         If True, grid is shown. Default is True.
 
+    fig_width: float, optional. Default: 16
+        width in inches.
+
+    fig_height: float, optional. Default: 5
+        height in inches.
+
     **kwargs : dict
         Additional keyword arguments passed to plt.plot() function.
 
@@ -603,7 +620,7 @@ def plot_bml_oml_horizon_predictions(
         if df_plot.__class__ != list:
             df_plot = [df_plot]
         # plot actual vs predicted values
-        plt.figure(figsize=(16, 5))
+        plt.figure(figsize=(fig_width, fig_height))
         for j, df in enumerate(df_plot):
             # Assign label based on input or default value
             if df_labels is None:

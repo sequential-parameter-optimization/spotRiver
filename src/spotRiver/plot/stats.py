@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 
-def corrplot(df: pd.DataFrame) -> None:
+def corrplot(df: pd.DataFrame, numeric_only=True) -> None:
     """Function plots a graphical correlation matrix for each pair of columns in the dataframe.
         The function takes a DataFrame df as input and generates a graphical correlation matrix
         for each pair of columns in the dataframe.
@@ -12,6 +12,8 @@ def corrplot(df: pd.DataFrame) -> None:
 
     Input:
         df: pandas DataFrame
+        numeric_only: bool, default True.
+            Include only float, int or boolean data.
 
     Example:
     >>> X = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6], 'C': [7, 8, 9]})
@@ -20,7 +22,7 @@ def corrplot(df: pd.DataFrame) -> None:
     """
 
     # Compute the correlation matrix
-    corr = df.corr()
+    corr = df.corr(numeric_only=numeric_only)
 
     # Generate a mask for the upper triangle
     mask = np.zeros_like(corr, dtype=bool)

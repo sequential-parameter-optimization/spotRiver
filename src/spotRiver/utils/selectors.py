@@ -38,3 +38,11 @@ def select_leaf_model(i):
 
 def select_max_depth(i):
     return power(10, i)
+
+
+def apply_selectors(d: dict):
+    d["splitter"] = select_splitter(d["splitter"])
+    d["leaf_prediction"] = select_leaf_prediction(d["leaf_prediction"])
+    d["leaf_model"] = select_leaf_model(d["leaf_model"])
+    d["max_depth"] = select_max_depth(d["max_depth"])
+    return d

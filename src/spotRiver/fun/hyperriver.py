@@ -6,6 +6,7 @@ from river import optim
 from river import preprocessing
 from river import metrics
 from river import tree
+from river.tree import HoeffdingTreeRegressor
 from numpy.random import default_rng
 import numpy as np
 from numpy import array
@@ -16,12 +17,15 @@ from spotRiver.utils.features import get_hour_distances
 from spotRiver.evaluation.eval_oml import fun_eval_oml_iter_progressive
 from spotRiver.evaluation.eval_oml import eval_oml_iter_progressive
 from spotRiver.evaluation.eval_nowcast import eval_nowcast_model
-from spotRiver.utils.selectors import select_splitter
+from spotRiver.utils.selectors import select_splitter, apply_selectors
+from spotRiver.utils.assignments import assign_values, iterate_dict_values, convert_keys
 from spotRiver.utils.selectors import select_leaf_prediction
 from spotRiver.utils.selectors import select_leaf_model
 from spotRiver.utils.selectors import select_max_depth
 import logging
 import statistics
+from river import feature_extraction
+from river import stats
 
 
 logger = logging.getLogger(__name__)
@@ -57,6 +61,8 @@ class HyperRiver:
             "weights": array([1, 0, 0]),
             "weight_coeff": 0.0,
             "log_level": log_level,
+            "var_name": [],
+            "var_type": [],
         }
         self.log_level = self.fun_control["log_level"]
         logger.setLevel(self.log_level)
@@ -495,6 +501,53 @@ class HyperRiver:
                                 max_size=float(max_size[i]),
                             )
                         ),
+                    },
+                )
+                logger.debug("res from eval_oml_iter_progressive: %s", res)
+                y = fun_eval_oml_iter_progressive(res, metric=None, weights=self.fun_control["weights"])
+            except Exception as err:
+                y = np.nan
+                print(f"Error in fun(). Call to evaluate failed. {err=}, {type(err)=}")
+                print(f"Setting y to {y:.2f}.")
+            z_res = np.append(z_res, y / self.fun_control["n_samples"])
+        return z_res
+
+    def fun_generic(self, X, fun_control=None):
+        """Hyperparameter Tuning of HTR model.
+        Returns
+        -------
+        (float): objective function value. Mean of the MAEs of the predicted values.
+        """
+        self.fun_control.update(fun_control)
+        try:
+            X.shape[1]
+        except ValueError:
+            X = np.array([X])
+        if X.shape[1] != 11:
+            raise Exception
+        var_dict = assign_values(X, self.fun_control["var_name"])
+        z_res = np.array([], dtype=float)
+        dataset_list = self.fun_control["data"]
+        for values in iterate_dict_values(var_dict):
+            values = convert_keys(values, self.fun_control["var_type"])
+            values = apply_selectors(values)
+            #
+            model = compose.Select("humidity", "temp", "feel_temp", "humidity", "windspeed")
+            model += feature_extraction.TargetAgg(by=["hour"], how=stats.Mean())
+            model |= preprocessing.StandardScaler()
+            model |= HoeffdingTreeRegressor(**values)
+            # num = compose.SelectType(numbers.Number) | preprocessing.StandardScaler()
+            # cat = compose.SelectType(str) | preprocessing.FeatureHasher(n_features=1000, seed=1)
+            # model_instance = HoeffdingTreeRegressor(**values)
+            try:
+                res = eval_oml_iter_progressive(
+                    dataset=dataset_list,
+                    step=self.fun_control["step"],
+                    log_level=self.fun_control["log_level"],
+                    metric=fun_control["metric"],
+                    weight_coeff=fun_control["weight_coeff"],
+                    models={
+                        "HTR": (model),
                     },
                 )
                 logger.debug("res from eval_oml_iter_progressive: %s", res)

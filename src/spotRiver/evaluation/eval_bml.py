@@ -5,7 +5,7 @@ import pandas as pd
 from river import stream as river_stream
 from typing import Optional
 from dataclasses import dataclass
-from typing import Tuple
+from typing import Tuple, Generator
 import matplotlib.pyplot as plt
 import copy
 
@@ -192,7 +192,8 @@ def eval_bml_landmark(
 
     Returns:
         tuple: A tuple of two data frames. The first one contains evaluation metrics for each landmark.
-               The second one contains the true and predicted values for each observation in the test set.
+        The second one contains the true and predicted values for each observation in the test set.
+
     Example:
     >>> from sklearn.linear_model import LinearRegression
     >>> model = LinearRegression()
@@ -240,14 +241,37 @@ def eval_bml_landmark(
     return df_eval, df_true
 
 
-def gen_sliding_window(df, horizon):
+def gen_sliding_window(
+    df: pd.DataFrame, horizon: int, include_remainder: bool = False
+) -> Generator[pd.DataFrame, None, None]:
+    """Generates sliding windows of a given size from a DataFrame.
+
+    Args:
+        df (pd.DataFrame): The input DataFrame.
+        horizon (int): The size of the sliding window.
+        include_remainder (bool): Whether to include the remainder of the DataFrame if its length is not divisible by the horizon. Defaults to False.
+
+    Yields:
+        pd.DataFrame: A sliding window of the input DataFrame.
+
+    Example:
+        >>> df = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})
+        >>> for window in gen_sliding_window(df, 2):
+        ...     print(window)
+           A  B
+        0  1  4
+        1  2  5
+           A  B
+        2  3  6
+    """
     i = 0
     while True:
         subset = df[i * horizon : (i + 1) * horizon]
         if len(subset) == 0:
             break
         elif len(subset) < horizon:
-            yield subset
+            if include_remainder:
+                yield subset
             break
         i += 1
         yield subset
@@ -265,7 +289,7 @@ def eval_bml_window(model: object, train: pd.DataFrame, test: pd.DataFrame, targ
 
     Returns:
         tuple: A tuple of two data frames. The first one contains evaluation metrics for each window.
-               The second one contains the true and predicted values for each observation in the test set.
+        The second one contains the true and predicted values for each observation in the test set.
 
     Example:
         >>> from sklearn.linear_model import LinearRegression
@@ -357,7 +381,7 @@ def eval_oml_horizon(
         The number of rows to use for each landmark evaluation.
     oml_grace_period: int, optional
         (Short) period used for training the OML before evaluation starts. Can be zero.
-        If set to None, than horizon will be used.
+        If set to None, horizon will be used.
 
     Returns
     -------

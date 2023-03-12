@@ -72,7 +72,8 @@ def plot_oml_iter_progressive(result, log_y=False):
     """Plot evaluation of OML models.
 
     Args:
-        result (dict):
+        result (dict): A dictionary of evaluation results, as returned by eval_oml_iter_progressive.
+        log_y (bool, optional): If True, the y-axis is set to log scale. Defaults to False.
 
     Reference:
         https://riverml.xyz/0.15.0/recipes/on-hoeffding-trees/

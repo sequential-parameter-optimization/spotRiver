@@ -17,6 +17,7 @@ from spotRiver.utils.features import get_month_distances
 from spotRiver.utils.features import get_hour_distances
 from spotRiver.evaluation.eval_oml import fun_eval_oml_iter_progressive
 from spotRiver.evaluation.eval_oml import eval_oml_iter_progressive
+from spotRiver.evaluation.eval_bml import eval_oml_horizon
 from spotRiver.evaluation.eval_nowcast import eval_nowcast_model
 from spotRiver.utils.selectors import select_splitter, apply_selectors
 from spotRiver.utils.assignments import assign_values, iterate_dict_values, convert_keys
@@ -512,7 +513,7 @@ class HyperRiver:
             z_res = np.append(z_res, y / self.fun_control["n_samples"])
         return z_res
 
-    def fun_generic(self, X, fun_control=None):
+    def fun_oml_iter_progressive(self, X, fun_control=None):
         """Hyperparameter Tuning of an arbitrary model.
         Returns
         -------
@@ -531,7 +532,6 @@ class HyperRiver:
         for values in iterate_dict_values(var_dict):
             values = convert_keys(values, self.fun_control["var_type"])
             values = apply_selectors(values)
-            # core_model = HoeffdingTreeRegressor(**values)
             model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**values))
             try:
                 res = eval_oml_iter_progressive(
@@ -546,6 +546,51 @@ class HyperRiver:
                 )
                 logger.debug("res from eval_oml_iter_progressive: %s", res)
                 y = fun_eval_oml_iter_progressive(res, metric=None, weights=self.fun_control["weights"])
+            except Exception as err:
+                y = np.nan
+                print(f"Error in fun(). Call to evaluate failed. {err=}, {type(err)=}")
+                print(f"Setting y to {y:.2f}.")
+            z_res = np.append(z_res, y / self.fun_control["n_samples"])
+        return z_res
+
+    def fun_oml_horizon(self, X, fun_control=None):
+        """Hyperparameter Tuning of an arbitrary model.
+        Returns
+        -------
+        (float): objective function value. Mean of the MAEs of the predicted values.
+        """
+        self.fun_control.update(fun_control)
+        weights = self.fun_control["weights"]
+        if len(weights) != 3:
+            raise ValueError("The weights array must be of length 3.")
+        try:
+            X.shape[1]
+        except ValueError:
+            X = np.array([X])
+        if X.shape[1] != len(self.fun_control["var_name"]):
+            raise Exception
+        var_dict = assign_values(X, self.fun_control["var_name"])
+        z_res = np.array([], dtype=float)
+        for values in iterate_dict_values(var_dict):
+            values = convert_keys(values, self.fun_control["var_type"])
+            values = apply_selectors(values)
+            model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**values))
+            try:
+                df_eval, _ = eval_oml_horizon(
+                    model=model,
+                    train=self.fun_control["train"],
+                    test=self.fun_control["test"],
+                    target_column=self.fun_control["target_column"],
+                    horizon=self.fun_control["horizon"],
+                    oml_grace_period=self.fun_control["oml_grace_period"],
+                )
+                # take the mean of the MAEs of the predicted values and ignore the NaN values
+                df_eval = df_eval.dropna()
+                y_error = df_eval["MAE"].mean()
+                y_r_time = df_eval["CompTime (s)"].mean()
+                y_memory = df_eval["Memory (MB)"].mean()
+                y = weights[0] * y_error + weights[1] * y_r_time + weights[2] * y_memory
+                logger.debug("res from eval_oml_iter_progressive: %s", y)
             except Exception as err:
                 y = np.nan
                 print(f"Error in fun(). Call to evaluate failed. {err=}, {type(err)=}")

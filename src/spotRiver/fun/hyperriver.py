@@ -6,7 +6,8 @@ from river import optim
 from river import preprocessing
 from river import metrics
 from river import tree
-from river.tree import HoeffdingTreeRegressor
+
+# from river.tree import HoeffdingTreeRegressor
 from numpy.random import default_rng
 import numpy as np
 from numpy import array
@@ -24,8 +25,6 @@ from spotRiver.utils.selectors import select_leaf_model
 from spotRiver.utils.selectors import select_max_depth
 import logging
 import statistics
-from river import feature_extraction
-from river import stats
 
 
 logger = logging.getLogger(__name__)
@@ -63,6 +62,7 @@ class HyperRiver:
             "log_level": log_level,
             "var_name": [],
             "var_type": [],
+            "prep_model": None,
         }
         self.log_level = self.fun_control["log_level"]
         logger.setLevel(self.log_level)
@@ -513,7 +513,7 @@ class HyperRiver:
         return z_res
 
     def fun_generic(self, X, fun_control=None):
-        """Hyperparameter Tuning of HTR model.
+        """Hyperparameter Tuning of an arbitrary model.
         Returns
         -------
         (float): objective function value. Mean of the MAEs of the predicted values.
@@ -523,7 +523,7 @@ class HyperRiver:
             X.shape[1]
         except ValueError:
             X = np.array([X])
-        if X.shape[1] != 11:
+        if X.shape[1] != len(self.fun_control["var_name"]):
             raise Exception
         var_dict = assign_values(X, self.fun_control["var_name"])
         z_res = np.array([], dtype=float)
@@ -531,14 +531,8 @@ class HyperRiver:
         for values in iterate_dict_values(var_dict):
             values = convert_keys(values, self.fun_control["var_type"])
             values = apply_selectors(values)
-            #
-            model = compose.Select("humidity", "temp", "feel_temp", "humidity", "windspeed")
-            model += feature_extraction.TargetAgg(by=["hour"], how=stats.Mean())
-            model |= preprocessing.StandardScaler()
-            model |= HoeffdingTreeRegressor(**values)
-            # num = compose.SelectType(numbers.Number) | preprocessing.StandardScaler()
-            # cat = compose.SelectType(str) | preprocessing.FeatureHasher(n_features=1000, seed=1)
-            # model_instance = HoeffdingTreeRegressor(**values)
+            # core_model = HoeffdingTreeRegressor(**values)
+            model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**values))
             try:
                 res = eval_oml_iter_progressive(
                     dataset=dataset_list,
@@ -547,7 +541,7 @@ class HyperRiver:
                     metric=fun_control["metric"],
                     weight_coeff=fun_control["weight_coeff"],
                     models={
-                        "HTR": (model),
+                        self.fun_control["model_name"]: (model),
                     },
                 )
                 logger.debug("res from eval_oml_iter_progressive: %s", res)

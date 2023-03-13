@@ -97,7 +97,14 @@ def evaluate_model(
     return res_dict
 
 
-def eval_bml_horizon(model: object, train: pd.DataFrame, test: pd.DataFrame, target_column: str, horizon: int) -> tuple:
+def eval_bml_horizon(
+    model: object,
+    train: pd.DataFrame,
+    test: pd.DataFrame,
+    target_column: str,
+    horizon: int,
+    include_remainder: bool = False,
+) -> tuple:
     """Evaluate a model on a batch basis using prediction horizons (mini-batches).
 
     This function takes a model and two data frames (train and test) as inputs
@@ -161,7 +168,12 @@ def eval_bml_horizon(model: object, train: pd.DataFrame, test: pd.DataFrame, tar
     df_eval = pd.DataFrame.from_dict([evaluate_model(np.array([]), rm.memory, rm.time)])
 
     # Batch Evaluation
-    for batch_number, batch_df in test.groupby(np.arange(len(test)) // horizon):
+    arr = np.arange(len(test)) // horizon
+    # Remove incomplete entries
+    if include_remainder is False:
+        rem = len(test) % horizon
+        arr = arr[:-rem]
+    for batch_number, batch_df in test.groupby(arr):
         rm = ResourceMonitor()
         with rm:
             preds = pd.Series(model.predict(batch_df.loc[:, batch_df.columns != target_column]))

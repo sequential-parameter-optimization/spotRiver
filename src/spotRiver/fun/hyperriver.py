@@ -553,7 +553,7 @@ class HyperRiver:
             z_res = np.append(z_res, y / self.fun_control["n_samples"])
         return z_res
 
-    def fun_oml_horizon(self, X, fun_control=None):
+    def fun_oml_horizon(self, X, fun_control=None, return_model=False, return_df=False):
         """Hyperparameter Tuning of an arbitrary model.
         Returns
         -------
@@ -575,8 +575,10 @@ class HyperRiver:
             values = convert_keys(values, self.fun_control["var_type"])
             values = apply_selectors(values)
             model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**values))
+            if return_model:
+                return model
             try:
-                df_eval, _ = eval_oml_horizon(
+                df_eval, df_preds = eval_oml_horizon(
                     model=model,
                     train=self.fun_control["train"],
                     test=self.fun_control["test"],
@@ -584,6 +586,11 @@ class HyperRiver:
                     horizon=self.fun_control["horizon"],
                     oml_grace_period=self.fun_control["oml_grace_period"],
                 )
+            except Exception as err:
+                print(f"Error in fun_oml_horizon(). Call to eval_oml_horizon failed. {err=}, {type(err)=}")
+            if return_df:
+                return df_eval, df_preds
+            try:
                 # take the mean of the MAEs of the predicted values and ignore the NaN values
                 df_eval = df_eval.dropna()
                 y_error = df_eval["MAE"].mean()

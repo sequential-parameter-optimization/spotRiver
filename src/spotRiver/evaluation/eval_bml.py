@@ -168,12 +168,11 @@ def eval_bml_horizon(
     df_eval = pd.DataFrame.from_dict([evaluate_model(np.array([]), rm.memory, rm.time)])
 
     # Batch Evaluation
-    arr = np.arange(len(test)) // horizon
     # Remove incomplete entries
     if include_remainder is False:
         rem = len(test) % horizon
-        arr = arr[:-rem]
-    for batch_number, batch_df in test.groupby(arr):
+        test = test[:-rem]
+    for batch_number, batch_df in test.groupby(np.arange(len(test)) // horizon):
         rm = ResourceMonitor()
         with rm:
             preds = pd.Series(model.predict(batch_df.loc[:, batch_df.columns != target_column]))

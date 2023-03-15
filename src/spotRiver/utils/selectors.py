@@ -39,6 +39,8 @@ def select_leaf_model(i):
 def transform_power_10(i):
     return power(10, i)
 
+def transform_power_2(i):
+    return power(2, i)
 
 def apply_selectors(d: dict):
     # Apply only if the key is present
@@ -49,7 +51,7 @@ def apply_selectors(d: dict):
     if "leaf_model" in d:
         d["leaf_model"] = select_leaf_model(d["leaf_model"])
     if "max_depth" in d:
-        d["max_depth"] = transform_power_10(d["max_depth"])
+        d["max_depth"] = transform_power_2(d["max_depth"])
     if "memory_estimate_period" in d:
         d["memory_estimate_period"] = transform_power_10(d["memory_estimate_period"])
     return d

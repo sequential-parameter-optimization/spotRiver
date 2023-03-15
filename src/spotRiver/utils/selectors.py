@@ -39,8 +39,10 @@ def select_leaf_model(i):
 def transform_power_10(i):
     return power(10, i)
 
+
 def transform_power_2(i):
     return power(2, i)
+
 
 def apply_selectors(d: dict):
     # Apply only if the key is present

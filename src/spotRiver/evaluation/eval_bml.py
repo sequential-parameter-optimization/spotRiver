@@ -253,7 +253,7 @@ def eval_bml_landmark(
 
 
 def gen_sliding_window(
-    df: pd.DataFrame, horizon: int, include_remainder: bool = False
+    df: pd.DataFrame, horizon: int, include_remainder: bool = True
 ) -> Generator[pd.DataFrame, None, None]:
     """Generates sliding windows of a given size from a DataFrame.
 

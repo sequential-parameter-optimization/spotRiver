@@ -23,7 +23,7 @@ from spotRiver.utils.selectors import select_splitter, apply_selectors
 from spotRiver.utils.assignments import assign_values, iterate_dict_values, convert_keys
 from spotRiver.utils.selectors import select_leaf_prediction
 from spotRiver.utils.selectors import select_leaf_model
-from spotRiver.utils.selectors import transform_pow_10
+from spotRiver.utils.selectors import transform_power_10
 import logging
 import statistics
 
@@ -466,7 +466,7 @@ class HyperRiver:
         for i in range(X.shape[0]):
             if self.fun_control["log_level"] <= 10:
                 print("grace_period", int(grace_period[i]))
-                print("max_depth", transform_pow_10(int(max_depth[i])))
+                print("max_depth", transform_power_10(int(max_depth[i])))
                 print("delta", float(delta[i]))
                 print("tau", float(tau[i]))
                 print("leaf_prediction", select_leaf_prediction(int(leaf_prediction[i])))
@@ -490,7 +490,7 @@ class HyperRiver:
                             (num + cat)
                             | tree.HoeffdingTreeRegressor(
                                 grace_period=int(grace_period[i]),
-                                max_depth=transform_pow_10(int(max_depth[i])),
+                                max_depth=transform_power_10(int(max_depth[i])),
                                 delta=float(delta[i]),
                                 tau=float(tau[i]),
                                 leaf_prediction=select_leaf_prediction(int(leaf_prediction[i])),

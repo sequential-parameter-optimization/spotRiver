@@ -26,7 +26,7 @@ from spotRiver.utils.selectors import select_leaf_model
 from spotRiver.utils.selectors import transform_power_10
 import logging
 import statistics
-
+from sklearn.metrics import mean_absolute_error
 
 logger = logging.getLogger(__name__)
 # configure the handler and formatter as needed
@@ -58,6 +58,7 @@ class HyperRiver:
             "horizon": None,
             "grace_period": None,
             "metric": metrics.MAE(),
+            "metric_sklearn": mean_absolute_error,
             "weights": array([1, 0, 0]),
             "weight_coeff": 0.0,
             "log_level": log_level,
@@ -585,6 +586,7 @@ class HyperRiver:
                     target_column=self.fun_control["target_column"],
                     horizon=self.fun_control["horizon"],
                     oml_grace_period=self.fun_control["oml_grace_period"],
+                    metric=self.fun_control["metric_sklearn"],
                 )
             except Exception as err:
                 print(f"Error in fun_oml_horizon(). Call to eval_oml_horizon failed. {err=}, {type(err)=}")
@@ -593,7 +595,7 @@ class HyperRiver:
             try:
                 # take the mean of the MAEs/ACCs of the predicted values and ignore the NaN values
                 df_eval = df_eval.dropna()
-                y_error = df_eval["MAE"].mean()
+                y_error = df_eval["Metric"].mean()
                 y_r_time = df_eval["CompTime (s)"].mean()
                 y_memory = df_eval["Memory (MB)"].mean()
                 y = weights[0] * y_error + weights[1] * y_r_time + weights[2] * y_memory

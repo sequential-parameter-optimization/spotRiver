@@ -853,7 +853,8 @@ def plot_bml_oml_horizon_predictions(
             else:
                 label = df_labels[j]
             # skip first n values
-            df["Prediction"][range(skip_first_n)] = np.nan
+            # df["Prediction"][range(skip_first_n)] = np.nan
+            df.loc[:skip_first_n-1,"Prediction"] = np.nan
             plt.plot(df.index, df["Prediction"], label=label, **kwargs)
         # Plot the actual value only once:
         plt.plot(df_plot[0].index, df_plot[0][target_column], label="Actual", **kwargs)

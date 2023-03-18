@@ -532,7 +532,7 @@ class HyperRiver:
         dataset_list = self.fun_control["data"]
         for values in iterate_dict_values(var_dict):
             values = convert_keys(values, self.fun_control["var_type"])
-            values = apply_selectors(values)
+            values = apply_selectors(values, fun_control["core_model"].__name__)
             model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**values))
             try:
                 res = eval_oml_iter_progressive(
@@ -574,7 +574,7 @@ class HyperRiver:
         z_res = np.array([], dtype=float)
         for values in iterate_dict_values(var_dict):
             values = convert_keys(values, self.fun_control["var_type"])
-            values = apply_selectors(values)
+            values = apply_selectors(values, fun_control["core_model"].__name__)
             model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**values))
             if return_model:
                 return model

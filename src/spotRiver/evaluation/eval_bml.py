@@ -733,7 +733,7 @@ def plot_bml_oml_horizon_metrics(
         if df_list.__class__ != list:
             df_list = [df_list]
         # Define metric names and titles
-        metric_name = metric.__class__.__name__
+        metric_name = metric.__name__
         metrics = ["Metric", "CompTime (s)", "Memory (MB)"]
         titles = [metric_name, "Computation time (s)", "Memory (MB)"]
         # Create subplots with shared x-axis

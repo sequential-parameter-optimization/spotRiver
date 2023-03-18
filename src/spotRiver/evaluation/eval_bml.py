@@ -138,107 +138,6 @@ def evaluate_model(y_true: np.ndarray, y_pred: np.ndarray, memory: float, r_time
     return res_dict
 
 
-def eval_bml_horizon_default(
-    model: object,
-    train: pd.DataFrame,
-    test: pd.DataFrame,
-    target_column: str,
-    horizon: int,
-    include_remainder: bool = True,
-    metric: object = None,
-) -> tuple:
-    """Evaluate a model on a batch basis using prediction horizons (mini-batches).
-
-    This function takes a model and two data frames (train and test) as inputs
-    and returns two data frames as outputs. The first output contains evaluation
-    metrics for each batch of the test data set. The second output contains the
-    true and predicted values for each observation in the test data set.
-
-    Parameters
-    ----------
-    model : object
-        The model to be evaluated.
-    train : pd.DataFrame
-        The initial training data set.
-    test : pd.DataFrame
-        The testing data set that will be divided into batches of size horizon.
-    target_column : str
-        The name of the column containing the target variable.
-    horizon : int, optional
-        The number of steps ahead to forecast.
-    include_remainder : bool, optional
-    metric : object
-
-    Returns
-    -------
-    tuple of pd.DataFrame
-        A tuple of two data frames. The first one contains evaluation metrics for each batch.
-        The second one contains the true and predicted values for each observation in the test set.
-
-    Example
-    -------
-    >>> import pandas as pd
-        from sklearn.linear_model import LinearRegression
-        from sklearn.datasets import make_regression
-        from sklearn.metrics import mean_squared_error
-
-        model = LinearRegression()
-
-        # Create synthetic data for regression with 100 observations, 3 features and one target value
-        X_train, y_train = make_regression(n_samples=80, n_features=3, n_targets=1)
-        X_test, y_test = make_regression(n_samples=20, n_features=3, n_targets=1)
-
-        # Convert the data into a pandas data frame
-        train = pd.DataFrame(X_train, columns=["x1", "x2", "x3"])
-        train["y"] = y_train
-
-        test = pd.DataFrame(X_test, columns=["x1", "x2", "x3"])
-        test["y"] = y_test
-
-        target_column = "y"
-        horizon = 5
-        include_remainder = True
-        metric = mean_squared_error
-        df_eval, df_true = eval_bml_horizon(model , train , test , target_column, horizon, include_remainder = include_remainder , metric=metric)
-        print (df_eval )
-        print (df_true )
-    """
-    train = train.reset_index(drop=True)
-    test = test.reset_index(drop=True)
-    series_preds = pd.Series(dtype=float)
-    series_diffs = pd.Series(dtype=float)
-    rm = ResourceMonitor()
-    with rm:
-        model.fit(train.loc[:, train.columns != target_column], train[target_column])
-    df_eval = pd.DataFrame.from_dict(
-        [evaluate_model(y_true=np.array([]), y_pred=np.array([]), memory=rm.memory, r_time=rm.r_time, metric=metric)]
-    )
-    if include_remainder is False:
-        rem = len(test) % horizon
-        if rem > 0:
-            test = test[:-rem]
-    for batch_number, batch_df in test.groupby(np.arange(len(test)) // horizon):
-        rm = ResourceMonitor()
-        with rm:
-            preds = pd.Series(model.predict(batch_df.loc[:, batch_df.columns != target_column]))
-        diffs = batch_df[target_column].values - preds
-        df_eval.loc[batch_number + 1] = pd.Series(
-            evaluate_model(
-                y_true=batch_df[target_column],
-                y_pred=preds,
-                memory=rm.memory,
-                r_time=rm.r_time,
-                metric=metric,
-            )
-        )
-        series_preds = pd.concat([series_preds, preds], ignore_index=True)
-        series_diffs = pd.concat([series_diffs, diffs], ignore_index=True)
-    df_true = pd.DataFrame(test[target_column])
-    df_true["Prediction"] = series_preds
-    df_true["Difference"] = series_diffs
-    return df_eval, df_true
-
-
 def eval_bml_horizon(
     model: object,
     train: pd.DataFrame,
@@ -854,7 +753,7 @@ def plot_bml_oml_horizon_predictions(
                 label = df_labels[j]
             # skip first n values
             # df["Prediction"][range(skip_first_n)] = np.nan
-            df.loc[:skip_first_n-1,"Prediction"] = np.nan
+            df.loc[: skip_first_n - 1, "Prediction"] = np.nan
             plt.plot(df.index, df["Prediction"], label=label, **kwargs)
         # Plot the actual value only once:
         plt.plot(df_plot[0].index, df_plot[0][target_column], label="Actual", **kwargs)

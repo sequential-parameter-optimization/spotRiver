@@ -591,7 +591,7 @@ class HyperRiver:
             if return_df:
                 return df_eval, df_preds
             try:
-                # take the mean of the MAEs of the predicted values and ignore the NaN values
+                # take the mean of the MAEs/ACCs of the predicted values and ignore the NaN values
                 df_eval = df_eval.dropna()
                 y_error = df_eval["MAE"].mean()
                 y_r_time = df_eval["CompTime (s)"].mean()

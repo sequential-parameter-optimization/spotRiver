@@ -96,4 +96,8 @@ def apply_selectors(d: dict, core_model_name: str):
             d["leaf_prediction"] = select_leaf_prediction_classifier(d["leaf_prediction"])
         if "splitter" in d:
             d["splitter"] = select_splitter_classifier(d["splitter"])
+        if "max_depth" in d:
+            d["max_depth"] = transform_power_2(d["max_depth"])
+        if "memory_estimate_period" in d:
+            d["memory_estimate_period"] = transform_power_10(d["memory_estimate_period"])
     return d

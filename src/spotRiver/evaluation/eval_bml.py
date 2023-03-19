@@ -553,6 +553,8 @@ def plot_bml_oml_horizon_metrics(
     fig_width=16,
     fig_height=5,
     metric=None,
+    save_as_png=False,
+    png_filename="plot.png",
     **kwargs,
 ) -> None:
     """Plot metrics for benchmarking machine learning models.
@@ -662,6 +664,8 @@ def plot_bml_oml_horizon_metrics(
                     axes[i].set_xscale("log")
                 if log_y:
                     axes[i].set_yscale("log")
+        if save_as_png:
+            plt.savefig(png_filename)
 
 
 def plot_bml_oml_horizon_predictions(
@@ -674,6 +678,8 @@ def plot_bml_oml_horizon_predictions(
     grid=True,
     fig_width=16,
     fig_height=5,
+    save_as_png=False,
+    png_filename="plot.png",
     **kwargs,
 ) -> None:
     """Plot actual vs predicted values for machine learning models.
@@ -743,20 +749,15 @@ def plot_bml_oml_horizon_predictions(
         df_plot = copy.deepcopy(df_true)
         if df_plot.__class__ != list:
             df_plot = [df_plot]
-        # plot actual vs predicted values
         plt.figure(figsize=(fig_width, fig_height))
         for j, df in enumerate(df_plot):
-            # Assign label based on input or default value
             if df_labels is None:
                 label = f"{j}"
             else:
                 label = df_labels[j]
-            # skip first n values
-            # df["Prediction"][range(skip_first_n)] = np.nan
             df.loc[: skip_first_n - 1, "Prediction"] = np.nan
             plt.plot(df.index, df["Prediction"], label=label, **kwargs)
-        # Plot the actual value only once:
-        plt.plot(df_plot[0].index, df_plot[0][target_column], label="Actual", **kwargs)
+        plt.plot(df_plot[0].index, df_plot[0][target_column], label="Actual", color="black", **kwargs)
         plt.title("Actual vs Prediction")
         if log_x:
             plt.xscale("log")
@@ -764,4 +765,6 @@ def plot_bml_oml_horizon_predictions(
             plt.yscale("log")
         plt.grid(grid)
         plt.legend()
+        if save_as_png:
+            plt.savefig(png_filename)
     plt.show()

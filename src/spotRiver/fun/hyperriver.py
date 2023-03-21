@@ -596,10 +596,14 @@ class HyperRiver:
                 # take the mean of the MAEs/ACCs of the predicted values and ignore the NaN values
                 df_eval = df_eval.dropna()
                 y_error = df_eval["Metric"].mean()
+                logger.debug("y_error from eval_oml_horizon: %s", y_error)
                 y_r_time = df_eval["CompTime (s)"].mean()
+                logger.debug("y_r_time from eval_oml_horizon: %s", y_r_time)
                 y_memory = df_eval["Memory (MB)"].mean()
+                logger.debug("y_memory from eval_oml_horizon: %s", y_memory)
+                logger.debug("weights from eval_oml_horizon: %s", weights)
                 y = weights[0] * y_error + weights[1] * y_r_time + weights[2] * y_memory
-                logger.debug("res from eval_oml_iter_progressive: %s", y)
+                logger.debug("weighted res from eval_oml_horizon: %s", y)
             except Exception as err:
                 y = np.nan
                 print(f"Error in fun(). Call to evaluate failed. {err=}, {type(err)=}")

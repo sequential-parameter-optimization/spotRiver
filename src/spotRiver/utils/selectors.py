@@ -65,6 +65,8 @@ def select_leaf_prediction_classifier(i):
     else:
         return "nba"
 
+def new_select_leaf_prediction_classifier(i, hpt_param_dict):
+    return spotPython.hpt.categorical.find_closest_key(x, hpt_param_dict)
 
 def select_splitter_classifier(i):
     if i not in range(2):
@@ -75,13 +77,13 @@ def select_splitter_classifier(i):
         return HistogramSplitter()
 
 
-def apply_selectors(d: dict, core_model_name: str):
+def apply_selectors(d: dict, core_model_name: str, hpt_param_dict: dict):
     if core_model_name == "HoeffdingAdaptiveTreeRegressor":
         # Apply only if the key is present
         if "splitter" in d:
             d["splitter"] = select_splitter(d["splitter"])
         if "leaf_prediction" in d:
-            d["leaf_prediction"] = select_leaf_prediction(d["leaf_prediction"])
+            d["leaf_prediction"] = new_select_leaf_prediction(d["leaf_prediction"], hpt_param_dict["leaf_prediction"])
         if "leaf_model" in d:
             d["leaf_model"] = select_leaf_model(d["leaf_model"])
         if "max_depth" in d:

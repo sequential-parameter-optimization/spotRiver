@@ -2,6 +2,9 @@ from river.tree.splitter import EBSTSplitter, QOSplitter, TEBSTSplitter, Gaussia
 from river.linear_model import LinearRegression, PARegressor, Perceptron
 from numpy import power
 from spotPython.hyperparameters.categorical import find_closest_key
+from spotPython.utils.convert import class_for_name
+import river.tree.splitter
+import river.linear_model
 
 
 def select_splitter(i):
@@ -105,7 +108,15 @@ def apply_selectors(d: dict, core_model_name: str, hyper_dict: dict):
         if "leaf_prediction" in d:
             d["leaf_prediction"] = find_closest_key(d["leaf_prediction"], hyper_dict["leaf_prediction"])
         if "splitter" in d:
-            d["splitter"] = select_splitter(d["splitter"])
+            splitter_class = class_for_name(
+                "river.tree.splitter", find_closest_key(d["splitter"], hyper_dict["splitter"])
+            )
+            d["splitter"] = splitter_class()
+        if "leaf_model" in d:
+            leaf_model_class = class_for_name(
+                "river.linear_model", find_closest_key(d["leaf_model"], hyper_dict["leaf_model"])
+            )
+            d["leaf_model"] = leaf_model_class()
         if "max_depth" in d:
             d["max_depth"] = transform_power_2(d["max_depth"])
         if "memory_estimate_period" in d:

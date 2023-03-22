@@ -574,7 +574,7 @@ class HyperRiver:
         z_res = np.array([], dtype=float)
         for values in iterate_dict_values(var_dict):
             values = convert_keys(values, self.fun_control["var_type"])
-            values = apply_selectors(values, fun_control["core_model"].__name__)
+            values = apply_selectors(values, fun_control["core_model"].__name__, fun_control["hyper_dict"])
             model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**values))
             if return_model:
                 return model

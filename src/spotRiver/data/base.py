@@ -48,6 +48,36 @@ def get_data_home(data_home=None) -> str:
     return data_home
 
 
+class Config(abc.ABC):
+    """Base class for all configurations.
+
+    All configurations inherit from this class, be they stored in a file or generated on the fly.
+    """
+
+    def __init__(
+        self,
+    ):
+        pass
+
+    @property
+    def desc(self):
+        """Return the description from the docstring."""
+        desc = re.split(pattern=r"\w+\n\s{4}\-{3,}", string=self.__doc__, maxsplit=0)[0]
+        return inspect.cleandoc(desc)
+
+    @property
+    def _repr_content(self):
+        """The items that are displayed in the __repr__ method.
+
+        This property can be overridden in order to modify the output of the __repr__ method.
+
+        """
+
+        content = {}
+        content["Name"] = self.__class__.__name__
+        return content
+
+
 class Dataset(abc.ABC):
     """Base class for all datasets.
 
@@ -196,6 +226,39 @@ class SyntheticDataset(Dataset):
             for name, param in inspect.signature(self.__init__).parameters.items()  # type: ignore
             if param.kind != param.VAR_KEYWORD
         }
+
+
+class FileConfig(Config):
+    """Base class for configurations that are stored in a local file.
+
+    Parameters
+    ----------
+    filename
+        The file's name.
+    directory
+        The directory where the file is contained. Defaults to the location of the `datasets`
+        module.
+    desc
+        Extra config parameters to pass as keyword arguments.
+
+    """
+
+    def __init__(self, filename, directory=None, **desc):
+        super().__init__(**desc)
+        self.filename = filename
+        self.directory = directory
+
+    @property
+    def path(self):
+        if self.directory:
+            return pathlib.Path(self.directory).joinpath(self.filename)
+        return pathlib.Path(__file__).parent.joinpath(self.filename)
+
+    @property
+    def _repr_content(self):
+        content = super()._repr_content
+        content["Path"] = str(self.path)
+        return content
 
 
 class FileDataset(Dataset):

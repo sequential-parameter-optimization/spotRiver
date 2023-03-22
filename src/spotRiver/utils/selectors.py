@@ -1,6 +1,7 @@
 from river.tree.splitter import EBSTSplitter, QOSplitter, TEBSTSplitter, GaussianSplitter, HistogramSplitter
 from river.linear_model import LinearRegression, PARegressor, Perceptron
 from numpy import power
+from spotPython.hyperparameters.categorical import find_closest_key
 
 
 def select_splitter(i):
@@ -65,8 +66,6 @@ def select_leaf_prediction_classifier(i):
     else:
         return "nba"
 
-def new_select_leaf_prediction_classifier(i, hpt_param_dict):
-    return spotPython.hpt.categorical.find_closest_key(x, hpt_param_dict)
 
 def select_splitter_classifier(i):
     if i not in range(2):
@@ -77,13 +76,13 @@ def select_splitter_classifier(i):
         return HistogramSplitter()
 
 
-def apply_selectors(d: dict, core_model_name: str, hpt_param_dict: dict):
+def apply_selectors(d: dict, core_model_name: str, hyper_dict: dict):
     if core_model_name == "HoeffdingAdaptiveTreeRegressor":
         # Apply only if the key is present
         if "splitter" in d:
             d["splitter"] = select_splitter(d["splitter"])
         if "leaf_prediction" in d:
-            d["leaf_prediction"] = new_select_leaf_prediction(d["leaf_prediction"], hpt_param_dict["leaf_prediction"])
+            d["leaf_prediction"] = find_closest_key(d["leaf_prediction"], hyper_dict["leaf_prediction"])
         if "leaf_model" in d:
             d["leaf_model"] = select_leaf_model(d["leaf_model"])
         if "max_depth" in d:
@@ -98,6 +97,15 @@ def apply_selectors(d: dict, core_model_name: str, hpt_param_dict: dict):
             d["leaf_prediction"] = select_leaf_prediction_classifier(d["leaf_prediction"])
         if "splitter" in d:
             d["splitter"] = select_splitter_classifier(d["splitter"])
+        if "max_depth" in d:
+            d["max_depth"] = transform_power_2(d["max_depth"])
+        if "memory_estimate_period" in d:
+            d["memory_estimate_period"] = transform_power_10(d["memory_estimate_period"])
+    if core_model_name == "HoeffdingTreeRegressor":
+        if "leaf_prediction" in d:
+            d["leaf_prediction"] = find_closest_key(d["leaf_prediction"], hyper_dict["leaf_prediction"])
+        if "splitter" in d:
+            d["splitter"] = select_splitter(d["splitter"])
         if "max_depth" in d:
             d["max_depth"] = transform_power_2(d["max_depth"])
         if "memory_estimate_period" in d:

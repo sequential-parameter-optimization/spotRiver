@@ -79,6 +79,51 @@ def select_splitter_classifier(i):
         return HistogramSplitter()
 
 
+def old_apply_selectors(d: dict, core_model_name: str, hyper_dict: dict):
+    if core_model_name == "HoeffdingAdaptiveTreeRegressor":
+        # Apply only if the key is present
+        if "splitter" in d:
+            d["splitter"] = select_splitter(d["splitter"])
+        if "leaf_prediction" in d:
+            d["leaf_prediction"] = find_closest_key(d["leaf_prediction"], hyper_dict["leaf_prediction"])
+        if "leaf_model" in d:
+            d["leaf_model"] = select_leaf_model(d["leaf_model"])
+        if "max_depth" in d:
+            d["max_depth"] = transform_power_2(d["max_depth"])
+        if "memory_estimate_period" in d:
+            d["memory_estimate_period"] = transform_power_10(d["memory_estimate_period"])
+    # classifier:
+    if core_model_name == "HoeffdingAdaptiveTreeClassifier":
+        if "split_criterion" in d:
+            d["split_criterion"] = select_split_criterion_classifier(d["split_criterion"])
+        if "leaf_prediction" in d:
+            d["leaf_prediction"] = select_leaf_prediction_classifier(d["leaf_prediction"])
+        if "splitter" in d:
+            d["splitter"] = select_splitter_classifier(d["splitter"])
+        if "max_depth" in d:
+            d["max_depth"] = transform_power_2(d["max_depth"])
+        if "memory_estimate_period" in d:
+            d["memory_estimate_period"] = transform_power_10(d["memory_estimate_period"])
+    if core_model_name == "HoeffdingTreeRegressor":
+        if "leaf_prediction" in d:
+            d["leaf_prediction"] = find_closest_key(d["leaf_prediction"], hyper_dict["leaf_prediction"])
+        if "splitter" in d:
+            splitter_class = class_for_name(
+                "river.tree.splitter", find_closest_key(d["splitter"], hyper_dict["splitter"])
+            )
+            d["splitter"] = splitter_class()
+        if "leaf_model" in d:
+            leaf_model_class = class_for_name(
+                "river.linear_model", find_closest_key(d["leaf_model"], hyper_dict["leaf_model"])
+            )
+            d["leaf_model"] = leaf_model_class()
+        if "max_depth" in d:
+            d["max_depth"] = transform_power_2(d["max_depth"])
+        if "memory_estimate_period" in d:
+            d["memory_estimate_period"] = transform_power_10(d["memory_estimate_period"])
+    return d
+
+
 def apply_selectors(d: dict, core_model_name: str, hyper_dict: dict):
     if core_model_name == "HoeffdingAdaptiveTreeRegressor":
         # Apply only if the key is present

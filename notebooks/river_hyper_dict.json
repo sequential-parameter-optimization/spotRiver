@@ -1,0 +1,37 @@
+{"HoeffdingAdaptiveTreeClassifier":
+    {
+        "split_criterion": ["gini", "info_gain", "hellinger"],
+        "leaf_prediction": ["mc", "nb", "nba"],
+        "bootstrap_sampling": ["0", "1"]
+    },
+"HoeffdingTreeClassifier":
+    {
+        "split_criterion": ["gini", "info_gain", "hellinger"],
+        "leaf_prediction": ["mc", "nb", "nba"],
+        "binary_split": ["0", "1"],
+        "stop_mem_management": ["0", "1"]
+    },
+"tree.HoeffdingTreeRegressor":
+    {
+        "leaf_prediction": {"levels": ["mean", "model", "adaptive"],
+                            "type": "factor",
+                            "default": "mean",
+                            "river_parameter_type": "str"},
+        "leaf_model": {"levels": ["linear_model.LinearRegression", "linear_model.PARegressor", "linear_model.Perceptron"],
+                        "type": "factor",
+                        "default": "linear_model.LinearRegression",
+                        "river_parameter_type": "instance"},
+        "splitter": {"levels": ["tree.splitter.EBSTSplitter", "tree.splitter.TEBSTSplitter", "tree.splitter.QOSplitter"],
+                        "type": "factor",
+                        "default": "tree.splitter.EBSTSplitter",
+                        "river_parameter_type": "instance()"},
+        "binary_split": {"levels": [0, 1],
+                        "type": "factor",
+                        "default": 0,
+                        "river_parameter_type": "bool"},
+        "stop_mem_management": {"levels": [0, 1],
+                                "type": "factor",
+                                "default": 0,
+                                "river_parameter_type": "bool"}
+    }
+}

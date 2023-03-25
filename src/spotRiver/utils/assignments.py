@@ -74,6 +74,6 @@ def convert_keys(d: dict, var_type: list):
     """
     keys = list(d.keys())
     for i in range(len(keys)):
-        if var_type[i] != "num":
+        if var_type[i] not in ["num", "float"]:
             d[keys[i]] = int(d[keys[i]])
     return d

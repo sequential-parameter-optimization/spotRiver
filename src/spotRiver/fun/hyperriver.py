@@ -11,6 +11,9 @@ from river import tree
 from numpy.random import default_rng
 import numpy as np
 from numpy import array
+
+from spotPython.utils.transform import transform_hyper_parameter_values
+
 from spotRiver.utils.features import get_weekday_distances
 from spotRiver.utils.features import get_ordinal_date
 from spotRiver.utils.features import get_month_distances
@@ -24,6 +27,7 @@ from spotRiver.utils.assignments import assign_values, iterate_dict_values, conv
 from spotRiver.utils.selectors import select_leaf_prediction
 from spotRiver.utils.selectors import select_leaf_model
 from spotRiver.utils.selectors import transform_power_10
+from spotPython.hyperparameters.values import get_dict_with_levels_and_types
 import logging
 import statistics
 from sklearn.metrics import mean_absolute_error
@@ -573,9 +577,10 @@ class HyperRiver:
         var_dict = assign_values(X, self.fun_control["var_name"])
         z_res = np.array([], dtype=float)
         for values in iterate_dict_values(var_dict):
-            values = convert_keys(values, self.fun_control["var_type"])
-            values = apply_selectors(values, fun_control["core_model"].__name__, fun_control["hyper_dict"])
-            model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**values))
+            values = convert_keys(values, fun_control["var_type"])
+            values = get_dict_with_levels_and_types(fun_control=fun_control, v=values)
+            values = transform_hyper_parameter_values(fun_control=fun_control, values=values)
+            model = compose.Pipeline(fun_control["prep_model"], fun_control["core_model"](**values))
             if return_model:
                 return model
             try:

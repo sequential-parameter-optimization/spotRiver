@@ -579,7 +579,7 @@ class HyperRiver:
         for values in iterate_dict_values(var_dict):
             values = convert_keys(values, fun_control["var_type"])
             values = get_dict_with_levels_and_types(fun_control=fun_control, v=values)
-            values = transform_hyper_parameter_values(fun_control=fun_control, values=values)
+            values = transform_hyper_parameter_values(fun_control=fun_control, hyper_parameter_values=values)
             model = compose.Pipeline(fun_control["prep_model"], fun_control["core_model"](**values))
             if return_model:
                 return model

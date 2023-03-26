@@ -7,6 +7,7 @@ from river import preprocessing
 from river import metrics
 from river import tree
 
+
 # from river.tree import HoeffdingTreeRegressor
 from numpy.random import default_rng
 import numpy as np
@@ -22,7 +23,7 @@ from spotRiver.evaluation.eval_oml import fun_eval_oml_iter_progressive
 from spotRiver.evaluation.eval_oml import eval_oml_iter_progressive
 from spotRiver.evaluation.eval_bml import eval_oml_horizon
 from spotRiver.evaluation.eval_nowcast import eval_nowcast_model
-from spotRiver.utils.selectors import select_splitter, apply_selectors
+from spotRiver.utils.selectors import select_splitter
 from spotRiver.utils.assignments import assign_values, iterate_dict_values, convert_keys
 from spotRiver.utils.selectors import select_leaf_prediction
 from spotRiver.utils.selectors import select_leaf_model

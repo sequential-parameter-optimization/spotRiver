@@ -38,7 +38,7 @@
             "default": "LinearRegression",
             "transform": "None",
             "class_name": "river.linear_model",
-            "core_model_parameter_type": "instance",
+            "core_model_parameter_type": "instance()",
             "lower": 0, "upper": 2},
         "model_selector_decay": {
             "type": "float",
@@ -138,7 +138,7 @@
                         "default": "LinearRegression",
                         "transform": "None",
                         "class_name": "river.linear_model",
-                        "core_model_parameter_type": "instance",
+                        "core_model_parameter_type": "instance()",
                         "lower": 0, "upper": 2},
         "model_selector_decay": {"type": "float", "default": 0.95, "transform": "None", "lower": 0.9, "upper": 0.99},
         "splitter": {"levels": ["EBSTSplitter", "TEBSTSplitter", "QOSplitter"],

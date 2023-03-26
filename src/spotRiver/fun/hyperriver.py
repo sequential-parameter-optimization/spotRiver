@@ -536,7 +536,10 @@ class HyperRiver:
         dataset_list = self.fun_control["data"]
         for values in iterate_dict_values(var_dict):
             values = convert_keys(values, self.fun_control["var_type"])
-            values = apply_selectors(values, fun_control["core_model"].__name__)
+            print(values)
+            values = get_dict_with_levels_and_types(fun_control=self.fun_control, v=values)
+            values = transform_hyper_parameter_values(fun_control=self.fun_control, hyper_parameter_values=values)
+            print(values)
             model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**values))
             try:
                 res = eval_oml_iter_progressive(
@@ -577,10 +580,12 @@ class HyperRiver:
         var_dict = assign_values(X, self.fun_control["var_name"])
         z_res = np.array([], dtype=float)
         for values in iterate_dict_values(var_dict):
-            values = convert_keys(values, fun_control["var_type"])
-            values = get_dict_with_levels_and_types(fun_control=fun_control, v=values)
-            values = transform_hyper_parameter_values(fun_control=fun_control, hyper_parameter_values=values)
-            model = compose.Pipeline(fun_control["prep_model"], fun_control["core_model"](**values))
+            values = convert_keys(values, self.fun_control["var_type"])
+            print(values)
+            values = get_dict_with_levels_and_types(fun_control=self.fun_control, v=values)
+            values = transform_hyper_parameter_values(fun_control=self.fun_control, hyper_parameter_values=values)
+            print(values)
+            model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**values))
             if return_model:
                 return model
             try:

@@ -456,6 +456,8 @@ def eval_oml_horizon(
         The name of the column that contains the target variable.
     horizon : int, optional
         The number of rows to use for each landmark evaluation.
+    metric: object
+        Metric, e.g., from sklearn.metrics: mean_squared_error
     oml_grace_period: int, optional
         (Short) period used for training the OML before evaluation starts. Can be zero.
         If set to None, horizon will be used.
@@ -472,13 +474,15 @@ def eval_oml_horizon(
         import numpy as np
         from river import linear_model
         from river import preprocessing
+        from sklearn.metrics import mean_squared_error
         model = preprocessing.StandardScaler() | linear_model.LinearRegression()
         dataset = datasets.TrumpApproval()
         train = pd.DataFrame(dataset.take(100))
         test = pd.DataFrame(dataset.take(100))
         target_column = "Approve"
         horizon = 10
-        df_eval, df_preds = eval_oml_horizon(model, train, test, target_column, horizon, oml_grace_period)
+        metric = mean_squared_error
+        df_eval, df_preds = eval_oml_horizon(model, train, test, target_column, horizon, oml_grace_period, metric=metric)
         print(df_eval)
         print(df_preds)
     """

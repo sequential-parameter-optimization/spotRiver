@@ -557,8 +557,7 @@ def plot_bml_oml_horizon_metrics(
     fig_width=16,
     fig_height=5,
     metric=None,
-    save_as_png=False,
-    png_filename="plot.png",
+    filename=None,
     **kwargs,
 ) -> None:
     """Plot metrics for benchmarking machine learning models.
@@ -608,6 +607,9 @@ def plot_bml_oml_horizon_metrics(
 
     fig_height: float, optional. Default: 5
         height in inches.
+
+    filename: str, optional. Default: None.
+        If not None, the plot is saved to the specified file.
 
     **kwargs : dict
         Additional keyword arguments passed to plt.plot() function.
@@ -668,8 +670,8 @@ def plot_bml_oml_horizon_metrics(
                     axes[i].set_xscale("log")
                 if log_y:
                     axes[i].set_yscale("log")
-        if save_as_png:
-            plt.savefig(png_filename)
+        if filename is not None:
+            plt.savefig(filename)
 
 
 def plot_bml_oml_horizon_predictions(
@@ -682,8 +684,7 @@ def plot_bml_oml_horizon_predictions(
     grid=True,
     fig_width=16,
     fig_height=5,
-    save_as_png=False,
-    png_filename="plot.png",
+    filename=None,
     **kwargs,
 ) -> None:
     """Plot actual vs predicted values for machine learning models.
@@ -733,6 +734,9 @@ def plot_bml_oml_horizon_predictions(
     fig_height: float, optional. Default: 5
         height in inches.
 
+    filename: str, optional. Default: None
+        If not None, save the plot to a file.
+
     **kwargs : dict
         Additional keyword arguments passed to plt.plot() function.
 
@@ -769,6 +773,6 @@ def plot_bml_oml_horizon_predictions(
             plt.yscale("log")
         plt.grid(grid)
         plt.legend()
-        if save_as_png:
-            plt.savefig(png_filename)
+        if filename is not None:
+            plt.savefig(filename)
     plt.show()

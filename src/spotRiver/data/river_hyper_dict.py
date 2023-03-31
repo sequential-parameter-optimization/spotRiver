@@ -2,7 +2,7 @@ import json
 from . import base
 
 
-class HyperDict(base.FileConfig):
+class RiverHyperDict(base.FileConfig):
     """River hyperparameter dictionary."""
 
     def __init__(self):

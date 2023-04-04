@@ -1,5 +1,6 @@
 from river import datasets
 import pandas as pd
+from tabulate import tabulate
 
 
 def convert_to_df(dataset: datasets.base.Dataset, target_column: str) -> pd.DataFrame:
@@ -36,3 +37,20 @@ def convert_to_df(dataset: datasets.base.Dataset, target_column: str) -> pd.Data
         data_dict[target_column].append(x[1])
     df = pd.DataFrame(data_dict)
     return df
+
+
+def compare_two_tree_models(model1, model2, headers=["Parameter", "Default", "Spot"]):
+    """Compares two tree models and returns a table of the differences.
+    Args:
+        model1 (Pipeline): A river model pipeline.
+        model2 (Pipeline): A river model pipeline.
+    Returns:
+        str: A table of the differences between the two models.
+    """
+    keys = model1[1].summary.keys()
+    values1 = model1[1].summary.values()
+    values2 = model2[1].summary.values()
+    tbl = []
+    for key, value1, value2 in zip(keys, values1, values2):
+        tbl.append([key, value1, value2])
+    return tabulate(tbl, headers=headers, numalign="right", tablefmt="github")

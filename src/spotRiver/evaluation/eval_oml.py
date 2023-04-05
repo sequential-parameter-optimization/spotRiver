@@ -68,12 +68,14 @@ def eval_oml_iter_progressive(dataset, metric, models, step=100, weight_coeff=0.
     return result
 
 
-def plot_oml_iter_progressive(result, log_y=False):
+def plot_oml_iter_progressive(result, log_y=False, filename=None):
     """Plot evaluation of OML models.
 
     Args:
         result (dict): A dictionary of evaluation results, as returned by eval_oml_iter_progressive.
         log_y (bool, optional): If True, the y-axis is set to log scale. Defaults to False.
+        filename (str, optional): The name of the file to save the plot to. If None, the plot
+            is not saved. Defaults to None.
 
     Reference:
         https://riverml.xyz/0.15.0/recipes/on-hoeffding-trees/
@@ -100,7 +102,8 @@ def plot_oml_iter_progressive(result, log_y=False):
     ax[0].legend(loc="upper center", bbox_to_anchor=(0.5, 1.25), ncol=3, fancybox=True, shadow=True)
     plt.tight_layout()
     plt.close()
-
+    if filename is not None:
+        fig.savefig(filename, dpi=300)
     return fig
 
 

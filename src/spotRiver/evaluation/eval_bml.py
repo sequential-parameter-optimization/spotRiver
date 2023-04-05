@@ -147,7 +147,6 @@ def eval_bml_horizon(
     include_remainder: bool = True,
     metric: object = None,
 ) -> tuple:
-
     """
     Evaluate a machine learning model on a rolling horizon basis.
 

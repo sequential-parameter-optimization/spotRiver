@@ -553,8 +553,7 @@ def plot_bml_oml_horizon_metrics(
     log_y=False,
     cumulative=True,
     grid=True,
-    fig_width=16,
-    fig_height=5,
+    figsize=None,
     metric=None,
     filename=None,
     **kwargs,
@@ -601,11 +600,8 @@ def plot_bml_oml_horizon_metrics(
         A flag indicating whether to plot a grid.
         If True, grid is shown. Default is True.
 
-    fig_width: float, optional. Default: 16
-        width in inches.
-
-    fig_height: float, optional. Default: 5
-        height in inches.
+    figsize (tuple, optional): The size of the figure. Defaults to None, in which case
+            the default figure size `(10, 5)` is used.
 
     filename: str, optional. Default: None.
         If not None, the plot is saved to the specified file.
@@ -629,6 +625,8 @@ def plot_bml_oml_horizon_metrics(
         # plot evaluation metrics for each element of df_eval_list
         plot_bml_oml_metrics(df_eval=df_eval_list)
     """
+    if figsize is None:
+        figsize = (10, 5)
     # Check if metric is None or null and raise ValueError if it is
     if metric is None:
         raise ValueError("The 'metric' parameter must not be None or null.")
@@ -643,7 +641,7 @@ def plot_bml_oml_horizon_metrics(
         metrics = ["Metric", "CompTime (s)", "Memory (MB)"]
         titles = [metric_name, "Computation time (s)", "Memory (MB)"]
         # Create subplots with shared x-axis
-        fig, axes = plt.subplots(3, figsize=(fig_width, fig_height), constrained_layout=True, sharex=True)
+        fig, axes = plt.subplots(3, figsize=figsize, constrained_layout=True, sharex=True)
         # Loop over each dataframe in input list
         for j, df in enumerate(df_list):
             if cumulative:
@@ -681,8 +679,7 @@ def plot_bml_oml_horizon_predictions(
     log_y=False,
     skip_first_n=0,
     grid=True,
-    fig_width=16,
-    fig_height=5,
+    figsize: tuple = None,
     filename=None,
     **kwargs,
 ) -> None:
@@ -727,11 +724,9 @@ def plot_bml_oml_horizon_predictions(
         A flag indicating whether to plot a grid.
         If True, grid is shown. Default is True.
 
-    fig_width: float, optional. Default: 16
-        width in inches.
-
-    fig_height: float, optional. Default: 5
-        height in inches.
+    figsize (tuple, optional): The size of the figure in inches.
+            Defaults to None, in which case
+            the default figure size `(10, 5)` is used.
 
     filename: str, optional. Default: None
         If not None, save the plot to a file.
@@ -752,11 +747,13 @@ def plot_bml_oml_horizon_predictions(
         plot_bml_oml_horizon_predictions(df_true=df_true)
 
     """
+    if figsize is None:
+        figsize = (10, 5)
     if df_true is not None:
         df_plot = copy.deepcopy(df_true)
         if df_plot.__class__ != list:
             df_plot = [df_plot]
-        plt.figure(figsize=(fig_width, fig_height))
+        plt.figure(figsize=figsize)
         for j, df in enumerate(df_plot):
             if df_labels is None:
                 label = f"{j}"

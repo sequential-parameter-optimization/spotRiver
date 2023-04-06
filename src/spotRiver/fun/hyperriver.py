@@ -1,14 +1,9 @@
-import numbers
 from river import time_series
 from river import compose
 from river import linear_model
 from river import optim
 from river import preprocessing
 from river import metrics
-from river import tree
-
-
-# from river.tree import HoeffdingTreeRegressor
 from numpy.random import default_rng
 import numpy as np
 from numpy import array

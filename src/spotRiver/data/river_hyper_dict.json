@@ -395,5 +395,65 @@
                                     "type": "factor",
                                     "default": 0, "transform": "None",
                                     "core_model_parameter_type": "bool", "lower": 0, "upper": 1}
-                }
-}
+                },
+    "LinearRegression":{
+        "l2": {
+            "type": "float",
+            "default": 0.0,
+            "transform": "None",
+            "lower": 0.0,
+            "upper": 0.1},
+        "l1": {
+            "type": "float",
+            "default": 0.0,
+            "transform": "None",
+            "lower": 0.0,
+            "upper": 0.1},
+        "intercept_init": {
+            "type": "float",
+            "default": 0.0,
+            "transform": "None",
+            "lower": -1.0,
+            "upper": 1.0},
+        "intercept_lr": {
+            "type": "float",
+            "default": 0.01,
+            "transform": "None",
+            "lower": 0.001,
+            "upper": 0.1},
+        "clip_gradient": {
+                "type": "float",
+                "default": 1e12,
+                "transform": "None",
+                "lower": 1e8,
+                "upper": 1e14}
+    },
+    "Template":{
+            "integer_hyperparameter": {
+                "type": "int",
+                "default": 200,
+                "transform": "None",
+                "lower": 10,
+                "upper": 1000},
+            "integer_hyperparameter_with_transformation": {
+                "type": "int",
+                "default": 20,
+                "transform": "transform_power_2_int",
+                "lower": 2,
+                "upper": 20},
+            "float_hyperparameter": {
+                "type": "float",
+                "default": 1e-07,
+                "transform": "None",
+                "lower": 1e-08,
+                "upper": 1e-06},
+            "factor_hyperparameter": {
+                "levels": ["mc", "nb", "nba"],
+                "type": "factor",
+                "default": "nba",
+                "transform": "None",
+                "core_model_parameter_type": "str",
+                "lower": 0,
+                "upper": 2}
+            }
+        }

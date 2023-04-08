@@ -398,17 +398,17 @@
                 },
     "LinearRegression":{
         "l2": {
-            "type": "float",
-            "default": 0.0,
+            "type": "int",
+            "default": 0,
             "transform": "None",
-            "lower": 0.0,
-            "upper": 0.1},
+            "lower": 0,
+            "upper": 0},
         "l1": {
             "type": "float",
             "default": 0.0,
             "transform": "None",
             "lower": 0.0,
-            "upper": 0.1},
+            "upper": 0.01},
         "intercept_init": {
             "type": "float",
             "default": 0.0,
@@ -420,13 +420,13 @@
             "default": 0.01,
             "transform": "None",
             "lower": 0.001,
-            "upper": 0.1},
+            "upper": 0.02},
         "clip_gradient": {
                 "type": "float",
-                "default": 1e12,
+                "default": 1000000000000.0,
                 "transform": "None",
-                "lower": 1e8,
-                "upper": 1e14}
+                "lower": 100000000000.0,
+                "upper": 10000000000000.0}
     },
     "Template":{
             "integer_hyperparameter": {

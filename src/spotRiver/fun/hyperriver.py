@@ -542,57 +542,134 @@ class HyperRiver:
             z_res = np.append(z_res, y / self.fun_control["n_samples"])
         return z_res
 
-    def fun_oml_horizon(self, X, fun_control=None, return_model=False, return_df=False):
-        """Hyperparameter Tuning of an arbitrary model.
-        Returns
-        -------
-        (float): objective function value. Mean of the MAEs of the predicted values.
+    def compute_y(self, df_eval, weights):
+        """Compute the objective function value.
+        Args:
+            df_eval (pd.DataFrame): DataFrame with the evaluation results.
+            weights (list): List of weights for the objective function.
+        Returns:
+            (float): objective function value. Mean of the MAEs of the predicted values.
+        Examples:
+            >>> df_eval = pd.DataFrame( [[1, 2, 3], [4, 5, 6]], columns=['Metric', 'CompTime (s)', 'Memory (MB)'])
+            >>> weights = [1, 1, 1]
+            >>> compute_y(df_eval, weights)
+            4.0
         """
-        self.fun_control.update(fun_control)
-        weights = self.fun_control["weights"]
+        # take the mean of the MAEs/ACCs of the predicted values and ignore the NaN values
+        df_eval = df_eval.dropna()
+        y_error = df_eval["Metric"].mean()
+        logger.debug("y_error from eval_oml_horizon: %s", y_error)
+        y_r_time = df_eval["CompTime (s)"].mean()
+        logger.debug("y_r_time from eval_oml_horizon: %s", y_r_time)
+        y_memory = df_eval["Memory (MB)"].mean()
+        logger.debug("y_memory from eval_oml_horizon: %s", y_memory)
+        logger.debug("weights from eval_oml_horizon: %s", weights)
+        y = weights[0] * y_error + weights[1] * y_r_time + weights[2] * y_memory
+        logger.debug("weighted res from eval_oml_horizon: %s", y)
+        return y
+
+    # def fun_oml_horizon_old(self, X, fun_control=None, return_model=False, return_df=False):
+    #     """Hyperparameter Tuning of an arbitrary model.
+    #     Returns
+    #     -------
+    #     (float): objective function value. Mean of the MAEs of the predicted values.
+    #     """
+    #     self.fun_control.update(fun_control)
+    #     weights = self.fun_control["weights"]
+    #     if len(weights) != 3:
+    #         raise ValueError("The weights array must be of length 3.")
+    #     try:
+    #         X.shape[1]
+    #     except ValueError:
+    #         X = np.array([X])
+    #     if X.shape[1] != len(self.fun_control["var_name"]):
+    #         raise Exception
+    #     var_dict = assign_values(X, self.fun_control["var_name"])
+    #     z_res = np.array([], dtype=float)
+    #     for values in iterate_dict_values(var_dict):
+    #         values = convert_keys(values, self.fun_control["var_type"])
+    #         values = get_dict_with_levels_and_types(fun_control=self.fun_control, v=values)
+    #         values = transform_hyper_parameter_values(fun_control=self.fun_control, hyper_parameter_values=values)
+    #         model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**values))
+    #         if return_model:
+    #             return model
+    #         try:
+    #             df_eval, df_preds = eval_oml_horizon(
+    #                 model=model,
+    #                 train=self.fun_control["train"],
+    #                 test=self.fun_control["test"],
+    #                 target_column=self.fun_control["target_column"],
+    #                 horizon=self.fun_control["horizon"],
+    #                 oml_grace_period=self.fun_control["oml_grace_period"],
+    #                 metric=self.fun_control["metric_sklearn"],
+    #             )
+    #         except Exception as err:
+    #             print(f"Error in fun_oml_horizon(). Call to eval_oml_horizon failed. {err=}, {type(err)=}")
+    #         if return_df:
+    #             return df_eval, df_preds
+    #         try:
+    #             y = self.compute_y(df_eval, weights)
+    #         except Exception as err:
+    #             y = np.nan
+    #             print(f"Error in fun(). Call to evaluate failed. {err=}, {type(err)=}")
+    #             print(f"Setting y to {y:.2f}.")
+    #         z_res = np.append(z_res, y / self.fun_control["n_samples"])
+    #     return z_res
+
+    def check_weights(self, weights):
         if len(weights) != 3:
             raise ValueError("The weights array must be of length 3.")
+
+    def check_X_shape(self, X, var_name):
         try:
             X.shape[1]
         except ValueError:
             X = np.array([X])
-        if X.shape[1] != len(self.fun_control["var_name"]):
+        if X.shape[1] != len(var_name):
             raise Exception
+
+    def get_values(self, var_dict, fun_control):
+        for values in iterate_dict_values(var_dict):
+            values = convert_keys(values, fun_control["var_type"])
+            values = get_dict_with_levels_and_types(fun_control=fun_control, v=values)
+            values = transform_hyper_parameter_values(fun_control=fun_control, hyper_parameter_values=values)
+            yield values
+
+    def get_model(self, values, prep_model, core_model):
+        model = compose.Pipeline(prep_model, core_model(**values))
+        return model
+
+    def evaluate_model(self, model, fun_control):
+        try:
+            df_eval, df_preds = eval_oml_horizon(
+                model=model,
+                train=fun_control["train"],
+                test=fun_control["test"],
+                target_column=fun_control["target_column"],
+                horizon=fun_control["horizon"],
+                oml_grace_period=fun_control["oml_grace_period"],
+                metric=fun_control["metric_sklearn"],
+            )
+        except Exception as err:
+            print(f"Error in fun_oml_horizon(). Call to eval_oml_horizon failed. {err=}, {type(err)=}")
+        return df_eval, df_preds
+
+    def fun_oml_horizon(self, X, fun_control=None, return_model=False, return_df=False):
+        self.fun_control.update(fun_control)
+        weights = self.fun_control["weights"]
+        self.check_weights(weights)
+        self.check_X_shape(X, self.fun_control["var_name"])
         var_dict = assign_values(X, self.fun_control["var_name"])
         z_res = np.array([], dtype=float)
-        for values in iterate_dict_values(var_dict):
-            values = convert_keys(values, self.fun_control["var_type"])
-            values = get_dict_with_levels_and_types(fun_control=self.fun_control, v=values)
-            values = transform_hyper_parameter_values(fun_control=self.fun_control, hyper_parameter_values=values)
-            model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**values))
+        for values in self.get_values(var_dict, self.fun_control):
+            model = self.get_model(values, self.fun_control["prep_model"], self.fun_control["core_model"])
             if return_model:
                 return model
-            try:
-                df_eval, df_preds = eval_oml_horizon(
-                    model=model,
-                    train=self.fun_control["train"],
-                    test=self.fun_control["test"],
-                    target_column=self.fun_control["target_column"],
-                    horizon=self.fun_control["horizon"],
-                    oml_grace_period=self.fun_control["oml_grace_period"],
-                    metric=self.fun_control["metric_sklearn"],
-                )
-            except Exception as err:
-                print(f"Error in fun_oml_horizon(). Call to eval_oml_horizon failed. {err=}, {type(err)=}")
+            df_eval, df_preds = self.evaluate_model(model, self.fun_control)
             if return_df:
                 return df_eval, df_preds
             try:
-                # take the mean of the MAEs/ACCs of the predicted values and ignore the NaN values
-                df_eval = df_eval.dropna()
-                y_error = df_eval["Metric"].mean()
-                logger.debug("y_error from eval_oml_horizon: %s", y_error)
-                y_r_time = df_eval["CompTime (s)"].mean()
-                logger.debug("y_r_time from eval_oml_horizon: %s", y_r_time)
-                y_memory = df_eval["Memory (MB)"].mean()
-                logger.debug("y_memory from eval_oml_horizon: %s", y_memory)
-                logger.debug("weights from eval_oml_horizon: %s", weights)
-                y = weights[0] * y_error + weights[1] * y_r_time + weights[2] * y_memory
-                logger.debug("weighted res from eval_oml_horizon: %s", y)
+                y = self.compute_y(df_eval, weights)
             except Exception as err:
                 y = np.nan
                 print(f"Error in fun(). Call to evaluate failed. {err=}, {type(err)=}")

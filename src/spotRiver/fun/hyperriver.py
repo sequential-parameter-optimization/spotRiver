@@ -17,7 +17,7 @@ from spotRiver.evaluation.eval_oml import eval_oml_iter_progressive
 from spotRiver.evaluation.eval_bml import eval_oml_horizon
 from spotRiver.evaluation.eval_nowcast import eval_nowcast_model
 
-from spotPython.hyperparameters.values import assign_values, iterate_dict_values, convert_keys
+from spotPython.hyperparameters.values import assign_values, iterate_dict_values, convert_keys, get_values
 from spotPython.hyperparameters.values import get_dict_with_levels_and_types
 from spotPython.utils.transform import transform_hyper_parameter_values
 
@@ -628,13 +628,6 @@ class HyperRiver:
         if X.shape[1] != len(var_name):
             raise Exception
 
-    def get_values(self, var_dict, fun_control):
-        for values in iterate_dict_values(var_dict):
-            values = convert_keys(values, fun_control["var_type"])
-            values = get_dict_with_levels_and_types(fun_control=fun_control, v=values)
-            values = transform_hyper_parameter_values(fun_control=fun_control, hyper_parameter_values=values)
-            yield values
-
     def get_model(self, values, prep_model, core_model):
         model = compose.Pipeline(prep_model, core_model(**values))
         return model
@@ -661,7 +654,7 @@ class HyperRiver:
         self.check_X_shape(X, self.fun_control["var_name"])
         var_dict = assign_values(X, self.fun_control["var_name"])
         z_res = np.array([], dtype=float)
-        for values in self.get_values(var_dict, self.fun_control):
+        for values in get_values(var_dict, self.fun_control):
             model = self.get_model(values, self.fun_control["prep_model"], self.fun_control["core_model"])
             if return_model:
                 return model

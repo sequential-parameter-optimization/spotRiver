@@ -772,3 +772,525 @@ def plot_bml_oml_horizon_predictions(
         if filename is not None:
             plt.savefig(filename)
     plt.show()
+    
+    
+    
+    
+# Time series forecasting evaluation functions
+    
+def eval_bml_horizon_TS(
+    model: object,
+    train: pd.DataFrame,
+    test: pd.DataFrame,
+    target_column: str,
+    horizon: int,
+    include_remainder: bool = True,
+    metric: object = None,
+    retrain = True,
+) -> tuple:
+    """
+    Evaluate a univariate "sktime" time series forecasting model on a rolling horizon basis.
+
+    This function evaluates a time series forecasting model (sktime) on a test dataset by making
+    predictions on batches of size `horizon` from the test dataset. The model is first fit on the training dataset. 
+    The evaluation results are returned as a
+    dataframe along with a dataframe containing the true values, predictions and
+    differences for each observation in the test dataset.
+
+    Parameters
+    ----------
+    model : object
+        A univariate time series forecasting model object (sktime).
+
+    train : pd.DataFrame
+        A pandas DataFrame containing the training data. The target column should be included in this dataframe.
+
+     test : pd.DataFrame
+         A pandas DataFrame containing the test data. The target column should be included in this dataframe.
+
+     target_column : str
+         The name of the target column in the train and test dataframes.
+
+     horizon : int
+         The size of each batch from the test dataframe to make predictions on.
+
+     include_remainder : bool, optional (default=True)
+         Whether to include remainder rows from the test dataframe when making predictions.
+         If False, remainder rows will be removed before making predictions.
+
+     metric : object
+         An evaluation metric object that has an `evaluate` method.
+         This metric will be used to evaluate the model's performance on each batch from the test dataframe.
+         
+     retrain : bool (default = True)
+         Wether to retrain the model after updating the time series.
+
+     Returns
+     -------
+     tuple of pd.DataFrame
+         A tuple containing two pandas DataFrames. The first dataframe contains evaluation results for
+         each batch from the test dataframe along with initial resource usage from fitting the model
+         on the training data. The second dataframe contains true values, predictions and differences
+         for each observation in the test dataset.
+    """
+    # Check if metric is None or null and raise ValueError if it is
+    if metric is None:
+        raise ValueError("The 'metric' parameter must not be None or null.")
+    # Reset index of train and test dataframes
+    train = train.reset_index(drop=True)
+    test = test.reset_index(drop=True)
+    # Initialize lists for predictions and differences
+    preds_list = []
+    diffs_list = []
+    # Fit the model on the training data
+    rm = ResourceMonitor()
+    # Define forecasting horizon
+    fh = np.arange(1,horizon+1)
+    with rm:
+        # Train the model
+        model.fit(train[target_column], fh=fh)
+    # Evaluate the model on empty arrays to get initial resource usage
+    df_eval = pd.DataFrame.from_dict(
+        [evaluate_model(y_true=np.array([]), y_pred=np.array([]), memory=rm.memory, r_time=rm.r_time, metric=metric)]
+    )
+    # If include_remainder is False, remove remainder rows from test dataframe
+    if include_remainder is False:
+        remainder = len(test) % horizon
+        if remainder > 0:
+            test = test[:-remainder]
+    # Evaluate the model on batches of size horizon from the test dataframe
+    for batch_number, batch_df in test.groupby(np.arange(len(test)) // horizon):
+        rm = ResourceMonitor()
+        with rm:
+            # Update the time series with the data of the last batch
+            model = model.update(test[((batch_number-1)*horizon):(batch_number*horizon)][target_column], update_params = retrain) #'update' for sktime (might be different for other packages)
+            # Predict the horizon
+            preds = model.predict(fh = fh)            
+            
+        diffs = batch_df[target_column].values - preds
+        df_eval.loc[batch_number + 1] = pd.Series(
+            evaluate_model(
+                y_true=batch_df[target_column],
+                y_pred=preds,
+                memory=rm.memory,
+                r_time=rm.r_time,
+                metric=metric,
+            )
+        )
+        # Append predictions and differences to their respective lists
+        preds_list.append(preds)
+        diffs_list.append(diffs)
+    # Concatenate predictions and differences lists into series
+    series_preds = pd.Series(np.concatenate(preds_list))
+    series_diffs = pd.Series(np.concatenate(diffs_list))
+    # Create a dataframe with true values and add columns for predictions and differences
+    df_true = pd.DataFrame(test[target_column])
+    df_true["Prediction"] = series_preds
+    df_true["Difference"] = series_diffs
+    return df_eval, df_true
+
+def eval_oml_horizon_TS(
+    model: object,
+    train: pd.DataFrame,
+    test: pd.DataFrame,
+    target_column: str,
+    horizon: int,
+    include_remainder: bool = True,
+    metric: object = None,
+) -> tuple:
+    """
+    Evaluate an online time series forecasting model on a rolling horizon basis.
+
+    This function evaluates an online time series forecasting model on a test dataset by making
+    predictions on batches of size `horizon` from the test dataset. The model is first fit on the training dataset 
+    and updated incrementally after each prediction. The evaluation results are returned as a
+    dataframe along with a dataframe containing the true values, predictions and
+    differences for each observation in the test dataset.
+
+    Parameters
+    ----------
+    model : object
+        An online time series forecasting model object (river).
+
+    train : pd.DataFrame
+        A pandas DataFrame containing the training data. The target column should be included in this dataframe.
+
+     test : pd.DataFrame
+         A pandas DataFrame containing the test data. The target column should be included in this dataframe.
+
+     target_column : str
+         The name of the target column in the train and test dataframes.
+
+     horizon : int
+         The size of each batch from the test dataframe to make predictions on.
+
+     include_remainder : bool, optional (default=True)
+         Whether to include remainder rows from the test dataframe when making predictions.
+         If False, remainder rows will be removed before making predictions.
+
+     metric : object
+         An evaluation metric object that has an `evaluate` method.
+         This metric will be used to evaluate the model's performance on each batch from the test dataframe.
+
+     Returns
+     -------
+     tuple of pd.DataFrame
+         A tuple containing two pandas DataFrames. The first dataframe contains evaluation results for
+         each batch from the test dataframe along with initial resource usage from fitting the model
+         on the training data. The second dataframe contains true values, predictions and differences
+         for each observation in the test dataset.
+    """
+    # Check if metric is None or null and raise ValueError if it is
+    if metric is None:
+        raise ValueError("The 'metric' parameter must not be None or null.")
+    # Reset index of train and test dataframes
+    train = train.reset_index(drop=True)
+    test = test.reset_index(drop=True)
+    # Initialize lists for predictions and differences
+    preds_list = []
+    diffs_list = []
+    # Fit the model on the training data
+    rm = ResourceMonitor()
+    with rm:
+        # Initial training
+        # Train the model incrementally
+        for count, value in enumerate(train[target_column]):
+            model.learn_one(value)
+        #---------------------------
+    # Evaluate the model on empty arrays to get initial resource usage
+    df_eval = pd.DataFrame.from_dict(
+        [evaluate_model(y_true=np.array([]), y_pred=np.array([]), memory=rm.memory, r_time=rm.r_time, metric=metric)]
+    )
+    # If include_remainder is False, remove remainder rows from test dataframe
+    if include_remainder is False:
+        remainder = len(test) % horizon
+        if remainder > 0:
+            test = test[:-remainder]
+    # Evaluate the model on batches of size horizon from the test dataframe
+    for batch_number, batch_df in test.groupby(np.arange(len(test)) // horizon):
+        rm = ResourceMonitor()
+        with rm:
+            # predict the forecasting horizon
+            preds = model.forecast(horizon)
+            # update the model incrementally
+            for count, value in enumerate(test[((batch_number-1)*horizon):(batch_number*horizon)][target_column]):
+                model.learn_one(value) 
+  
+            
+        diffs = batch_df[target_column].values - preds
+        df_eval.loc[batch_number + 1] = pd.Series(
+            evaluate_model(
+                y_true=batch_df[target_column],
+                y_pred=preds,
+                memory=rm.memory,
+                r_time=rm.r_time,
+                metric=metric,
+            )
+        )
+        # Append predictions and differences to their respective lists
+        preds_list.append(preds)
+        diffs_list.append(diffs)
+    # Concatenate predictions and differences lists into series
+    series_preds = pd.Series(np.concatenate(preds_list))
+    series_diffs = pd.Series(np.concatenate(diffs_list))
+    # Create a dataframe with true values and add columns for predictions and differences
+    df_true = pd.DataFrame(test[target_column])
+    df_true["Prediction"] = series_preds
+    df_true["Difference"] = series_diffs
+    return df_eval, df_true
+
+def eval_bml_multivariate_horizon_TS(
+    model: object,
+    train: pd.DataFrame,
+    test: pd.DataFrame,
+    target_columns_multi: list, #first in list has to be main target
+    horizon: int,
+    include_remainder: bool = True,
+    metric: object = None,
+    retrain = True,
+) -> tuple:
+     """
+    Evaluate a multivariate "sktime" time series forecasting model on a rolling horizon basis.
+
+    This function evaluates a multivariate time series forecasting model (sktime) on a test dataset by making
+    predictions on batches of size `horizon` from the test dataset. The model is first fit on the training dataset. 
+    The evaluation results are returned as a
+    dataframe along with a dataframe containing the true values, predictions and
+    differences for each observation in the test dataset.
+
+    Parameters
+    ----------
+    model : object
+        A multivariate time series forecasting model object (sktime).
+
+    train : pd.DataFrame
+        A pandas DataFrame containing the training data. The target column should be included in this dataframe.
+
+     test : pd.DataFrame
+         A pandas DataFrame containing the test data. The target column should be included in this dataframe.
+
+     target_columns_multi : list
+         The names of the time series target columns in the train and test dataframes. The first in the list is the time series to be predicted.
+
+     horizon : int
+         The size of each batch from the test dataframe to make predictions on.
+
+     include_remainder : bool, optional (default=True)
+         Whether to include remainder rows from the test dataframe when making predictions.
+         If False, remainder rows will be removed before making predictions.
+
+     metric : object
+         An evaluation metric object that has an `evaluate` method.
+         This metric will be used to evaluate the model's performance on each batch from the test dataframe.
+         
+     retrain : bool (default = True)
+         Wether to retrain the model after updating the time series.
+
+     Returns
+     -------
+     tuple of pd.DataFrame
+         A tuple containing two pandas DataFrames. The first dataframe contains evaluation results for
+         each batch from the test dataframe along with initial resource usage from fitting the model
+         on the training data. The second dataframe contains true values, predictions and differences
+         for each observation in the test dataset.
+    """
+    # Check if metric is None or null and raise ValueError if it is
+    if metric is None:
+        raise ValueError("The 'metric' parameter must not be None or null.")
+    # Reset index of train and test dataframes
+    train = train.reset_index(drop=True)
+    test = test.reset_index(drop=True)
+    # Initialize lists for predictions and differences
+    preds_list = []
+    diffs_list = []
+    # Fit the model on the training data
+    rm = ResourceMonitor()
+    # Define forecasting horizon
+    fh = np.arange(1,horizon+1)
+    with rm:
+        # Train the model
+        model.fit(train[target_columns_multi], fh=fh)
+    # Evaluate the model on empty arrays to get initial resource usage
+    df_eval = pd.DataFrame.from_dict(
+        [evaluate_model(y_true=np.array([]), y_pred=np.array([]), memory=rm.memory, r_time=rm.r_time, metric=metric)]
+    )
+    # If include_remainder is False, remove remainder rows from test dataframe
+    if include_remainder is False:
+        remainder = len(test) % horizon
+        if remainder > 0:
+            test = test[:-remainder]
+    # Evaluate the model on batches of size horizon from the test dataframe
+    for batch_number, batch_df in test.groupby(np.arange(len(test)) // horizon):
+        rm = ResourceMonitor()
+        with rm:
+            # Update the time series with the data of the last batch
+            model = model.update(test[((batch_number-1)*horizon):(batch_number*horizon)][target_columns_multi], update_params = retrain) #'update' for sktime (might be different for other packages)
+            # Predict the horizon
+            preds = model.predict(fh = fh)
+            
+            
+        diffs = batch_df[target_columns_multi[0]].values - preds[target_columns_multi[0]]
+        df_eval.loc[batch_number + 1] = pd.Series(
+            evaluate_model(
+                y_true=batch_df[target_columns_multi[0]],
+                y_pred=preds[target_columns_multi[0]],
+                memory=rm.memory,
+                r_time=rm.r_time,
+                metric=metric,
+            )
+        )
+        # Append predictions and differences to their respective lists
+        preds_list.append(preds[target_columns_multi[0]])
+        diffs_list.append(diffs)
+    # Concatenate predictions and differences lists into series
+    series_preds = pd.Series(np.concatenate(preds_list))
+    series_diffs = pd.Series(np.concatenate(diffs_list))
+    # Create a dataframe with true values and add columns for predictions and differences
+    df_true = pd.DataFrame(test[target_columns_multi[0]])
+    df_true["Prediction"] = series_preds
+    df_true["Difference"] = series_diffs
+    return df_eval, df_true
+
+
+def eval_bml_horizon_LSTM_TS(
+    model: object,
+    train: pd.DataFrame,
+    test: pd.DataFrame,
+    target_column: str,
+    horizon: int,
+    include_remainder: bool = True,
+    metric: object = None,
+    epochs: int = 50,
+    batchsize: int = 64,
+    n_steps_in: int = 24*7,
+    scale_data: bool = True
+) -> tuple:
+    """
+    Evaluate an LSTM model on a rolling horizon basis.
+
+    This function evaluates an LSTM on a test dataset by making predictions on batches of size `horizon` from the test dataset. 
+    The test and training time series are divided into inputs and targets based on the values for n_steps_in and horizon.
+    The model is first fit on the training dataset. The evaluation results are returned as a
+    dataframe along with a dataframe containing the true values, predictions and
+    differences for each observation in the test dataset.
+
+    Parameters
+    ----------
+    model : object
+        An LSTM model object (keras).
+
+    train : pd.DataFrame
+        A pandas DataFrame containing the training data. The target column should be included in this dataframe.
+
+     test : pd.DataFrame
+         A pandas DataFrame containing the test data. The target column should be included in this dataframe.
+
+     target_columns_multi : list
+         The names of the time series target columns in the train and test dataframes. The first in the list is the time series to be predicted.
+
+     horizon : int
+         The size of each batch from the test dataframe to make predictions on. 
+
+     include_remainder : bool, optional (default=True)
+         Whether to include remainder rows from the test dataframe when making predictions.
+         If False, remainder rows will be removed before making predictions.
+
+     metric : object
+         An evaluation metric object that has an `evaluate` method.
+         This metric will be used to evaluate the model's performance on each batch from the test dataframe.
+        
+     epochs : int (default = 50)
+         Number of epochs for the training process.
+     
+     Batchsize : int (default = 64)
+         Batchsize for the training process.
+         
+     n_steps_in: int (default = 24*7)
+         Number of inputs (X) for the LSTM model.
+         
+     scale_data: bool (default = True)
+         Wether to scale the data around 0.
+         
+         
+     Returns
+     -------
+     tuple of pd.DataFrame
+         A tuple containing two pandas DataFrames. The first dataframe contains evaluation results for
+         each batch from the test dataframe along with initial resource usage from fitting the model
+         on the training data. The second dataframe contains true values, predictions and differences
+         for each observation in the test dataset.
+    """
+    
+    # Check if metric is None or null and raise ValueError if it is
+    if metric is None:
+        raise ValueError("The 'metric' parameter must not be None or null.")
+    # Reset index of train and test dataframes
+    train_df = train.reset_index(drop=True)
+    test_df = test.reset_index(drop=True)
+    # Scale values
+    if scale_data == True:
+        scaler = MinMaxScaler()
+        train = scaler.fit_transform(train_df)
+        test = scaler.transform(test_df)
+    # Define inputs and targets for the LSTM forecast
+    X_train, y_train = split_sequences(train, n_steps_in, horizon)
+    X_test, y_test = split_sequences(test, n_steps_in, horizon)
+    # reshape y test (is not fed into LSTM)
+    y_test = scaler.inverse_transform(y_test)
+    # Initialize lists for predictions and differences
+    preds_list = []
+    diffs_list = []
+    y_true = []
+    # Fit the model on the training data
+    rm = ResourceMonitor()
+    with rm:
+    #define training set up
+        model.fit(X_train, y_train, epochs=epochs, batch_size=batchsize, verbose=2)
+    # Evaluate the model on empty arrays to get initial resource usage
+    df_eval = pd.DataFrame.from_dict(
+        [evaluate_model(y_true=np.array([]), y_pred=np.array([]), memory=rm.memory, r_time=rm.r_time, metric=metric)]
+    )
+    # If include_remainder is False, remove remainder rows from test dataframe
+    if include_remainder is False:
+        remainder = len(test) % horizon
+        if remainder > 0:
+            test = test[:-remainder]
+    # Evaluate the model on batches of size horizon from the test dataframe
+    # adjustment of prediction for time series forecasting
+    for batch_number in (np.arange(len(X_test))):
+        rm = ResourceMonitor()
+        with rm:
+            preds = model.predict(X_test[batch_number].reshape(1, n_steps_in, 1), verbose = 0)
+            # retransform values before calculating metric
+        rescaled_preds = scaler.inverse_transform(preds)
+        pred = rescaled_preds.reshape(1, horizon, 1).flatten()
+        y_test_batch = y_test[batch_number]
+
+        diffs = y_test_batch - pred
+ 
+        df_eval.loc[batch_number + 1] = pd.Series(
+            evaluate_model(
+                y_true=y_test_batch,
+                y_pred=pred,
+                memory=rm.memory,
+                r_time=rm.r_time,
+                metric=metric
+            )
+        )
+        y_true.append(y_test_batch)
+        # Append predictions and differences to their respective lists
+        preds_list.append(pred)
+        diffs_list.append(diffs)
+    # Concatenate predictions and differences lists into series
+    series_preds = pd.Series(np.concatenate(preds_list))
+    series_diffs = pd.Series(np.concatenate(diffs_list))
+    series_y = pd.Series(np.concatenate(y_true))
+    # Create a dataframe with true values and add columns for predictions and differences
+    df_true = pd.DataFrame(series_y, columns= ["target"])
+    df_true["Prediction"] = series_preds
+    df_true["Difference"] = series_diffs
+    return df_eval, df_true
+
+
+
+def split_sequences(data, n_steps_in, n_steps_out):
+    """
+    Splits a time series into input (X) and target (Y) sequences for LSTM.
+
+    Parameters
+    ----------
+    data : numpy.ndarray
+        A 2D numpy array representing the time series data.
+    n_steps_in : int
+        The number of time steps to use as input for each LSTM sequence.
+    n_steps_out : int
+        The number of time steps to predict as target (horizon) for each LSTM sequence.
+
+    Returns
+    -------
+    X : numpy.ndarray
+        A 3D numpy array representing the input sequences for LSTM testing.
+    y : numpy.ndarray
+        A 2D numpy array representing the target sequences for LSTM testing.
+
+    Notes
+    -----
+    This function splits the time series data into input and target sequences by sliding a window
+    of size n_steps_out over the data. 
+
+    If the final output sequence extends beyond the length of the data, it is truncated.
+    """
+    X, y = list(), list()
+    for i in range(len(data)//n_steps_out):
+        
+        y_start = n_steps_in + (i * n_steps_out)
+        y_end = y_start + n_steps_out
+        x_start = y_start - n_steps_in
+        x_end = y_start
+        if y_end > len(data):
+            break
+        
+        seq_x, seq_y = data[x_start:x_end, :], data[y_start:y_end, 0]
+        X.append(seq_x)
+        y.append(seq_y)
+    return np.array(X), np.array(y)

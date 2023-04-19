@@ -17,8 +17,16 @@ from spotRiver.evaluation.eval_oml import eval_oml_iter_progressive
 from spotRiver.evaluation.eval_bml import eval_oml_horizon
 from spotRiver.evaluation.eval_nowcast import eval_nowcast_model
 
-from spotPython.hyperparameters.values import assign_values, iterate_dict_values, convert_keys, get_values
-from spotPython.hyperparameters.values import get_dict_with_levels_and_types
+from spotPython.hyperparameters.values import (
+    assign_values,
+)
+from spotPython.hyperparameters.prepare import (
+    get_dict_with_levels_and_types,
+    get_one_config_from_var_dict,
+    iterate_dict_values,
+    convert_keys,
+)
+
 from spotPython.utils.transform import transform_hyper_parameter_values
 
 import logging
@@ -542,11 +550,10 @@ class HyperRiver:
             z_res = np.append(z_res, y / self.fun_control["n_samples"])
         return z_res
 
-    def compute_y(self, df_eval, weights):
+    def compute_y(self, df_eval):
         """Compute the objective function value.
         Args:
             df_eval (pd.DataFrame): DataFrame with the evaluation results.
-            weights (list): List of weights for the objective function.
         Returns:
             (float): objective function value. Mean of the MAEs of the predicted values.
         Examples:
@@ -563,6 +570,7 @@ class HyperRiver:
         logger.debug("y_r_time from eval_oml_horizon: %s", y_r_time)
         y_memory = df_eval["Memory (MB)"].mean()
         logger.debug("y_memory from eval_oml_horizon: %s", y_memory)
+        weights = self.fun_control["weights"]
         logger.debug("weights from eval_oml_horizon: %s", weights)
         y = weights[0] * y_error + weights[1] * y_r_time + weights[2] * y_memory
         logger.debug("weighted res from eval_oml_horizon: %s", y)
@@ -616,21 +624,17 @@ class HyperRiver:
     #         z_res = np.append(z_res, y / self.fun_control["n_samples"])
     #     return z_res
 
-    def check_weights(self, weights):
-        if len(weights) != 3:
+    def check_weights(self):
+        if len(self.fun_control["weights"]) != 3:
             raise ValueError("The weights array must be of length 3.")
 
-    def check_X_shape(self, X, var_name):
+    def check_X_shape(self, X):
         try:
             X.shape[1]
         except ValueError:
             X = np.array([X])
-        if X.shape[1] != len(var_name):
+        if X.shape[1] != len(self.fun_control["var_name"]):
             raise Exception
-
-    def get_model(self, values, prep_model, core_model):
-        model = compose.Pipeline(prep_model, core_model(**values))
-        return model
 
     def evaluate_model(self, model, fun_control):
         try:
@@ -648,21 +652,20 @@ class HyperRiver:
         return df_eval, df_preds
 
     def fun_oml_horizon(self, X, fun_control=None, return_model=False, return_df=False):
-        self.fun_control.update(fun_control)
-        weights = self.fun_control["weights"]
-        self.check_weights(weights)
-        self.check_X_shape(X, self.fun_control["var_name"])
-        var_dict = assign_values(X, self.fun_control["var_name"])
         z_res = np.array([], dtype=float)
-        for values in get_values(var_dict, self.fun_control):
-            model = self.get_model(values, self.fun_control["prep_model"], self.fun_control["core_model"])
+        self.fun_control.update(fun_control)
+        self.check_weights()
+        self.check_X_shape(X)
+        var_dict = assign_values(X, self.fun_control["var_name"])
+        for config in get_one_config_from_var_dict(var_dict, self.fun_control):
+            model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**config))
             if return_model:
                 return model
             df_eval, df_preds = self.evaluate_model(model, self.fun_control)
             if return_df:
                 return df_eval, df_preds
             try:
-                y = self.compute_y(df_eval, weights)
+                y = self.compute_y(df_eval)
             except Exception as err:
                 y = np.nan
                 print(f"Error in fun(). Call to evaluate failed. {err=}, {type(err)=}")

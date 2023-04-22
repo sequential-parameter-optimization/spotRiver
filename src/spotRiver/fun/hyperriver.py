@@ -658,17 +658,26 @@ class HyperRiver:
         self.check_X_shape(X)
         var_dict = assign_values(X, self.fun_control["var_name"])
         for config in get_one_config_from_var_dict(var_dict, self.fun_control):
-            model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**config))
+            if self.fun_control["prep_model"] is not None:
+                model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**config))
+            else:
+                model = self.fun_control["core_model"](**config)
             if return_model:
                 return model
-            df_eval, df_preds = self.evaluate_model(model, self.fun_control)
+            try:
+                df_eval, df_preds = self.evaluate_model(model, self.fun_control)
+            except Exception as err:
+                df_eval = np.nan
+                df_preds = np.nan
+                print(f"Error in fun(). Call to evaluate failed. {err=}, {type(err)=}")
+                print("Setting y (i.e., df_eval, df_preds) to np.nan.")
             if return_df:
                 return df_eval, df_preds
             try:
                 y = self.compute_y(df_eval)
             except Exception as err:
                 y = np.nan
-                print(f"Error in fun(). Call to evaluate failed. {err=}, {type(err)=}")
-                print(f"Setting y to {y:.2f}.")
+                print(f"Error in fun(). Call to compute_y failed. {err=}, {type(err)=}")
+                print("Setting y to np.nan.")
             z_res = np.append(z_res, y / self.fun_control["n_samples"])
         return z_res

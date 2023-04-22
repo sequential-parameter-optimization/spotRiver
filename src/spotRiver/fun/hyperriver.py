@@ -651,7 +651,17 @@ class HyperRiver:
             print(f"Error in fun_oml_horizon(). Call to eval_oml_horizon failed. {err=}, {type(err)=}")
         return df_eval, df_preds
 
-    def fun_oml_horizon(self, X, fun_control=None, return_model=False, return_df=False):
+    def get_river_df_eval_preds(self, model):
+        try:
+            df_eval, df_preds = self.evaluate_model(model, self.fun_control)
+        except Exception as err:
+            print(f"Error in get_river_df_eval_preds(). Call to evaluate_model failed. {err=}, {type(err)=}")
+            print("Setting df_eval and df.preds to np.nan")
+            df_eval = np.nan
+            df_preds = np.nan
+        return df_eval, df_preds
+
+    def fun_oml_horizon_old(self, X, fun_control=None):
         z_res = np.array([], dtype=float)
         self.fun_control.update(fun_control)
         self.check_weights()
@@ -662,17 +672,12 @@ class HyperRiver:
                 model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**config))
             else:
                 model = self.fun_control["core_model"](**config)
-            if return_model:
-                return model
             try:
-                df_eval, df_preds = self.evaluate_model(model, self.fun_control)
+                df_eval, _ = self.evaluate_model(model, self.fun_control)
             except Exception as err:
                 df_eval = np.nan
-                df_preds = np.nan
                 print(f"Error in fun(). Call to evaluate failed. {err=}, {type(err)=}")
-                print("Setting y (i.e., df_eval, df_preds) to np.nan.")
-            if return_df:
-                return df_eval, df_preds
+                print("Setting df_eval to np.nan.")
             try:
                 y = self.compute_y(df_eval)
             except Exception as err:
@@ -681,3 +686,31 @@ class HyperRiver:
                 print("Setting y to np.nan.")
             z_res = np.append(z_res, y / self.fun_control["n_samples"])
         return z_res
+
+    def fun_oml_horizon(self, X, fun_control=None):
+        """
+        This function calculates the horizon for a given set of data X and control parameters.
+
+        :param X: numpy array of data
+        :param fun_control: dictionary of control parameters
+        :return: numpy array of horizon values
+        """
+        self.fun_control.update(fun_control)
+        self.check_weights()
+        self.check_X_shape(X)
+        var_dict = assign_values(X, self.fun_control["var_name"])
+        z_res = []
+        for config in get_one_config_from_var_dict(var_dict, self.fun_control):
+            if self.fun_control["prep_model"] is not None:
+                model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**config))
+            else:
+                model = self.fun_control["core_model"](**config)
+            try:
+                df_eval, _ = self.evaluate_model(model, self.fun_control)
+                y = self.compute_y(df_eval)
+            except Exception as err:
+                y = np.nan
+                print(f"Error in fun(). Call to evaluate or compute_y failed. {err=}, {type(err)=}")
+                print("Setting y to np.nan.")
+            z_res.append(y / self.fun_control["n_samples"])
+        return np.array(z_res)

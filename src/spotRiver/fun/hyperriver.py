@@ -7,6 +7,7 @@ from spotPython.hyperparameters.values import assign_values
 from spotPython.hyperparameters.values import (
     generate_one_config_from_var_dict,
 )
+from spotPython.utils.eda import generate_config_id
 from spotRiver.evaluation.eval_bml import eval_oml_horizon
 
 import logging
@@ -119,6 +120,7 @@ class HyperRiver:
         self.check_X_shape(X)
         var_dict = assign_values(X, self.fun_control["var_name"])
         for config in generate_one_config_from_var_dict(var_dict, self.fun_control):
+            config_id = generate_config_id(config)
             if self.fun_control["prep_model"] is not None:
                 model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**config))
             else:

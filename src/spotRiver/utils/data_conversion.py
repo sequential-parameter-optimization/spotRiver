@@ -3,7 +3,7 @@ import pandas as pd
 from tabulate import tabulate
 
 
-def convert_to_df(dataset: datasets.base.Dataset, target_column: str) -> pd.DataFrame:
+def convert_to_df(dataset: datasets.base.Dataset, target_column: str, n_total=None) -> pd.DataFrame:
     """Converts a river dataset into a pandas DataFrame.
 
     Args:
@@ -29,12 +29,18 @@ def convert_to_df(dataset: datasets.base.Dataset, target_column: str) -> pd.Data
             train = df[:500]
             test = df[500:]
     """
-    data_dict = {key: [] for key in list(dataset)[0][0].keys()}
+    data_dict = {key: [] for key in list(dataset.take(1))[0][0].keys()}
     data_dict[target_column] = []
-    for x in dataset:
-        for key, value in x[0].items():
-            data_dict[key].append(value)
-        data_dict[target_column].append(x[1])
+    if n_total is None:
+        for x in dataset:
+            for key, value in x[0].items():
+                data_dict[key].append(value)
+            data_dict[target_column].append(x[1])
+    else:
+        for x in dataset.take(n_total):
+            for key, value in x[0].items():
+                data_dict[key].append(value)
+            data_dict[target_column].append(x[1])
     df = pd.DataFrame(data_dict)
     return df
 

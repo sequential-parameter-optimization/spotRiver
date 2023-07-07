@@ -290,7 +290,6 @@ def eval_bml_landmark(
         with rm:
             preds = pd.Series(model.predict(new_df.loc[:, new_df.columns != target_column]))
             model.fit(train.loc[:, train.columns != target_column], train[target_column])
-
         diffs = new_df[target_column].values - preds
         df_eval.loc[i + 1] = pd.Series(
             evaluate_model(
@@ -395,7 +394,6 @@ def eval_bml_window(
         with rm:
             model.fit(w_train.loc[:, w_train.columns != target_column], w_train[target_column])
             preds = pd.Series(model.predict(w_test.loc[:, w_test.columns != target_column]))
-
         diffs = w_test[target_column].values - preds
         df_eval.loc[i + 1] = pd.Series(
             evaluate_model(
@@ -512,10 +510,11 @@ def eval_oml_horizon(
             _ = model.predict_one(xi)
             # metric = metric.update(yi, y_pred)
             model = model.learn_one(xi, yi)
+    # TODO: Add error handling
+    # Return res_dict = {"Metric": score, "Memory (MB)": memory, "CompTime (s)": r_time}
     df_eval = pd.DataFrame.from_dict(
         [evaluate_model(y_true=np.array([]), y_pred=np.array([]), memory=rm.memory, r_time=rm.r_time, metric=metric)]
     )
-
     # Test Data Evaluation
     for i, new_df in enumerate(gen_sliding_window(test, horizon)):
         preds = []

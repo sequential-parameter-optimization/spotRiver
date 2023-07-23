@@ -31,7 +31,7 @@ def eval_oml_iter_progressive(dataset, metric, models, step=100, weight_coeff=0.
             information. Defaults to 50.
 
     Returns:
-        dict: A dictionary containing the evaluation results. The keys are the names of the
+        (dict): A dictionary containing the evaluation results. The keys are the names of the
             models, and the values are dictionaries with the following keys:
             - "step": A list of iteration numbers at which the model was evaluated.
             - "error": A list of the weighted errors for each iteration.
@@ -41,6 +41,23 @@ def eval_oml_iter_progressive(dataset, metric, models, step=100, weight_coeff=0.
 
     Reference:
         https://riverml.xyz/0.15.0/recipes/on-hoeffding-trees/
+    
+    Examples:
+        >>> from river import compose
+            from river import linear_model
+            from river import preprocessing, datasets, utils, metrics
+            import matplotlib.pyplot as plt
+            from spotRiver.utils.features import get_ordinal_date
+            from spotRiver.evaluation.eval_nowcast import eval_nowcast_model, plot_nowcast_model
+            model = compose.Pipeline(
+                ('ordinal_date', compose.FuncTransformer(get_ordinal_date)),
+                ('scale', preprocessing.StandardScaler()),
+                ('lin_reg', linear_model.LinearRegression())
+            )
+            dataset = datasets.AirlinePassengers()
+            dates, metric, y_trues, y_preds = eval_nowcast_model(model, dataset=dataset)
+            plot_nowcast_model(dates, metric, y_trues, y_preds)
+
     """
     metric_name = metric.__class__.__name__
     # Convert dataset to a list if needed
@@ -80,8 +97,35 @@ def plot_oml_iter_progressive(result, log_x=False, log_y=False, figsize=None, fi
         filename (str, optional): The name of the file to save the plot to. If None, the plot
             is not saved. Defaults to None.
 
+    Returns:
+        (matplotlib.figure.Figure): The figure object.
+
     Reference:
         https://riverml.xyz/0.15.0/recipes/on-hoeffding-trees/
+
+    Examples:
+        >>> from spotRiver.evaluation.eval_oml import plot_oml_iter_progressive
+
+        >>> result = {
+        ...     "model1": {
+        ...         "step": [1, 2, 3],
+        ...         "error": [0.1, 0.2, 0.3],
+        ...         "r_time": [0.1, 0.2, 0.3],
+        ...         "memory": [0.1, 0.2, 0.3],
+        ...         "metric_name": "MAE"
+        ...     },
+        ...     "model2": {
+        ...         "step": [1, 2, 3],
+        ...         "error": [0.2, 0.3, 0.4],
+        ...         "r_time": [0.2, 0.3, 0.4],
+        ...         "memory": [0.2, 0.3, 0.4],
+        ...         "metric_name": "MAE"
+        ...     }
+        ... }
+
+        >>> plot_oml_iter_progressive(result)
+        <Figure size 1000x500 with 3 Axes>
+
     """
     if figsize is None:
         figsize = (10, 5)
@@ -124,10 +168,37 @@ def fun_eval_oml_iter_progressive(result, metric=None, weights=None):
             Defaults to None.
 
     Returns:
-        numpy.array: An array of function values, one for each model in the evaluation results.
+        (numpy.array): An array of function values, one for each model in the evaluation results.
 
     Raises:
         ValueError: If the weights array is not of length 3.
+
+    Reference:
+        https://riverml.xyz/0.15.0/recipes/on-hoeffding-trees/
+
+    Examples:
+        >>> from spotRiver.evaluation.eval_oml import fun_eval_oml_iter_progressive
+
+        >>> result = {
+        ...     "model1": {
+        ...         "step": [1, 2, 3],
+        ...         "error": [0.1, 0.2, 0.3],
+        ...         "r_time": [0.1, 0.2, 0.3],
+        ...         "memory": [0.1, 0.2, 0.3],
+        ...         "metric_name": "MAE"
+        ...     },
+        ...     "model2": {
+        ...         "step": [1, 2, 3],
+        ...         "error": [0.2, 0.3, 0.4],
+        ...         "r_time": [0.2, 0.3, 0.4],
+        ...         "memory": [0.2, 0.3, 0.4],
+        ...         "metric_name": "MAE"
+        ...     }
+        ... }
+
+        >>> fun_eval_oml_iter_progressive(result)
+        array([0.1, 0.2])
+
     """
     if metric is None:
         metric = mean

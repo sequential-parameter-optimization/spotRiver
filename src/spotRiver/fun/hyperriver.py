@@ -34,6 +34,15 @@ class HyperRiver:
     """
 
     def __init__(self, seed=126, log_level=50):
+        """Initialize the class.
+        Args:
+            seed (int): seed.
+                See [Numpy Random Sampling](https://numpy.org/doc/stable/reference/random/index.html#random-quick-start)
+            log_level (int): The level of logging to use. 0 = no logging, 50 = print only important
+                            information. Defaults to 50.
+        Returns:
+            (NoneType): None
+        """
         self.seed = seed
         self.rng = default_rng(seed=self.seed)
         self.fun_control = {
@@ -82,6 +91,22 @@ class HyperRiver:
         return y
 
     def check_X_shape(self, X):
+        """
+        Check the shape of X.
+        Args:
+            X (np.ndarray): The input data.
+        Returns:
+            (NoneType): None
+        Examples:
+            >>> X = np.array([[1, 2, 3], [4, 5, 6]])
+            >>> check_X_shape(X)
+            >>> X = np.array([1, 2, 3])
+            >>> check_X_shape(X)
+            Traceback (most recent call last):
+            ...
+            Exception
+
+        """
         try:
             X.shape[1]
         except ValueError:
@@ -89,7 +114,37 @@ class HyperRiver:
         if X.shape[1] != len(self.fun_control["var_name"]):
             raise Exception
 
-    def evaluate_model(self, model, fun_control):
+    def evaluate_model(self, model: object, fun_control: dict) -> Tuple[pd.DataFrame, pd.DataFrame]:
+        """
+        Evaluates a model using the eval_oml_horizon function.
+
+        Args:
+            model (object): The model to be evaluated.
+            fun_control (dict): A dictionary containing the following keys:
+                - train (pd.DataFrame): The training data.
+                - test (pd.DataFrame): The testing data.
+                - target_column (str): The name of the target column.
+                - horizon (int): The horizon value.
+                - oml_grace_period (int): The oml_grace_period value.
+                - metric_sklearn (str): The metric to be used for evaluation.
+
+        Returns:
+            (Tuple[pd.DataFrame, pd.DataFrame]): A tuple containing two dataframes:
+                - df_eval: The evaluation dataframe.
+                - df_preds: The predictions dataframe.
+
+        Example:
+            >>> model = SomeModel()
+            >>> fun_control = {
+            ...     "train": train_data,
+            ...     "test": test_data,
+            ...     "target_column": "target",
+            ...     "horizon": 5,
+            ...     "oml_grace_period": 10,
+            ...     "metric_sklearn": "accuracy"
+            ... }
+            >>> df_eval, df_preds = evaluate_model(model, fun_control)
+        """
         try:
             df_eval, df_preds = eval_oml_horizon(
                 model=model,
@@ -105,6 +160,17 @@ class HyperRiver:
         return df_eval, df_preds
 
     def get_river_df_eval_preds(self, model):
+        """Get the evaluation and prediction dataframes for a river model.
+        Args:
+            model (object): The model to be evaluated.
+        Returns:
+            (Tuple[pd.DataFrame, pd.DataFrame]): A tuple containing two dataframes:
+                - df_eval: The evaluation dataframe.
+                - df_preds: The predictions dataframe.
+        Examples:
+            >>> model = SomeModel()
+            >>> df_eval, df_preds = get_river_df_eval_preds(model)
+        """
         try:
             df_eval, df_preds = self.evaluate_model(model, self.fun_control)
         except Exception as err:
@@ -114,7 +180,29 @@ class HyperRiver:
             df_preds = np.nan
         return df_eval, df_preds
 
-    def fun_oml_horizon(self, X, fun_control=None):
+    def fun_oml_horizon(self, X: np.ndarray, fun_control: Optional[Dict[str, Any]] = None) -> np.ndarray:
+        """
+        The objective function for hyperparameter tuning.
+
+        This function takes in input data and a dictionary of control parameters to compute the objective function values for hyperparameter tuning.
+
+        Args:
+            X (np.ndarray): The input data.
+            fun_control (dict, optional): A dictionary containing the following keys:
+                - train (pd.DataFrame): The training data.
+                - test (pd.DataFrame): The testing data.
+                - target_column (str): The name of the target column.
+                - horizon (int): The horizon value.
+                - oml_grace_period (int): The oml_grace_period value.
+                - metric_sklearn (str): The metric to be used for evaluation.
+
+        Returns:
+            (np.ndarray): The objective function values.
+
+        Example:
+            >>> fun_oml_horizon(X, fun_control={'train': train_data, 'test': test_data, 'target_column': 'y', 'horizon': 5, 'oml_grace_period': 10, 'metric_sklearn': 'accuracy'})
+            array([0.8, 0.85, 0.9])
+        """
         z_res = []
         self.fun_control.update(fun_control)
         self.check_X_shape(X)

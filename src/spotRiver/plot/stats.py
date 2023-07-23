@@ -10,14 +10,18 @@ def corrplot(df: pd.DataFrame, numeric_only=True) -> None:
         The resulting matrix is then styled and returned as a heatmap with colors
         ranging from blue (for negative correlations) to red (for positive correlations).
 
-    Input:
-        df: pandas DataFrame
-        numeric_only: bool, default True.
+    Args:
+        df (pd.DataFrame): Data to plot.
+        numeric_only (bool, default True):
             Include only float, int or boolean data.
+    Returns:
+        (pd.DataFrame): A styled correlation matrix heatmap.
 
-    Example:
-    >>> X = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6], 'C': [7, 8, 9]})
-        corrplot(X)
+    Examples:
+        >>> from spotRiver.plot.stats import corrplot
+            import pandas as pd
+            X = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6], 'C': [7, 8, 9]})
+            corrplot(X)
 
     """
 

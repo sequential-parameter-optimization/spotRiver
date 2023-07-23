@@ -4,19 +4,18 @@ from typing import List, Tuple
 import matplotlib.pyplot as plt
 
 
-# Define a function to evaluate a nowcast model using a rolling metric
-def eval_nowcast_model(model, dataset, time_interval="month", window_size=12) -> Tuple:
+def eval_nowcast_model(model, dataset, time_interval: str = "month", window_size: int = 12) -> Tuple[List, utils.Rolling, List, List]:
     """
     Evaluates a time series model using a rolling mean absolute error metric.
 
-    Parameters:
-        model: A predictor object (river.time_series) that implements the forecast and learn_one methods.
-        dataset: A dataset object that contains the time series data.
-        time_interval: The name of the attribute that contains the date information in the dataset.
-        window_size: The number of observations to use for calculating the rolling metric.
+    Args:
+        model (river.time_series): A predictor object (river.time_series) that implements the forecast and learn_one methods.
+        dataset (object): A dataset object that contains the time series data.
+        time_interval (str): The name of the attribute that contains the date information in the dataset.
+        window_size (int): The number of observations to use for calculating the rolling metric.
 
     Returns:
-        A tuple of four lists:
+        Tuple[List, utils.Rolling, List, List]: A tuple of four lists:
             - dates: The dates corresponding to each observation in the dataset.
             - metric: A rolling metric object that contains the mean absolute error values.
             - y_trues: The true values of the target variable in the dataset.
@@ -54,6 +53,7 @@ def eval_nowcast_model(model, dataset, time_interval="month", window_size=12) ->
         y_trues.append(y)
         y_preds.append(y_pred)
     return dates, metric, y_trues, y_preds
+Kopieren
 
 
 def plot_nowcast_model(

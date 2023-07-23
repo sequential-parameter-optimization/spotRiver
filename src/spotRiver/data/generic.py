@@ -1,6 +1,6 @@
 from river import stream
 from . import base
-from typing import Dict, List, Union
+from typing import Dict, List, Union, Generator
 
 class GenericData(base.GenericFileDataset):
     """A class for handling generic data.

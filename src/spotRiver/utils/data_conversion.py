@@ -11,9 +11,9 @@ def convert_to_df(dataset: datasets.base.Dataset, target_column: str, n_total=No
         target_column (str): The name of the target column in the resulting DataFrame.
 
     Returns:
-        pd.DataFrame: A pandas DataFrame representation of the given dataset.
+        (pd.DataFrame): A pandas DataFrame representation of the given dataset.
 
-    Example:
+    Examples:
         >>> dataset = datasets.TrumpApproval()
             target_column = "Approval"
             df = convert_to_df(dataset, target_column)
@@ -51,7 +51,7 @@ def compare_two_tree_models(model1, model2, headers=["Parameter", "Default", "Sp
         model1 (Pipeline): A river model pipeline.
         model2 (Pipeline): A river model pipeline.
     Returns:
-        str: A table of the differences between the two models.
+        (str): A table of the differences between the two models.
     """
     keys = model1[1].summary.keys()
     values1 = model1[1].summary.values()

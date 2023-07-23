@@ -5,19 +5,18 @@ def get_bike_sharing_data(train_size=0.6):
     """
     Fetches the Bike Sharing Demand dataset from OpenML and splits it into training and test sets.
 
-    Parameters
-    ----------
-    train_size : float
-        The proportion of the dataset to include in the training set. Default value: 0.6
+    Args:
+        train_size (float):
+            The proportion of the dataset to include in the training set. Default value: 0.6
+    Returns:
+        (tuple): tuple containing:
+            df (pd.DataFrame): The full dataset.
+            train (pd.DataFrame): The training set.
+            test (pd.DataFrame): The test set.
 
-    Returns
-    -------
-    df : pandas.DataFrame
-        The entire Bike Sharing Demand dataset.
-    train : pandas.DataFrame
-        The training set.
-    test : pandas.DataFrame
-        The test set.
+    Examples:
+        >>> from spotRiver.data.bike_sharing import get_bike_sharing_data
+        >>> df, train, test = get_bike_sharing_data(train_size=0.6)
     """
 
     bike_sharing = fetch_openml("Bike_Sharing_Demand", version=2, as_frame=True, parser="pandas")

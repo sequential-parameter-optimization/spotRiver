@@ -11,13 +11,16 @@ def get_month_distances(x: Dict[str, datetime]) -> Dict[str, float]:
     function to the difference between the month of the input datetime object and each month.
 
     Args:
-        x (Dict[str, datetime]): A dictionary with a single key-value pair where the key is a string and the value is a
-        datetime object.
+        x (Dict[str, datetime]):
+            A dictionary with a single key-value pair where the key is a string and the value is a datetime object.
 
     Returns:
-        Dict[str, float]: A dictionary where the keys are the names of the months and the values are the result of
-        applying a Gaussian function to the difference between the month of the input datetime object and each month.
-    Example:
+        (Dict[str, float]):
+            A dictionary where the keys are the names of the months and the values are the result of
+            applying a Gaussian function to the difference between the month of the input datetime object and each month.
+    Examples:
+        >>> from spotRiver.utils.features import get_month_distances
+        >>> from datetime import datetime
         >>> get_month_distances({"date": datetime(2020, 1, 1)})
         {'January': 0.6065306597126334, 'February': 0.36787944117144233,
         'March': 0.1353352832366127, 'April': 0.01831563888873418, 'May': 0.00033546262790251185,
@@ -37,13 +40,16 @@ def get_weekday_distances(x):
         result of applying a Gaussian function to the difference between the weekday of the input datetime object
         and each day of the week.
     Args:
-        x (Dict[str, datetime]): A dictionary with a single key-value pair where the key is a string and the
-        value is a datetime object.
+        x (Dict[str, datetime]):
+            A dictionary with a single key-value pair where the key is a string and the value is a datetime object.
     Returns:
-        Dict[str, float]: A dictionary where the keys are the names of the days of the week and the values
-        are the result of applying a Gaussian function to the difference between the weekday of the input
-        datetime object and each day of the week.
-    Example:
+        (Dict[str, float]):
+            A dictionary where the keys are the names of the days of the week and the values
+            are the result of applying a Gaussian function to the difference between the weekday of the input
+            datetime object and each day of the week.
+    Examples:
+        >>> from spotRiver.utils.features import get_weekday_distances
+        >>> from datetime import datetime
         >>> get_weekday_distances({"date": datetime(2020, 1, 1)})
         {'Monday': 0.6065306597126334, 'Tuesday': 0.36787944117144233, 'Wednesday': 0.1353352832366127,
         'Thursday': 0.01831563888873418, 'Friday': 0.00033546262790251185, 'Saturday': 3.354626279025118e-06,
@@ -61,12 +67,16 @@ def get_hour_distances(x):
         the result of applying a Gaussian function to the difference between the hour of the input datetime
         object and each hour of the day.
     Args:
-        x (Dict[str, datetime]): A dictionary with a single key-value pair where the key is a string and the
-        value is a datetime object.
+        x (Dict[str, datetime]):
+            A dictionary with a single key-value pair where the key is a string and the value is a datetime object.
     Returns:
-        Dict[str, float]: A dictionary where the keys are the names of the hours of the day and the values are
-        the result of applying a Gaussian function to the difference between the hour of the input datetime object and each hour of the day.
-    Example:
+        (Dict[str, float]):
+            A dictionary where the keys are the names of the hours of the day and the values are
+            the result of applying a Gaussian function to the difference between the hour of the
+            input datetime object and each hour of the day.
+    Examples:
+        >>> from spotRiver.utils.features import get_hour_distances
+        >>> from datetime import datetime
         >>> get_hour_distances({"date": datetime(2020, 1, 1)})
         {'0': 0.6065306597126334, '1': 0.36787944117144233, '2': 0.1353352832366127, '3': 0.01831563888873418,
         '4': 0.00033546262790251185, '5': 3.354626279025118e-06, '6': 2.0611536224385582e-08, '7': 8.315287191035679e-11,
@@ -86,8 +96,11 @@ def get_ordinal_date(x):
     Args:
         x (Dict[str, datetime]): A dictionary with a single key-value pair where the key is a string and the value is a datetime object.
     Returns:
-        Dict[str, float]: A dictionary where the keys are the string "ordinal_date" and the value is the ordinal date of the input datetime object.
-    Example:
+        (Dict[str, float]):
+            A dictionary where the keys are the string "ordinal_date" and the value is the ordinal date of the input datetime object.
+    Examples:
+        >>> from datetime import datetime
+        >>> from spotRiver.utils.features import get_ordinal_date
         >>> get_ordinal_date({"date": datetime(2020, 1, 1)})
         {'ordinal_date': 737424}
     """

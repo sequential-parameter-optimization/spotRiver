@@ -1,16 +1,25 @@
 import numpy as np
+import pandas as pd
 
 
-def generate_drift(data, drift_values=[1.1, 10.0, 0.1, 1.1]):
+def generate_drift(data: pd.DataFrame, drift_values=[1.1, 10.0, 0.1, 1.1]) -> np.ndarray:
     """
     Generates a drift array based on the number of rows in the input data and the specified drift values.
 
-    Parameters:
-        data (pandas.DataFrame or numpy.ndarray): The input data.
+    Args:
+        data (pd.DataFrame or np.ndarray): The input data.
         drift_values (list of float): The drift values to use.
 
     Returns:
-        numpy.ndarray: The generated drift array.
+        (np.ndarray): The generated drift array.
+
+    Examples:
+        >>> import numpy as np
+        >>> from spotRiver.drift.drift_generator import generate_drift
+        >>> data = np.array([[1, 2, 3], [4, 5, 6]])
+        >>> generate_drift(data, drift_values=[1.1, 10.0, 0.1, 1.1])
+        array([ 1.1, 10. ,  0.1,  1.1])
+
     """
     num_rows = data.shape[0]
     num_drift_values = len(drift_values)

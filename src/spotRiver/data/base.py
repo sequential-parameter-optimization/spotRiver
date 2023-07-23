@@ -83,32 +83,31 @@ class Dataset(abc.ABC):
 
     All datasets inherit from this class, be they stored in a file or generated on the fly.
 
-    Parameters
-    ----------
-    task
-        Type of task the dataset is meant for. Should be one of:
-        - "Regression"
-        - "Binary classification"
-        - "Multi-class classification"
-        - "Multi-output binary classification"
-        - "Multi-output regression"
-    n_features
-        Number of features in the dataset.
-    n_samples
-        Number of samples in the dataset.
-    n_classes
-        Number of classes in the dataset, only applies to classification datasets.
-    n_outputs
-        Number of outputs the target is made of, only applies to multi-output datasets.
-    sparse
-        Whether the dataset is sparse or not.
+    Args:
+        task (str):
+            Type of task the dataset is meant for. Should be one of:
+            - "Regression"
+            - "Binary classification"
+            - "Multi-class classification"
+            - "Multi-output binary classification"
+            - "Multi-output regression"
+        n_features (int):
+            Number of features in the dataset.
+        n_samples (int):
+            Number of samples in the dataset.
+        n_classes (int):
+            Number of classes in the dataset, only applies to classification datasets.
+        n_outputs (int):
+            Number of outputs the target is made of, only applies to multi-output datasets.
+        sparse (bool):
+            Whether the dataset is sparse or not.
 
     """
 
     def __init__(
         self,
-        task,
-        n_features,
+        task: str,
+        n_features: int=None,
         n_samples=None,
         n_classes=None,
         n_outputs=None,
@@ -181,25 +180,7 @@ class Dataset(abc.ABC):
 class SyntheticDataset(Dataset):
     """A synthetic dataset.
 
-    Parameters
-    ----------
-    task
-        Type of task the dataset is meant for. Should be one of:
-        - "Regression"
-        - "Binary classification"
-        - "Multi-class classification"
-        - "Multi-output binary classification"
-        - "Multi-output regression"
-    n_features
-        Number of features in the dataset.
-    n_samples
-        Number of samples in the dataset.
-    n_classes
-        Number of classes in the dataset, only applies to classification datasets.
-    n_outputs
-        Number of outputs the target is made of, only applies to multi-output datasets.
-    sparse
-        Whether the dataset is sparse or not.
+    All synthetic datasets inherit from this class.
 
     """
 
@@ -231,15 +212,13 @@ class SyntheticDataset(Dataset):
 class FileConfig(Config):
     """Base class for configurations that are stored in a local file.
 
-    Parameters
-    ----------
-    filename
-        The file's name.
-    directory
-        The directory where the file is contained. Defaults to the location of the `datasets`
-        module.
-    desc
-        Extra config parameters to pass as keyword arguments.
+    Args:
+        filename (str):
+            The file's name.
+        directory (str):
+            The directory where the file is contained. Defaults to the location of the `datasets` module.
+        desc (dict):
+            Extra config parameters to pass as keyword arguments.
 
     """
 
@@ -266,15 +245,12 @@ class FileDataset(Dataset):
 
     Small datasets that are part of the spotRiver package inherit from this class.
 
-    Parameters
-    ----------
-    filename
-        The file's name.
-    directory
-        The directory where the file is contained. Defaults to the location of the `datasets`
-        module.
-    desc
-        Extra dataset parameters to pass as keyword arguments.
+    Args:
+        filename (str): The file's name.
+        directory (str):
+            The directory where the file is contained. Defaults to the location of the `datasets` module.
+        desc (dict):
+            Extra dataset parameters to pass as keyword arguments.
 
     """
 
@@ -301,22 +277,21 @@ class RemoteDataset(FileDataset):
 
     Medium and large datasets that are not part of the river package inherit from this class.
 
-    The filename doesn't have to be provided if unpack is False. Indeed in the latter case the
-    filename will be inferred from the URL.
+    Note:
+        The filename doesn't have to be provided if unpack is False. Indeed in the latter case the
+        filename will be inferred from the URL.
 
-    Parameters
-    ----------
-    url
-        The URL the dataset is located at.
-    size
-        The expected download size.
-    unpack
-        Whether to unpack the download or not.
-    filename
-        An optional name to given to the file if the file is unpacked.
-    desc
-        Extra dataset parameters to pass as keyword arguments.
-
+    Args:
+        url (str):
+            The URL the dataset is located at.
+        size (int):
+            The expected download size.
+        unpack (bool):
+            Whether to unpack the download or not.
+        filename (str):
+            An optional name to given to the file if the file is unpacked.
+        desc (dict):
+            Extra dataset parameters to pass as keyword arguments.
     """
 
     def __init__(self, url, size, unpack=True, filename=None, **desc):
@@ -413,16 +388,12 @@ class GenericFileDataset(Dataset):
 
     Small datasets that are part of the spotRiver package inherit from this class.
 
-    Parameters
-    ----------
-    filename
-        The file's name.
-    directory
-        The directory where the file is contained. Defaults to the location of the `datasets`
-        module.
-    desc
-        Extra dataset parameters to pass as keyword arguments.
-
+    Args:
+        filename (str): The file's name.
+        directory (str):
+            The directory where the file is contained. Defaults to the location of the `datasets` module.
+        desc (dict):
+            Extra dataset parameters to pass as keyword arguments.
     """
 
     def __init__(self, filename, target, converters, parse_dates, directory=None, **desc):

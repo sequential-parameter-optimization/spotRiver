@@ -1056,7 +1056,7 @@
         <tr>
           <td><code>data</code></td>
           <td>
-                <code>pandas.DataFrame or numpy.ndarray</code>
+                <code>pd.DataFrame or np.ndarray</code>
           </td>
           <td>
             <div class="doc-md-description">
@@ -1095,20 +1095,28 @@
     <tbody>
         <tr>
           <td>
+                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>numpy.ndarray: The generated drift array.</p>
+              <p>The generated drift array.</p>
             </div>
           </td>
         </tr>
     </tbody>
   </table>
 
+<p><strong>Examples:</strong></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">spotRiver.drift.drift_generator</span> <span class="kn">import</span> <span class="n">generate_drift</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generate_drift</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">drift_values</span><span class="o">=</span><span class="p">[</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">])</span>
+<span class="go">array([ 1.1, 10. ,  0.1,  1.1])</span>
+</code></pre></div>
+
       <details class="quote">
         <summary>Source code in <code>/Users/bartz/miniforge3/envs/spotCondaEnv/lib/python3.10/site-packages/spotRiver/drift/drift_generator.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 4</span>
-<span class="normal"> 5</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 5</span>
 <span class="normal"> 6</span>
 <span class="normal"> 7</span>
 <span class="normal"> 8</span>
@@ -1126,16 +1134,33 @@
 <span class="normal">20</span>
 <span class="normal">21</span>
 <span class="normal">22</span>
-<span class="normal">23</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_drift</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">drift_values</span><span class="o">=</span><span class="p">[</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">]):</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_drift</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">drift_values</span><span class="o">=</span><span class="p">[</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates a drift array based on the number of rows in the input data and the specified drift values.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">        data (pandas.DataFrame or numpy.ndarray): The input data.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        data (pd.DataFrame or np.ndarray): The input data.</span>
 <span class="sd">        drift_values (list of float): The drift values to use.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        numpy.ndarray: The generated drift array.</span>
+<span class="sd">        (np.ndarray): The generated drift array.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from spotRiver.drift.drift_generator import generate_drift</span>
+<span class="sd">        &gt;&gt;&gt; data = np.array([[1, 2, 3], [4, 5, 6]])</span>
+<span class="sd">        &gt;&gt;&gt; generate_drift(data, drift_values=[1.1, 10.0, 0.1, 1.1])</span>
+<span class="sd">        array([ 1.1, 10. ,  0.1,  1.1])</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">num_rows</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">num_drift_values</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">drift_values</span><span class="p">)</span>

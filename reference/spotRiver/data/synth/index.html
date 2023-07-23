@@ -946,33 +946,6 @@
     SEA
   </a>
   
-    <nav class="md-nav" aria-label="SEA">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#spotRiver.data.synth.SEA--parameters" class="md-nav__link">
-    Parameters
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#spotRiver.data.synth.SEA--examples" class="md-nav__link">
-    Examples
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#spotRiver.data.synth.SEA--references" class="md-nav__link">
-    References
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
     </ul>
@@ -1053,36 +1026,106 @@ stream.</p>
 <p><strong>Variant 3</strong>: <code>True</code> if $att1 + att2 &gt; 9.5$</p>
 </li>
 </ul>
-<h4 id="spotRiver.data.synth.SEA--parameters">Parameters<a class="headerlink" href="#spotRiver.data.synth.SEA--parameters" title="Permanent link">&para;</a></h4>
-<p>variant
-    Determines the classification function to use. Possible choices are 0, 1, 2, 3.
-noise
-    Determines the amount of observations for which the target sign will be flipped.
-seed
-    Random seed number used for reproducibility.</p>
-<h4 id="spotRiver.data.synth.SEA--examples">Examples<a class="headerlink" href="#spotRiver.data.synth.SEA--examples" title="Permanent link">&para;</a></h4>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>from river.datasets import synth</p>
-<p>dataset = synth.SEA(variant=0, seed=42)</p>
-<p>for x, y in dataset.take(5):
-&hellip;     print(x, y)
-{0: 6.39426, 1: 0.25010, 2: 2.75029} False
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>variant</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The variant of the data stream to use. Can be 0, 1, 2, or 3.</p>
+            </div>
+          </td>
+          <td>
+                <code>0</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>noise</code></td>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The probability of generating label noise.</p>
+            </div>
+          </td>
+          <td>
+                <code>0.0</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>seed</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Random seed for reproducibility.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>Generator</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A generator of features and labels.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+<p><strong>Examples:</strong></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">river.datasets</span> <span class="kn">import</span> <span class="n">synth</span>
+<span class="go">    dataset = synth.SEA(variant=0, seed=42)</span>
+<span class="go">    for x, y in dataset.take(5):</span>
+<span class="go">        print(x, y)</span>
+</code></pre></div>
+      <p>{0: 6.39426, 1: 0.25010, 2: 2.75029} False
 {0: 2.23210, 1: 7.36471, 2: 6.76699} True
 {0: 8.92179, 1: 0.86938, 2: 4.21921} True
 {0: 0.29797, 1: 2.18637, 2: 5.05355} False
 {0: 0.26535, 1: 1.98837, 2: 6.49884} False</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<h4 id="spotRiver.data.synth.SEA--references">References<a class="headerlink" href="#spotRiver.data.synth.SEA--references" title="Permanent link">&para;</a></h4>
-<p>[^1]: <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.482.3991&amp;rep=rep1&amp;type=pdf">A Streaming Ensemble Algorithm (SEA) for Large-Scale Classification</a></p>
 
+<details class="references" open>
+  <summary>References</summary>
+  <p>[^1]: <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.482.3991&amp;rep=rep1&amp;type=pdf">A Streaming Ensemble Algorithm (SEA) for Large-Scale Classification</a></p>
+</details>
 
         <details class="quote">
           <summary>Source code in <code>/Users/bartz/miniforge3/envs/spotCondaEnv/lib/python3.10/site-packages/spotRiver/data/synth/sea.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 6</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 5</span>
+<span class="normal"> 6</span>
 <span class="normal"> 7</span>
 <span class="normal"> 8</span>
 <span class="normal"> 9</span>
@@ -1147,14 +1190,7 @@ seed
 <span class="normal">68</span>
 <span class="normal">69</span>
 <span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SEA</span><span class="p">(</span><span class="n">datasets</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">SyntheticDataset</span><span class="p">):</span>
+<span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SEA</span><span class="p">(</span><span class="n">datasets</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">SyntheticDataset</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;SEA synthetic dataset.</span>
 
 <span class="sd">    Implementation of the data stream with abrupt drift described in [^1]. Each observation is</span>
@@ -1171,33 +1207,27 @@ seed
 
 <span class="sd">    * **Variant 3**: `True` if $att1 + att2 &gt; 9.5$</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    variant</span>
-<span class="sd">        Determines the classification function to use. Possible choices are 0, 1, 2, 3.</span>
-<span class="sd">    noise</span>
-<span class="sd">        Determines the amount of observations for which the target sign will be flipped.</span>
-<span class="sd">    seed</span>
-<span class="sd">        Random seed number used for reproducibility.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        variant (int): The variant of the data stream to use. Can be 0, 1, 2, or 3.</span>
+<span class="sd">        noise (float): The probability of generating label noise.</span>
+<span class="sd">        seed (int): Random seed for reproducibility.</span>
 
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        (Generator): A generator of features and labels.</span>
 
-<span class="sd">    &gt;&gt;&gt; from river.datasets import synth</span>
-
-<span class="sd">    &gt;&gt;&gt; dataset = synth.SEA(variant=0, seed=42)</span>
-
-<span class="sd">    &gt;&gt;&gt; for x, y in dataset.take(5):</span>
-<span class="sd">    ...     print(x, y)</span>
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from river.datasets import synth</span>
+<span class="sd">            dataset = synth.SEA(variant=0, seed=42)</span>
+<span class="sd">            for x, y in dataset.take(5):</span>
+<span class="sd">                print(x, y)</span>
 <span class="sd">    {0: 6.39426, 1: 0.25010, 2: 2.75029} False</span>
 <span class="sd">    {0: 2.23210, 1: 7.36471, 2: 6.76699} True</span>
 <span class="sd">    {0: 8.92179, 1: 0.86938, 2: 4.21921} True</span>
 <span class="sd">    {0: 0.29797, 1: 2.18637, 2: 5.05355} False</span>
 <span class="sd">    {0: 0.26535, 1: 1.98837, 2: 6.49884} False</span>
 
-<span class="sd">    References</span>
-<span class="sd">    ----------</span>
-<span class="sd">    [^1]: [A Streaming Ensemble Algorithm (SEA) for Large-Scale Classification](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.482.3991&amp;rep=rep1&amp;type=pdf)</span>
+<span class="sd">    References:</span>
+<span class="sd">        [^1]: [A Streaming Ensemble Algorithm (SEA) for Large-Scale Classification](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.482.3991&amp;rep=rep1&amp;type=pdf)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 

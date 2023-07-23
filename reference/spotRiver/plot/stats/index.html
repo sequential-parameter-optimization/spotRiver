@@ -1047,20 +1047,76 @@
     The resulting matrix is then styled and returned as a heatmap with colors
     ranging from blue (for negative correlations) to red (for positive correlations).</p>
 
-<details class="input" open>
-  <summary>Input</summary>
-  <p>df: pandas DataFrame
-numeric_only: bool, default True.
-    Include only float, int or boolean data.</p>
-</details>      <p>Example:</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>X = pd.DataFrame({&lsquo;A&rsquo;: [1, 2, 3], &lsquo;B&rsquo;: [4, 5, 6], &lsquo;C&rsquo;: [7, 8, 9]})
-    corrplot(X)</p>
-</blockquote>
-</blockquote>
-</blockquote>
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>df</code></td>
+          <td>
+                <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Data to plot.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>numeric_only</code></td>
+          <td>
+                <code>bool, default True</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Include only float, int or boolean data.</p>
+            </div>
+          </td>
+          <td>
+                <code>True</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A styled correlation matrix heatmap.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+<p><strong>Examples:</strong></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">spotRiver.plot.stats</span> <span class="kn">import</span> <span class="n">corrplot</span>
+<span class="go">    import pandas as pd</span>
+<span class="go">    X = pd.DataFrame({&#39;A&#39;: [1, 2, 3], &#39;B&#39;: [4, 5, 6], &#39;C&#39;: [7, 8, 9]})</span>
+<span class="go">    corrplot(X)</span>
+</code></pre></div>
 
       <details class="quote">
         <summary>Source code in <code>/Users/bartz/miniforge3/envs/spotCondaEnv/lib/python3.10/site-packages/spotRiver/plot/stats.py</code></summary>
@@ -1094,7 +1150,11 @@ numeric_only: bool, default True.
 <span class="normal">32</span>
 <span class="normal">33</span>
 <span class="normal">34</span>
-<span class="normal">35</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">corrplot</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">numeric_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">corrplot</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">numeric_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function plots a graphical correlation matrix for each pair of columns in the dataframe.</span>
 <span class="sd">        The function takes a DataFrame df as input and generates a graphical correlation matrix</span>
 <span class="sd">        for each pair of columns in the dataframe.</span>
@@ -1102,14 +1162,18 @@ numeric_only: bool, default True.
 <span class="sd">        The resulting matrix is then styled and returned as a heatmap with colors</span>
 <span class="sd">        ranging from blue (for negative correlations) to red (for positive correlations).</span>
 
-<span class="sd">    Input:</span>
-<span class="sd">        df: pandas DataFrame</span>
-<span class="sd">        numeric_only: bool, default True.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        df (pd.DataFrame): Data to plot.</span>
+<span class="sd">        numeric_only (bool, default True):</span>
 <span class="sd">            Include only float, int or boolean data.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        (pd.DataFrame): A styled correlation matrix heatmap.</span>
 
-<span class="sd">    Example:</span>
-<span class="sd">    &gt;&gt;&gt; X = pd.DataFrame({&#39;A&#39;: [1, 2, 3], &#39;B&#39;: [4, 5, 6], &#39;C&#39;: [7, 8, 9]})</span>
-<span class="sd">        corrplot(X)</span>
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from spotRiver.plot.stats import corrplot</span>
+<span class="sd">            import pandas as pd</span>
+<span class="sd">            X = pd.DataFrame({&#39;A&#39;: [1, 2, 3], &#39;B&#39;: [4, 5, 6], &#39;C&#39;: [7, 8, 9]})</span>
+<span class="sd">            corrplot(X)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 

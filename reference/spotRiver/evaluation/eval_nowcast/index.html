@@ -1070,6 +1070,7 @@
         <tr>
           <td><code>model</code></td>
           <td>
+                <code>river.<span title="river.time_series">time_series</span></code>
           </td>
           <td>
             <div class="doc-md-description">
@@ -1083,6 +1084,7 @@
         <tr>
           <td><code>dataset</code></td>
           <td>
+                <code>object</code>
           </td>
           <td>
             <div class="doc-md-description">
@@ -1096,6 +1098,7 @@
         <tr>
           <td><code>time_interval</code></td>
           <td>
+                <code>str</code>
           </td>
           <td>
             <div class="doc-md-description">
@@ -1109,6 +1112,7 @@
         <tr>
           <td><code>window_size</code></td>
           <td>
+                <code>int</code>
           </td>
           <td>
             <div class="doc-md-description">
@@ -1133,11 +1137,11 @@
     <tbody>
         <tr>
           <td>
-                <code><span title="typing.Tuple">Tuple</span></code>
+                <code><span title="typing.Tuple">Tuple</span>[<span title="typing.List">List</span>, <span title="river.utils">utils</span>.<span title="river.utils.Rolling">Rolling</span>, <span title="typing.List">List</span>, <span title="typing.List">List</span>]</code>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>A tuple of four lists:
+              <p>Tuple[List, utils.Rolling, List, List]: A tuple of four lists:
 - dates: The dates corresponding to each observation in the dataset.
 - metric: A rolling metric object that contains the mean absolute error values.
 - y_trues: The true values of the target variable in the dataset.
@@ -1168,7 +1172,8 @@ plot_nowcast_model(dates, metric, y_trues, y_preds)
 
       <details class="quote">
         <summary>Source code in <code>/Users/bartz/miniforge3/envs/spotCondaEnv/lib/python3.10/site-packages/spotRiver/evaluation/eval_nowcast.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 8</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 7</span>
+<span class="normal"> 8</span>
 <span class="normal"> 9</span>
 <span class="normal">10</span>
 <span class="normal">11</span>
@@ -1215,19 +1220,18 @@ plot_nowcast_model(dates, metric, y_trues, y_preds)
 <span class="normal">52</span>
 <span class="normal">53</span>
 <span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">eval_nowcast_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">time_interval</span><span class="o">=</span><span class="s2">&quot;month&quot;</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
+<span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">eval_nowcast_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">time_interval</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;month&quot;</span><span class="p">,</span> <span class="n">window_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">12</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">utils</span><span class="o">.</span><span class="n">Rolling</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">List</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Evaluates a time series model using a rolling mean absolute error metric.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">        model: A predictor object (river.time_series) that implements the forecast and learn_one methods.</span>
-<span class="sd">        dataset: A dataset object that contains the time series data.</span>
-<span class="sd">        time_interval: The name of the attribute that contains the date information in the dataset.</span>
-<span class="sd">        window_size: The number of observations to use for calculating the rolling metric.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        model (river.time_series): A predictor object (river.time_series) that implements the forecast and learn_one methods.</span>
+<span class="sd">        dataset (object): A dataset object that contains the time series data.</span>
+<span class="sd">        time_interval (str): The name of the attribute that contains the date information in the dataset.</span>
+<span class="sd">        window_size (int): The number of observations to use for calculating the rolling metric.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        A tuple of four lists:</span>
+<span class="sd">        Tuple[List, utils.Rolling, List, List]: A tuple of four lists:</span>
 <span class="sd">            - dates: The dates corresponding to each observation in the dataset.</span>
 <span class="sd">            - metric: A rolling metric object that contains the mean absolute error values.</span>
 <span class="sd">            - y_trues: The true values of the target variable in the dataset.</span>

@@ -738,8 +738,43 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#spotRiver.fun.hyperriver.HyperRiver.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spotRiver.fun.hyperriver.HyperRiver.check_X_shape" class="md-nav__link">
+    check_X_shape()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#spotRiver.fun.hyperriver.HyperRiver.compute_y" class="md-nav__link">
     compute_y()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spotRiver.fun.hyperriver.HyperRiver.evaluate_model" class="md-nav__link">
+    evaluate_model()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spotRiver.fun.hyperriver.HyperRiver.fun_oml_horizon" class="md-nav__link">
+    fun_oml_horizon()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spotRiver.fun.hyperriver.HyperRiver.get_river_df_eval_preds" class="md-nav__link">
+    get_river_df_eval_preds()
   </a>
   
 </li>
@@ -1005,8 +1040,43 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#spotRiver.fun.hyperriver.HyperRiver.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spotRiver.fun.hyperriver.HyperRiver.check_X_shape" class="md-nav__link">
+    check_X_shape()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#spotRiver.fun.hyperriver.HyperRiver.compute_y" class="md-nav__link">
     compute_y()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spotRiver.fun.hyperriver.HyperRiver.evaluate_model" class="md-nav__link">
+    evaluate_model()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spotRiver.fun.hyperriver.HyperRiver.fun_oml_horizon" class="md-nav__link">
+    fun_oml_horizon()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spotRiver.fun.hyperriver.HyperRiver.get_river_df_eval_preds" class="md-nav__link">
+    get_river_df_eval_preds()
   </a>
   
 </li>
@@ -1211,7 +1281,95 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 <span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
-<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">HyperRiver</span><span class="p">:</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">HyperRiver</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Hyperparameter Tuning for River.</span>
 
@@ -1222,6 +1380,15 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">126</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the class.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            seed (int): seed.</span>
+<span class="sd">                See [Numpy Random Sampling](https://numpy.org/doc/stable/reference/random/index.html#random-quick-start)</span>
+<span class="sd">            log_level (int): The level of logging to use. 0 = no logging, 50 = print only important</span>
+<span class="sd">                            information. Defaults to 50.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            (NoneType): None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span> <span class="o">=</span> <span class="p">{</span>
@@ -1270,6 +1437,22 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
         <span class="k">return</span> <span class="n">y</span>
 
     <span class="k">def</span> <span class="nf">check_X_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check the shape of X.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            X (np.ndarray): The input data.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            (NoneType): None</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; X = np.array([[1, 2, 3], [4, 5, 6]])</span>
+<span class="sd">            &gt;&gt;&gt; check_X_shape(X)</span>
+<span class="sd">            &gt;&gt;&gt; X = np.array([1, 2, 3])</span>
+<span class="sd">            &gt;&gt;&gt; check_X_shape(X)</span>
+<span class="sd">            Traceback (most recent call last):</span>
+<span class="sd">            ...</span>
+<span class="sd">            Exception</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
@@ -1277,7 +1460,37 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
         <span class="k">if</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;var_name&quot;</span><span class="p">]):</span>
             <span class="k">raise</span> <span class="ne">Exception</span>
 
-    <span class="k">def</span> <span class="nf">evaluate_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">evaluate_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluates a model using the eval_oml_horizon function.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model (object): The model to be evaluated.</span>
+<span class="sd">            fun_control (dict): A dictionary containing the following keys:</span>
+<span class="sd">                - train (pd.DataFrame): The training data.</span>
+<span class="sd">                - test (pd.DataFrame): The testing data.</span>
+<span class="sd">                - target_column (str): The name of the target column.</span>
+<span class="sd">                - horizon (int): The horizon value.</span>
+<span class="sd">                - oml_grace_period (int): The oml_grace_period value.</span>
+<span class="sd">                - metric_sklearn (str): The metric to be used for evaluation.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (Tuple[pd.DataFrame, pd.DataFrame]): A tuple containing two dataframes:</span>
+<span class="sd">                - df_eval: The evaluation dataframe.</span>
+<span class="sd">                - df_preds: The predictions dataframe.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; model = SomeModel()</span>
+<span class="sd">            &gt;&gt;&gt; fun_control = {</span>
+<span class="sd">            ...     &quot;train&quot;: train_data,</span>
+<span class="sd">            ...     &quot;test&quot;: test_data,</span>
+<span class="sd">            ...     &quot;target_column&quot;: &quot;target&quot;,</span>
+<span class="sd">            ...     &quot;horizon&quot;: 5,</span>
+<span class="sd">            ...     &quot;oml_grace_period&quot;: 10,</span>
+<span class="sd">            ...     &quot;metric_sklearn&quot;: &quot;accuracy&quot;</span>
+<span class="sd">            ... }</span>
+<span class="sd">            &gt;&gt;&gt; df_eval, df_preds = evaluate_model(model, fun_control)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">df_eval</span><span class="p">,</span> <span class="n">df_preds</span> <span class="o">=</span> <span class="n">eval_oml_horizon</span><span class="p">(</span>
                 <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
@@ -1293,6 +1506,17 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
         <span class="k">return</span> <span class="n">df_eval</span><span class="p">,</span> <span class="n">df_preds</span>
 
     <span class="k">def</span> <span class="nf">get_river_df_eval_preds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the evaluation and prediction dataframes for a river model.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            model (object): The model to be evaluated.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            (Tuple[pd.DataFrame, pd.DataFrame]): A tuple containing two dataframes:</span>
+<span class="sd">                - df_eval: The evaluation dataframe.</span>
+<span class="sd">                - df_preds: The predictions dataframe.</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; model = SomeModel()</span>
+<span class="sd">            &gt;&gt;&gt; df_eval, df_preds = get_river_df_eval_preds(model)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">df_eval</span><span class="p">,</span> <span class="n">df_preds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
@@ -1302,7 +1526,29 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
             <span class="n">df_preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
         <span class="k">return</span> <span class="n">df_eval</span><span class="p">,</span> <span class="n">df_preds</span>
 
-    <span class="k">def</span> <span class="nf">fun_oml_horizon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">fun_control</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fun_oml_horizon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The objective function for hyperparameter tuning.</span>
+
+<span class="sd">        This function takes in input data and a dictionary of control parameters to compute the objective function values for hyperparameter tuning.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X (np.ndarray): The input data.</span>
+<span class="sd">            fun_control (dict, optional): A dictionary containing the following keys:</span>
+<span class="sd">                - train (pd.DataFrame): The training data.</span>
+<span class="sd">                - test (pd.DataFrame): The testing data.</span>
+<span class="sd">                - target_column (str): The name of the target column.</span>
+<span class="sd">                - horizon (int): The horizon value.</span>
+<span class="sd">                - oml_grace_period (int): The oml_grace_period value.</span>
+<span class="sd">                - metric_sklearn (str): The metric to be used for evaluation.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (np.ndarray): The objective function values.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; fun_oml_horizon(X, fun_control={&#39;train&#39;: train_data, &#39;test&#39;: test_data, &#39;target_column&#39;: &#39;y&#39;, &#39;horizon&#39;: 5, &#39;oml_grace_period&#39;: 10, &#39;metric_sklearn&#39;: &#39;accuracy&#39;})</span>
+<span class="sd">            array([0.8, 0.85, 0.9])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">z_res</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">fun_control</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_X_shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
@@ -1336,6 +1582,280 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 
 
 
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="spotRiver.fun.hyperriver.HyperRiver.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">126</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></code>
+
+<a href="#spotRiver.fun.hyperriver.HyperRiver.__init__" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Initialize the class.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>seed</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>seed.
+See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-quick-start">Numpy Random Sampling</a></p>
+            </div>
+          </td>
+          <td>
+                <code>126</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>log_level</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The level of logging to use. 0 = no logging, 50 = print only important
+            information. Defaults to 50.</p>
+            </div>
+          </td>
+          <td>
+                <code>50</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>NoneType</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>None</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>/Users/bartz/miniforge3/envs/spotCondaEnv/lib/python3.10/site-packages/spotRiver/fun/hyperriver.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">126</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the class.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        seed (int): seed.</span>
+<span class="sd">            See [Numpy Random Sampling](https://numpy.org/doc/stable/reference/random/index.html#random-quick-start)</span>
+<span class="sd">        log_level (int): The level of logging to use. 0 = no logging, 50 = print only important</span>
+<span class="sd">                        information. Defaults to 50.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        (NoneType): None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;step&quot;</span><span class="p">:</span> <span class="mi">10_000</span><span class="p">,</span>
+        <span class="s2">&quot;horizon&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;grace_period&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;metric_river&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;metric_sklearn&quot;</span><span class="p">:</span> <span class="n">mean_absolute_error</span><span class="p">,</span>
+        <span class="s2">&quot;weights&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
+        <span class="s2">&quot;weight_coeff&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="s2">&quot;log_level&quot;</span><span class="p">:</span> <span class="n">log_level</span><span class="p">,</span>
+        <span class="s2">&quot;var_name&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;var_type&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;prep_model&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">log_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;log_level&quot;</span><span class="p">]</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Starting the logger at level </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">log_level</span><span class="si">}</span><span class="s2"> for module </span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="spotRiver.fun.hyperriver.HyperRiver.check_X_shape" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">check_X_shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></code>
+
+<a href="#spotRiver.fun.hyperriver.HyperRiver.check_X_shape" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Check the shape of X.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>X</code></td>
+          <td>
+                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The input data.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>NoneType</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>None</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+<p><strong>Examples:</strong></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">check_X_shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">check_X_shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">Exception</span>
+</code></pre></div>
+
+      <details class="quote">
+        <summary>Source code in <code>/Users/bartz/miniforge3/envs/spotCondaEnv/lib/python3.10/site-packages/spotRiver/fun/hyperriver.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">check_X_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check the shape of X.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        X (np.ndarray): The input data.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        (NoneType): None</span>
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; X = np.array([[1, 2, 3], [4, 5, 6]])</span>
+<span class="sd">        &gt;&gt;&gt; check_X_shape(X)</span>
+<span class="sd">        &gt;&gt;&gt; X = np.array([1, 2, 3])</span>
+<span class="sd">        &gt;&gt;&gt; check_X_shape(X)</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        Exception</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">X</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;var_name&quot;</span><span class="p">]):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
 
 <div class="doc doc-object doc-function">
 
@@ -1410,16 +1930,7 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 
       <details class="quote">
         <summary>Source code in <code>/Users/bartz/miniforge3/envs/spotCondaEnv/lib/python3.10/site-packages/spotRiver/fun/hyperriver.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">67</span>
 <span class="normal">68</span>
 <span class="normal">69</span>
 <span class="normal">70</span>
@@ -1434,7 +1945,16 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 <span class="normal">79</span>
 <span class="normal">80</span>
 <span class="normal">81</span>
-<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df_eval</span><span class="p">):</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df_eval</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the objective function value.</span>
 <span class="sd">    Args:</span>
 <span class="sd">        df_eval (pd.DataFrame): DataFrame with the evaluation results.</span>
@@ -1459,6 +1979,511 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
     <span class="n">y</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">y_error</span> <span class="o">+</span> <span class="n">weights</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">y_r_time</span> <span class="o">+</span> <span class="n">weights</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">y_memory</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;weighted res from eval_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">y</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="spotRiver.fun.hyperriver.HyperRiver.evaluate_model" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">evaluate_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">)</span></code>
+
+<a href="#spotRiver.fun.hyperriver.HyperRiver.evaluate_model" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Evaluates a model using the eval_oml_horizon function.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>model</code></td>
+          <td>
+                <code>object</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The model to be evaluated.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>fun_control</code></td>
+          <td>
+                <code>dict</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A dictionary containing the following keys:
+- train (pd.DataFrame): The training data.
+- test (pd.DataFrame): The testing data.
+- target_column (str): The name of the target column.
+- horizon (int): The horizon value.
+- oml_grace_period (int): The oml_grace_period value.
+- metric_sklearn (str): The metric to be used for evaluation.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>Tuple[pd.<span title="pd.DataFrame">DataFrame</span>, pd.<span title="pd.DataFrame">DataFrame</span>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A tuple containing two dataframes:
+- df_eval: The evaluation dataframe.
+- df_preds: The predictions dataframe.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+<details class="example" open>
+  <summary>Example</summary>
+  <blockquote>
+<blockquote>
+<blockquote>
+<p>model = SomeModel()
+fun_control = {
+&hellip;     &ldquo;train&rdquo;: train_data,
+&hellip;     &ldquo;test&rdquo;: test_data,
+&hellip;     &ldquo;target_column&rdquo;: &ldquo;target&rdquo;,
+&hellip;     &ldquo;horizon&rdquo;: 5,
+&hellip;     &ldquo;oml_grace_period&rdquo;: 10,
+&hellip;     &ldquo;metric_sklearn&rdquo;: &ldquo;accuracy&rdquo;
+&hellip; }
+df_eval, df_preds = evaluate_model(model, fun_control)</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</details>
+      <details class="quote">
+        <summary>Source code in <code>/Users/bartz/miniforge3/envs/spotCondaEnv/lib/python3.10/site-packages/spotRiver/fun/hyperriver.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evaluates a model using the eval_oml_horizon function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model (object): The model to be evaluated.</span>
+<span class="sd">        fun_control (dict): A dictionary containing the following keys:</span>
+<span class="sd">            - train (pd.DataFrame): The training data.</span>
+<span class="sd">            - test (pd.DataFrame): The testing data.</span>
+<span class="sd">            - target_column (str): The name of the target column.</span>
+<span class="sd">            - horizon (int): The horizon value.</span>
+<span class="sd">            - oml_grace_period (int): The oml_grace_period value.</span>
+<span class="sd">            - metric_sklearn (str): The metric to be used for evaluation.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (Tuple[pd.DataFrame, pd.DataFrame]): A tuple containing two dataframes:</span>
+<span class="sd">            - df_eval: The evaluation dataframe.</span>
+<span class="sd">            - df_preds: The predictions dataframe.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; model = SomeModel()</span>
+<span class="sd">        &gt;&gt;&gt; fun_control = {</span>
+<span class="sd">        ...     &quot;train&quot;: train_data,</span>
+<span class="sd">        ...     &quot;test&quot;: test_data,</span>
+<span class="sd">        ...     &quot;target_column&quot;: &quot;target&quot;,</span>
+<span class="sd">        ...     &quot;horizon&quot;: 5,</span>
+<span class="sd">        ...     &quot;oml_grace_period&quot;: 10,</span>
+<span class="sd">        ...     &quot;metric_sklearn&quot;: &quot;accuracy&quot;</span>
+<span class="sd">        ... }</span>
+<span class="sd">        &gt;&gt;&gt; df_eval, df_preds = evaluate_model(model, fun_control)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">df_eval</span><span class="p">,</span> <span class="n">df_preds</span> <span class="o">=</span> <span class="n">eval_oml_horizon</span><span class="p">(</span>
+            <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">train</span><span class="o">=</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;train&quot;</span><span class="p">],</span>
+            <span class="n">test</span><span class="o">=</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">],</span>
+            <span class="n">target_column</span><span class="o">=</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;target_column&quot;</span><span class="p">],</span>
+            <span class="n">horizon</span><span class="o">=</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;horizon&quot;</span><span class="p">],</span>
+            <span class="n">oml_grace_period</span><span class="o">=</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;oml_grace_period&quot;</span><span class="p">],</span>
+            <span class="n">metric</span><span class="o">=</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;metric_sklearn&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in fun_oml_horizon(). Call to eval_oml_horizon failed. </span><span class="si">{</span><span class="n">err</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df_eval</span><span class="p">,</span> <span class="n">df_preds</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="spotRiver.fun.hyperriver.HyperRiver.fun_oml_horizon" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">fun_oml_horizon</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">fun_control</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#spotRiver.fun.hyperriver.HyperRiver.fun_oml_horizon" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>The objective function for hyperparameter tuning.</p>
+<p>This function takes in input data and a dictionary of control parameters to compute the objective function values for hyperparameter tuning.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>X</code></td>
+          <td>
+                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The input data.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>fun_control</code></td>
+          <td>
+                <code>dict</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A dictionary containing the following keys:
+- train (pd.DataFrame): The training data.
+- test (pd.DataFrame): The testing data.
+- target_column (str): The name of the target column.
+- horizon (int): The horizon value.
+- oml_grace_period (int): The oml_grace_period value.
+- metric_sklearn (str): The metric to be used for evaluation.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The objective function values.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+<details class="example" open>
+  <summary>Example</summary>
+  <blockquote>
+<blockquote>
+<blockquote>
+<p>fun_oml_horizon(X, fun_control={&lsquo;train&rsquo;: train_data, &lsquo;test&rsquo;: test_data, &lsquo;target_column&rsquo;: &lsquo;y&rsquo;, &lsquo;horizon&rsquo;: 5, &lsquo;oml_grace_period&rsquo;: 10, &lsquo;metric_sklearn&rsquo;: &lsquo;accuracy&rsquo;})
+array([0.8, 0.85, 0.9])</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</details>
+      <details class="quote">
+        <summary>Source code in <code>/Users/bartz/miniforge3/envs/spotCondaEnv/lib/python3.10/site-packages/spotRiver/fun/hyperriver.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fun_oml_horizon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The objective function for hyperparameter tuning.</span>
+
+<span class="sd">    This function takes in input data and a dictionary of control parameters to compute the objective function values for hyperparameter tuning.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        X (np.ndarray): The input data.</span>
+<span class="sd">        fun_control (dict, optional): A dictionary containing the following keys:</span>
+<span class="sd">            - train (pd.DataFrame): The training data.</span>
+<span class="sd">            - test (pd.DataFrame): The testing data.</span>
+<span class="sd">            - target_column (str): The name of the target column.</span>
+<span class="sd">            - horizon (int): The horizon value.</span>
+<span class="sd">            - oml_grace_period (int): The oml_grace_period value.</span>
+<span class="sd">            - metric_sklearn (str): The metric to be used for evaluation.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (np.ndarray): The objective function values.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; fun_oml_horizon(X, fun_control={&#39;train&#39;: train_data, &#39;test&#39;: test_data, &#39;target_column&#39;: &#39;y&#39;, &#39;horizon&#39;: 5, &#39;oml_grace_period&#39;: 10, &#39;metric_sklearn&#39;: &#39;accuracy&#39;})</span>
+<span class="sd">        array([0.8, 0.85, 0.9])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">z_res</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">fun_control</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">check_X_shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">var_dict</span> <span class="o">=</span> <span class="n">assign_values</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;var_name&quot;</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">generate_one_config_from_var_dict</span><span class="p">(</span><span class="n">var_dict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">):</span>
+        <span class="n">config_id</span> <span class="o">=</span> <span class="n">generate_config_id</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;prep_model&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">compose</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;prep_model&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;core_model&quot;</span><span class="p">](</span><span class="o">**</span><span class="n">config</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;core_model&quot;</span><span class="p">](</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">df_eval</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">)</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_y</span><span class="p">(</span><span class="n">df_eval</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in fun(). Call to evaluate or compute_y failed. </span><span class="si">{</span><span class="n">err</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Setting y to np.nan.&quot;</span><span class="p">)</span>
+        <span class="n">z_res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;n_samples&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">z_res</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="spotRiver.fun.hyperriver.HyperRiver.get_river_df_eval_preds" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">get_river_df_eval_preds</span><span class="p">(</span><span class="n">model</span><span class="p">)</span></code>
+
+<a href="#spotRiver.fun.hyperriver.HyperRiver.get_river_df_eval_preds" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the evaluation and prediction dataframes for a river model.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>model</code></td>
+          <td>
+                <code>object</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The model to be evaluated.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>Tuple[pd.<span title="pd.DataFrame">DataFrame</span>, pd.<span title="pd.DataFrame">DataFrame</span>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A tuple containing two dataframes:
+- df_eval: The evaluation dataframe.
+- df_preds: The predictions dataframe.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+<p><strong>Examples:</strong></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">SomeModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df_eval</span><span class="p">,</span> <span class="n">df_preds</span> <span class="o">=</span> <span class="n">get_river_df_eval_preds</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</code></pre></div>
+
+      <details class="quote">
+        <summary>Source code in <code>/Users/bartz/miniforge3/envs/spotCondaEnv/lib/python3.10/site-packages/spotRiver/fun/hyperriver.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_river_df_eval_preds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the evaluation and prediction dataframes for a river model.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        model (object): The model to be evaluated.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        (Tuple[pd.DataFrame, pd.DataFrame]): A tuple containing two dataframes:</span>
+<span class="sd">            - df_eval: The evaluation dataframe.</span>
+<span class="sd">            - df_preds: The predictions dataframe.</span>
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; model = SomeModel()</span>
+<span class="sd">        &gt;&gt;&gt; df_eval, df_preds = get_river_df_eval_preds(model)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">df_eval</span><span class="p">,</span> <span class="n">df_preds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in get_river_df_eval_preds(). Call to evaluate_model failed. </span><span class="si">{</span><span class="n">err</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Setting df_eval and df.preds to np.nan&quot;</span><span class="p">)</span>
+        <span class="n">df_eval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">df_preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">return</span> <span class="n">df_eval</span><span class="p">,</span> <span class="n">df_preds</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>

@@ -1007,23 +1007,23 @@ the majority of these methods are infinite data generators.</p>
 
   
       <p>SEA synthetic dataset.</p>
-<p>Implementation of the data stream with abrupt drift described in [^1]. Each observation is
+<p>Implementation of the data stream with abrupt drift described in [1]. Each observation is
 composed of 3 features. Only the first two features are relevant. The target is binary, and is
 positive if the sum of the features exceeds a certain threshold. There are 4 thresholds to
 choose from. Concept drift can be introduced by switching the threshold anytime during the
 stream.</p>
 <ul>
 <li>
-<p><strong>Variant 0</strong>: <code>True</code> if $att1 + att2 &gt; 8$</p>
+<p><strong>Variant 0</strong>: <code>True</code> if <code>att1 + att2 &gt; 8</code></p>
 </li>
 <li>
-<p><strong>Variant 1</strong>: <code>True</code> if $att1 + att2 &gt; 9$</p>
+<p><strong>Variant 1</strong>: <code>True</code> if <code>att1 + att2 &gt; 9</code></p>
 </li>
 <li>
-<p><strong>Variant 2</strong>: <code>True</code> if $att1 + att2 &gt; 7$</p>
+<p><strong>Variant 2</strong>: <code>True</code> if <code>att1 + att2 &gt; 7</code></p>
 </li>
 <li>
-<p><strong>Variant 3</strong>: <code>True</code> if $att1 + att2 &gt; 9.5$</p>
+<p><strong>Variant 3</strong>: <code>True</code> if <code>att1 + att2 &gt; 9.5</code></p>
 </li>
 </ul>
 
@@ -1106,7 +1106,7 @@ stream.</p>
   </table>
 
 <p><strong>Examples:</strong></p>
-    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">river.datasets</span> <span class="kn">import</span> <span class="n">synth</span>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">spotRiver.data.synth</span> <span class="kn">import</span> <span class="n">SEA</span>
 <span class="go">    dataset = synth.SEA(variant=0, seed=42)</span>
 <span class="go">    for x, y in dataset.take(5):</span>
 <span class="go">        print(x, y)</span>
@@ -1119,7 +1119,7 @@ stream.</p>
 
 <details class="references" open>
   <summary>References</summary>
-  <p>[^1]: <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.482.3991&amp;rep=rep1&amp;type=pdf">A Streaming Ensemble Algorithm (SEA) for Large-Scale Classification</a></p>
+  <p>[1]: <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.482.3991&amp;rep=rep1&amp;type=pdf">A Streaming Ensemble Algorithm (SEA) for Large-Scale Classification</a></p>
 </details>
 
         <details class="quote">
@@ -1193,19 +1193,19 @@ stream.</p>
 <span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SEA</span><span class="p">(</span><span class="n">datasets</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">SyntheticDataset</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;SEA synthetic dataset.</span>
 
-<span class="sd">    Implementation of the data stream with abrupt drift described in [^1]. Each observation is</span>
+<span class="sd">    Implementation of the data stream with abrupt drift described in [1]. Each observation is</span>
 <span class="sd">    composed of 3 features. Only the first two features are relevant. The target is binary, and is</span>
 <span class="sd">    positive if the sum of the features exceeds a certain threshold. There are 4 thresholds to</span>
 <span class="sd">    choose from. Concept drift can be introduced by switching the threshold anytime during the</span>
 <span class="sd">    stream.</span>
 
-<span class="sd">    * **Variant 0**: `True` if $att1 + att2 &gt; 8$</span>
+<span class="sd">    * **Variant 0**: `True` if `att1 + att2 &gt; 8`</span>
 
-<span class="sd">    * **Variant 1**: `True` if $att1 + att2 &gt; 9$</span>
+<span class="sd">    * **Variant 1**: `True` if `att1 + att2 &gt; 9`</span>
 
-<span class="sd">    * **Variant 2**: `True` if $att1 + att2 &gt; 7$</span>
+<span class="sd">    * **Variant 2**: `True` if `att1 + att2 &gt; 7`</span>
 
-<span class="sd">    * **Variant 3**: `True` if $att1 + att2 &gt; 9.5$</span>
+<span class="sd">    * **Variant 3**: `True` if `att1 + att2 &gt; 9.5`</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        variant (int): The variant of the data stream to use. Can be 0, 1, 2, or 3.</span>
@@ -1216,7 +1216,7 @@ stream.</p>
 <span class="sd">        (Generator): A generator of features and labels.</span>
 
 <span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; from river.datasets import synth</span>
+<span class="sd">        &gt;&gt;&gt; from spotRiver.data.synth import SEA</span>
 <span class="sd">            dataset = synth.SEA(variant=0, seed=42)</span>
 <span class="sd">            for x, y in dataset.take(5):</span>
 <span class="sd">                print(x, y)</span>
@@ -1227,7 +1227,7 @@ stream.</p>
 <span class="sd">    {0: 0.26535, 1: 1.98837, 2: 6.49884} False</span>
 
 <span class="sd">    References:</span>
-<span class="sd">        [^1]: [A Streaming Ensemble Algorithm (SEA) for Large-Scale Classification](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.482.3991&amp;rep=rep1&amp;type=pdf)</span>
+<span class="sd">        [1]: [A Streaming Ensemble Algorithm (SEA) for Large-Scale Classification](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.482.3991&amp;rep=rep1&amp;type=pdf)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 

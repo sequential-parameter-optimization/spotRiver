@@ -1171,8 +1171,7 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 
         <details class="quote">
           <summary>Source code in <code>/Users/bartz/miniforge3/envs/spotCondaEnv/lib/python3.10/site-packages/spotRiver/fun/hyperriver.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 26</span>
-<span class="normal"> 27</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 27</span>
 <span class="normal"> 28</span>
 <span class="normal"> 29</span>
 <span class="normal"> 30</span>
@@ -1369,7 +1368,8 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 <span class="normal">221</span>
 <span class="normal">222</span>
 <span class="normal">223</span>
-<span class="normal">224</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">HyperRiver</span><span class="p">:</span>
+<span class="normal">224</span>
+<span class="normal">225</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">HyperRiver</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Hyperparameter Tuning for River.</span>
 
@@ -1665,8 +1665,7 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 
       <details class="quote">
         <summary>Source code in <code>/Users/bartz/miniforge3/envs/spotCondaEnv/lib/python3.10/site-packages/spotRiver/fun/hyperriver.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">36</span>
-<span class="normal">37</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">37</span>
 <span class="normal">38</span>
 <span class="normal">39</span>
 <span class="normal">40</span>
@@ -1694,7 +1693,8 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 <span class="normal">62</span>
 <span class="normal">63</span>
 <span class="normal">64</span>
-<span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">126</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+<span class="normal">65</span>
+<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">126</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the class.</span>
 <span class="sd">    Args:</span>
 <span class="sd">        seed (int): seed.</span>
@@ -1806,8 +1806,7 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 
       <details class="quote">
         <summary>Source code in <code>/Users/bartz/miniforge3/envs/spotCondaEnv/lib/python3.10/site-packages/spotRiver/fun/hyperriver.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 93</span>
-<span class="normal"> 94</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 94</span>
 <span class="normal"> 95</span>
 <span class="normal"> 96</span>
 <span class="normal"> 97</span>
@@ -1828,7 +1827,8 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 <span class="normal">112</span>
 <span class="normal">113</span>
 <span class="normal">114</span>
-<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">check_X_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<span class="normal">115</span>
+<span class="normal">116</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">check_X_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check the shape of X.</span>
 <span class="sd">    Args:</span>
@@ -1885,7 +1885,7 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
         <tr>
           <td><code>df_eval</code></td>
           <td>
-                <code>pd.<span title="pd.DataFrame">DataFrame</span></code>
+                <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
           </td>
           <td>
             <div class="doc-md-description">
@@ -1930,8 +1930,7 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 
       <details class="quote">
         <summary>Source code in <code>/Users/bartz/miniforge3/envs/spotCondaEnv/lib/python3.10/site-packages/spotRiver/fun/hyperriver.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">67</span>
-<span class="normal">68</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">68</span>
 <span class="normal">69</span>
 <span class="normal">70</span>
 <span class="normal">71</span>
@@ -1954,7 +1953,8 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 <span class="normal">88</span>
 <span class="normal">89</span>
 <span class="normal">90</span>
-<span class="normal">91</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df_eval</span><span class="p">):</span>
+<span class="normal">91</span>
+<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df_eval</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the objective function value.</span>
 <span class="sd">    Args:</span>
 <span class="sd">        df_eval (pd.DataFrame): DataFrame with the evaluation results.</span>
@@ -2058,7 +2058,7 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
     <tbody>
         <tr>
           <td>
-                <code><span title="typing.Tuple">Tuple</span>[pd.<span title="pd.DataFrame">DataFrame</span>, pd.<span title="pd.DataFrame">DataFrame</span>]</code>
+                <code><span title="typing.Tuple">Tuple</span>[<span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span>, <span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span>]</code>
           </td>
           <td>
             <div class="doc-md-description">
@@ -2086,8 +2086,7 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 
       <details class="quote">
         <summary>Source code in <code>/Users/bartz/miniforge3/envs/spotCondaEnv/lib/python3.10/site-packages/spotRiver/fun/hyperriver.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">117</span>
-<span class="normal">118</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
@@ -2129,7 +2128,8 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 <span class="normal">157</span>
 <span class="normal">158</span>
 <span class="normal">159</span>
-<span class="normal">160</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+<span class="normal">160</span>
+<span class="normal">161</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Evaluates a model using the eval_oml_horizon function.</span>
 
@@ -2271,8 +2271,7 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 
       <details class="quote">
         <summary>Source code in <code>/Users/bartz/miniforge3/envs/spotCondaEnv/lib/python3.10/site-packages/spotRiver/fun/hyperriver.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">183</span>
-<span class="normal">184</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">184</span>
 <span class="normal">185</span>
 <span class="normal">186</span>
 <span class="normal">187</span>
@@ -2312,7 +2311,8 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 <span class="normal">221</span>
 <span class="normal">222</span>
 <span class="normal">223</span>
-<span class="normal">224</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fun_oml_horizon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="normal">224</span>
+<span class="normal">225</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fun_oml_horizon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The objective function for hyperparameter tuning.</span>
 
@@ -2413,7 +2413,7 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
     <tbody>
         <tr>
           <td>
-                <code><span title="typing.Tuple">Tuple</span>[pd.<span title="pd.DataFrame">DataFrame</span>, pd.<span title="pd.DataFrame">DataFrame</span>]</code>
+                <code><span title="typing.Tuple">Tuple</span>[<span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span>, <span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span>]</code>
           </td>
           <td>
             <div class="doc-md-description">
@@ -2433,8 +2433,7 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 
       <details class="quote">
         <summary>Source code in <code>/Users/bartz/miniforge3/envs/spotCondaEnv/lib/python3.10/site-packages/spotRiver/fun/hyperriver.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">162</span>
-<span class="normal">163</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">163</span>
 <span class="normal">164</span>
 <span class="normal">165</span>
 <span class="normal">166</span>
@@ -2452,7 +2451,8 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 <span class="normal">178</span>
 <span class="normal">179</span>
 <span class="normal">180</span>
-<span class="normal">181</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_river_df_eval_preds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+<span class="normal">181</span>
+<span class="normal">182</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_river_df_eval_preds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the evaluation and prediction dataframes for a river model.</span>
 <span class="sd">    Args:</span>
 <span class="sd">        model (object): The model to be evaluated.</span>

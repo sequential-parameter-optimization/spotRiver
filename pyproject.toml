@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spotRiver"
-version = "0.0.95"
+version = "0.0.96"
 authors = [
   { name="T. Bartz-Beielstein", email="tbb@bartzundbartz.de" }
 ]
@@ -24,9 +24,27 @@ classifiers = [
 # PEP 621 dependencies declaration
 # adapt to your dependencies manager
 dependencies = [
-  "mkdocstrings-python"
+  "importlib",
+  "lightning>=2.0.0rc0",
+  "matplotlib",
+  "numpy",
+  "nbformat",
+  "mkdocstrings-python",
+  "pandas",
+  "plotly",
+  "pytorch-lightning>=1.4",
+  "river",
+  "scikit-learn",
+  "scipy",
+  "spotPython",
+  "seaborn",
+  "tabulate",
+  "tensorboard",
+  "torch",
+  "torch-tb-profiler",
+  "torchmetrics",
+  "torchvision"
 ]
-
 [project.urls]
 "Homepage" = "https://www.spotseven.de"
 

@@ -1,15 +1,35 @@
 site_name: spotRiver
-site_url: https://www.spotseven.de
+site_url: https://github.com/sequential-parameter-optimization/spotRiver
+repo_url: https://github.com/sequential-parameter-optimization/spotRiver
 nav:
 - Home: index.md
+- Documentation: hyperparameter-tuning-cookbook.md
 - Download: download.md
 - Examples: examples.md
 - Code Reference: reference/
 - About: about.md
 theme:
-  name: "material"
+  name: material
+  locale: en
+  highlightjs: true
   favicon: images/favicon.png
   logo: images/spotlogo.png
+  palette:
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: grey
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue grey
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
 plugins:
 - search
 - gen-files:
@@ -19,7 +39,18 @@ plugins:
     nav_file: SUMMARY.md
 - section-index
 - mkdocstrings:
-    watch:
-    - src/spotRiver
-
+markdown_extensions:
+    - smarty
+    - toc:
+        permalink: True
+    - sane_lists
+use_directory_urls: true
+watch:
+- src/spotRiver
+extra:
+  social:
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/bartzbeielstein
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/thomas-bartz-beielstein-3157b541/
 

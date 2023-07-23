@@ -84,11 +84,11 @@ class ResourceMonitor:
             (ResourceUsage):
                 A ResourceUsage object with the results of the resource monitor.
         Examples:
-        >>> from time import sleep
-        >>> from spotRiver.evaluation.eval_bml import ResourceMonitor
-        >>> with ResourceMonitor() as rm:
-        >>> sleep(1)
-        >>> print(rm.result())
+            >>> from time import sleep
+            >>> from spotRiver.evaluation.eval_bml import ResourceMonitor
+            >>> with ResourceMonitor() as rm:
+            >>> sleep(1)
+            >>> print(rm.result())
         Resource usage:
             Time [s]: 1.000000001
             Memory [b]: 0.0

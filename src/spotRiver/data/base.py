@@ -31,13 +31,10 @@ def get_data_home(data_home=None) -> str:
         If the folder does not already exist, it is automatically created.
 
     Args:
-        data_home (str):
-            The path to spotriver data directory. If `None`, the default path
-            is `~/spotriver_data`.
+        data_home (str): The path to spotriver data directory. If `None`, the default path is `~/spotriver_data`.
 
     Returns:
-        data_home (str):
-        The path to the spotriver data directory.
+        data_home (str): The path to the spotriver data directory.
     """
     if data_home is None:
         data_home = environ.get("SPOTRIVER_DATA", Path.home() / "spotriver_data")
@@ -83,6 +80,9 @@ class Dataset(abc.ABC):
 
     All datasets inherit from this class, be they stored in a file or generated on the fly.
 
+    Note:
+        The code is based on code from the river package [1] to provide a similar interface.
+
     Args:
         task (str):
             Type of task the dataset is meant for. Should be one of:
@@ -101,6 +101,9 @@ class Dataset(abc.ABC):
             Number of outputs the target is made of, only applies to multi-output datasets.
         sparse (bool):
             Whether the dataset is sparse or not.
+
+    References:
+        [1]: [Base class for all datasets in River.](https://riverml.xyz/0.18.0/api/datasets/base/Dataset/)
 
     """
 

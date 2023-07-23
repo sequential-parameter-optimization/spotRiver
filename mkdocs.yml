@@ -1,24 +1,32 @@
 site_name: spotRiver
+site_description: spotPython for River - Online machine learning in Python
 site_url: https://github.com/sequential-parameter-optimization/spotRiver
 repo_url: https://github.com/sequential-parameter-optimization/spotRiver
+
+# Copyright
+copyright: Copyright &copy; 2019 - 2023
+
 nav:
 - Home: index.md
+- Code Reference: reference/
 - Documentation: hyperparameter-tuning-cookbook.md
 - Download: download.md
-- Examples: examples.html
-- Code Reference: reference/
+- Examples: examples.md
 - About: about.md
+
 theme:
   name: material
   locale: en
   highlightjs: true
   favicon: images/favicon.png
   logo: images/spotlogo.png
+
   palette:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: grey
+      primary: red
+      accent: light blue
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
@@ -27,9 +35,20 @@ theme:
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: blue grey
+      accent: orange
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
+
+  font:
+    text: Roboto
+    code: Fira Code
+  features:
+    - content.code.copy
+    - navigation.tabs
+    - navigation.instant
+    - navigation.indexes
+
 plugins:
 - search
 - gen-files:
@@ -39,11 +58,13 @@ plugins:
     nav_file: SUMMARY.md
 - section-index
 - mkdocstrings:
+
 markdown_extensions:
-    - smarty
-    - toc:
-        permalink: True
-    - sane_lists
+  - admonition
+  - smarty
+  - toc:
+      permalink: True
+  - sane_lists
 use_directory_urls: true
 watch:
 - src/spotRiver

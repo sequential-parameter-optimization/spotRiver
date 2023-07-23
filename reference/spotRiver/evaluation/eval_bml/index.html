@@ -1378,11 +1378,11 @@
 <span class="sd">            (ResourceUsage):</span>
 <span class="sd">                A ResourceUsage object with the results of the resource monitor.</span>
 <span class="sd">        Examples:</span>
-<span class="sd">        &gt;&gt;&gt; from time import sleep</span>
-<span class="sd">        &gt;&gt;&gt; from spotRiver.evaluation.eval_bml import ResourceMonitor</span>
-<span class="sd">        &gt;&gt;&gt; with ResourceMonitor() as rm:</span>
-<span class="sd">        &gt;&gt;&gt; sleep(1)</span>
-<span class="sd">        &gt;&gt;&gt; print(rm.result())</span>
+<span class="sd">            &gt;&gt;&gt; from time import sleep</span>
+<span class="sd">            &gt;&gt;&gt; from spotRiver.evaluation.eval_bml import ResourceMonitor</span>
+<span class="sd">            &gt;&gt;&gt; with ResourceMonitor() as rm:</span>
+<span class="sd">            &gt;&gt;&gt; sleep(1)</span>
+<span class="sd">            &gt;&gt;&gt; print(rm.result())</span>
 <span class="sd">        Resource usage:</span>
 <span class="sd">            Time [s]: 1.000000001</span>
 <span class="sd">            Memory [b]: 0.0</span>
@@ -1464,18 +1464,12 @@
   </table>
 
 <p><strong>Examples:</strong></p>
-    
-      <blockquote>
-<blockquote>
-<blockquote>
-<p>from time import sleep
-from spotRiver.evaluation.eval_bml import ResourceMonitor
-with ResourceMonitor() as rm:
-sleep(1)
-print(rm.result())</p>
-</blockquote>
-</blockquote>
-</blockquote>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">spotRiver.evaluation.eval_bml</span> <span class="kn">import</span> <span class="n">ResourceMonitor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">ResourceMonitor</span><span class="p">()</span> <span class="k">as</span> <span class="n">rm</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">rm</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+</code></pre></div>
 
 <details class="resource-usage" open>
   <summary>Resource usage</summary>
@@ -1513,11 +1507,11 @@ Memory [b]: 0.0</p>
 <span class="sd">        (ResourceUsage):</span>
 <span class="sd">            A ResourceUsage object with the results of the resource monitor.</span>
 <span class="sd">    Examples:</span>
-<span class="sd">    &gt;&gt;&gt; from time import sleep</span>
-<span class="sd">    &gt;&gt;&gt; from spotRiver.evaluation.eval_bml import ResourceMonitor</span>
-<span class="sd">    &gt;&gt;&gt; with ResourceMonitor() as rm:</span>
-<span class="sd">    &gt;&gt;&gt; sleep(1)</span>
-<span class="sd">    &gt;&gt;&gt; print(rm.result())</span>
+<span class="sd">        &gt;&gt;&gt; from time import sleep</span>
+<span class="sd">        &gt;&gt;&gt; from spotRiver.evaluation.eval_bml import ResourceMonitor</span>
+<span class="sd">        &gt;&gt;&gt; with ResourceMonitor() as rm:</span>
+<span class="sd">        &gt;&gt;&gt; sleep(1)</span>
+<span class="sd">        &gt;&gt;&gt; print(rm.result())</span>
 <span class="sd">    Resource usage:</span>
 <span class="sd">        Time [s]: 1.000000001</span>
 <span class="sd">        Memory [b]: 0.0</span>

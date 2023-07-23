@@ -8,27 +8,27 @@
       
       
       
-        <link rel="canonical" href="https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/data/synth/">
+        <link rel="canonical" href="https://github.com/sequential-parameter-optimization/spotRiver/hyperparameter-tuning-cookbook/">
       
       
-        <link rel="prev" href="../river_hyper_dict/">
+        <link rel="prev" href="..">
       
       
-        <link rel="next" href="sea/">
+        <link rel="next" href="../download/">
       
-      <link rel="icon" href="../../../../images/favicon.png">
+      <link rel="icon" href="../images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
     
     
       
-        <title>synth - spotRiver</title>
+        <title>Documentation - spotRiver</title>
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.26e3688c.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.26e3688c.min.css">
       
         
-        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ecc896b0.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ecc896b0.min.css">
       
       
 
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -75,7 +75,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#spotRiver.data.synth" class="md-skip">
+        <a href="#hyperparameter-tuning-cookbook" class="md-skip">
           Skip to content
         </a>
       
@@ -91,9 +91,9 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../../.." title="spotRiver" class="md-header__button md-logo" aria-label="spotRiver" data-md-component="logo">
+    <a href=".." title="spotRiver" class="md-header__button md-logo" aria-label="spotRiver" data-md-component="logo">
       
-  <img src="../../../../images/spotlogo.png" alt="logo">
+  <img src="../images/spotlogo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -109,7 +109,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              synth
+              Documentation
             
           </span>
         </div>
@@ -214,9 +214,9 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../../.." title="spotRiver" class="md-nav__button md-logo" aria-label="spotRiver" data-md-component="logo">
+    <a href=".." title="spotRiver" class="md-nav__button md-logo" aria-label="spotRiver" data-md-component="logo">
       
-  <img src="../../../../images/spotlogo.png" alt="logo">
+  <img src="../images/spotlogo.png" alt="logo">
 
     </a>
     spotRiver
@@ -244,7 +244,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../.." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         Home
       </a>
     </li>
@@ -257,11 +257,21 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../../../hyperparameter-tuning-cookbook/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Documentation
       </a>
+      
     </li>
   
 
@@ -274,7 +284,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../download/" class="md-nav__link">
+      <a href="../download/" class="md-nav__link">
         Download
       </a>
     </li>
@@ -289,7 +299,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../examples/" class="md-nav__link">
+      <a href="../examples/" class="md-nav__link">
         Examples
       </a>
     </li>
@@ -302,16 +312,14 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
       
       
       
@@ -320,7 +328,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
           Code Reference
@@ -331,16 +339,14 @@
               
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" >
       
       
       
@@ -349,7 +355,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_5_1">
           <span class="md-nav__icon md-icon"></span>
           spotRiver
@@ -360,23 +366,21 @@
               
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1_1" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1_1" >
       
       
       
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../">data</a>
+          <a href="../reference/spotRiver/data/">data</a>
           
             <label for="__nav_5_1_1">
               <span class="md-nav__icon md-icon"></span>
@@ -384,7 +388,7 @@
           
         </div>
       
-      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_1_1_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_1_1_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_5_1_1">
           <span class="md-nav__icon md-icon"></span>
           data
@@ -397,7 +401,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../airline_passengers/" class="md-nav__link">
+      <a href="../reference/spotRiver/data/airline_passengers/" class="md-nav__link">
         airline_passengers
       </a>
     </li>
@@ -411,7 +415,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../base/" class="md-nav__link">
+      <a href="../reference/spotRiver/data/base/" class="md-nav__link">
         base
       </a>
     </li>
@@ -425,7 +429,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../bike_sharing/" class="md-nav__link">
+      <a href="../reference/spotRiver/data/bike_sharing/" class="md-nav__link">
         bike_sharing
       </a>
     </li>
@@ -439,7 +443,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../generic/" class="md-nav__link">
+      <a href="../reference/spotRiver/data/generic/" class="md-nav__link">
         generic
       </a>
     </li>
@@ -453,7 +457,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../opm/" class="md-nav__link">
+      <a href="../reference/spotRiver/data/opm/" class="md-nav__link">
         opm
       </a>
     </li>
@@ -467,7 +471,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../river_hyper_dict/" class="md-nav__link">
+      <a href="../reference/spotRiver/data/river_hyper_dict/" class="md-nav__link">
         river_hyper_dict
       </a>
     </li>
@@ -479,23 +483,21 @@
               
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1_1_7" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1_1_7" >
       
       
       
         
         
-        <div class="md-nav__link md-nav__link--index md-nav__link--active">
-          <a href="./">synth</a>
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../reference/spotRiver/data/synth/">synth</a>
           
             <label for="__nav_5_1_1_7">
               <span class="md-nav__icon md-icon"></span>
@@ -503,7 +505,7 @@
           
         </div>
       
-      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_5_1_1_7_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_5_1_1_7_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_5_1_1_7">
           <span class="md-nav__icon md-icon"></span>
           synth
@@ -516,7 +518,7 @@
   
   
     <li class="md-nav__item">
-      <a href="sea/" class="md-nav__link">
+      <a href="../reference/spotRiver/data/synth/sea/" class="md-nav__link">
         sea
       </a>
     </li>
@@ -571,7 +573,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drift/drift_generator/" class="md-nav__link">
+      <a href="../reference/spotRiver/drift/drift_generator/" class="md-nav__link">
         drift_generator
       </a>
     </li>
@@ -619,7 +621,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../evaluation/eval_bml/" class="md-nav__link">
+      <a href="../reference/spotRiver/evaluation/eval_bml/" class="md-nav__link">
         eval_bml
       </a>
     </li>
@@ -633,7 +635,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../evaluation/eval_nowcast/" class="md-nav__link">
+      <a href="../reference/spotRiver/evaluation/eval_nowcast/" class="md-nav__link">
         eval_nowcast
       </a>
     </li>
@@ -647,7 +649,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../evaluation/eval_oml/" class="md-nav__link">
+      <a href="../reference/spotRiver/evaluation/eval_oml/" class="md-nav__link">
         eval_oml
       </a>
     </li>
@@ -695,7 +697,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fun/hyperriver/" class="md-nav__link">
+      <a href="../reference/spotRiver/fun/hyperriver/" class="md-nav__link">
         hyperriver
       </a>
     </li>
@@ -709,7 +711,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fun/hyperriver_old/" class="md-nav__link">
+      <a href="../reference/spotRiver/fun/hyperriver_old/" class="md-nav__link">
         hyperriver_old
       </a>
     </li>
@@ -757,7 +759,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../plot/stats/" class="md-nav__link">
+      <a href="../reference/spotRiver/plot/stats/" class="md-nav__link">
         stats
       </a>
     </li>
@@ -805,7 +807,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../preprocess/impute/" class="md-nav__link">
+      <a href="../reference/spotRiver/preprocess/impute/" class="md-nav__link">
         impute
       </a>
     </li>
@@ -853,7 +855,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../utils/data_conversion/" class="md-nav__link">
+      <a href="../reference/spotRiver/utils/data_conversion/" class="md-nav__link">
         data_conversion
       </a>
     </li>
@@ -867,7 +869,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../utils/features/" class="md-nav__link">
+      <a href="../reference/spotRiver/utils/features/" class="md-nav__link">
         features
       </a>
     </li>
@@ -903,7 +905,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../about/" class="md-nav__link">
+      <a href="../about/" class="md-nav__link">
         About
       </a>
     </li>
@@ -927,55 +929,8 @@
   
   
   
+    
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#spotRiver.data.synth" class="md-nav__link">
-    spotRiver.data.synth
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#spotRiver.data.synth.SEA" class="md-nav__link">
-    SEA
-  </a>
-  
-    <nav class="md-nav" aria-label="SEA">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#spotRiver.data.synth.SEA--parameters" class="md-nav__link">
-    Parameters
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#spotRiver.data.synth.SEA--examples" class="md-nav__link">
-    Examples
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#spotRiver.data.synth.SEA--references" class="md-nav__link">
-    References
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -993,271 +948,9 @@
   
 
 
-  <h1>synth</h1>
-
-<div class="doc doc-object doc-module">
-
-
-<a id="spotRiver.data.synth"></a>
-  <div class="doc doc-contents first">
-  
-      <p>Synthetic datasets.</p>
-<p>Each synthetic dataset is a stream generator. The benefit of using a generator is that they do not
-store the data and each data sample is generated on the fly. Except for a couple of methods,
-the majority of these methods are infinite data generators.</p>
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-<div class="doc doc-object doc-class">
-
-
-
-<h2 id="spotRiver.data.synth.SEA" class="doc doc-heading">
-        <code>SEA</code>
-
-
-<a href="#spotRiver.data.synth.SEA" class="headerlink" title="Permanent link">&para;</a></h2>
-
-
-  <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><span title="river.datasets">datasets</span>.<span title="river.datasets.base">base</span>.<span title="river.datasets.base.SyntheticDataset">SyntheticDataset</span></code></p>
-
-  
-      <p>SEA synthetic dataset.</p>
-<p>Implementation of the data stream with abrupt drift described in [^1]. Each observation is
-composed of 3 features. Only the first two features are relevant. The target is binary, and is
-positive if the sum of the features exceeds a certain threshold. There are 4 thresholds to
-choose from. Concept drift can be introduced by switching the threshold anytime during the
-stream.</p>
-<ul>
-<li>
-<p><strong>Variant 0</strong>: <code>True</code> if $att1 + att2 &gt; 8$</p>
-</li>
-<li>
-<p><strong>Variant 1</strong>: <code>True</code> if $att1 + att2 &gt; 9$</p>
-</li>
-<li>
-<p><strong>Variant 2</strong>: <code>True</code> if $att1 + att2 &gt; 7$</p>
-</li>
-<li>
-<p><strong>Variant 3</strong>: <code>True</code> if $att1 + att2 &gt; 9.5$</p>
-</li>
-</ul>
-<h4 id="spotRiver.data.synth.SEA--parameters">Parameters<a class="headerlink" href="#spotRiver.data.synth.SEA--parameters" title="Permanent link">&para;</a></h4>
-<p>variant
-    Determines the classification function to use. Possible choices are 0, 1, 2, 3.
-noise
-    Determines the amount of observations for which the target sign will be flipped.
-seed
-    Random seed number used for reproducibility.</p>
-<h4 id="spotRiver.data.synth.SEA--examples">Examples<a class="headerlink" href="#spotRiver.data.synth.SEA--examples" title="Permanent link">&para;</a></h4>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>from river.datasets import synth</p>
-<p>dataset = synth.SEA(variant=0, seed=42)</p>
-<p>for x, y in dataset.take(5):
-&hellip;     print(x, y)
-{0: 6.39426, 1: 0.25010, 2: 2.75029} False
-{0: 2.23210, 1: 7.36471, 2: 6.76699} True
-{0: 8.92179, 1: 0.86938, 2: 4.21921} True
-{0: 0.29797, 1: 2.18637, 2: 5.05355} False
-{0: 0.26535, 1: 1.98837, 2: 6.49884} False</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<h4 id="spotRiver.data.synth.SEA--references">References<a class="headerlink" href="#spotRiver.data.synth.SEA--references" title="Permanent link">&para;</a></h4>
-<p>[^1]: <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.482.3991&amp;rep=rep1&amp;type=pdf">A Streaming Ensemble Algorithm (SEA) for Large-Scale Classification</a></p>
-
-
-        <details class="quote">
-          <summary>Source code in <code>/Users/bartz/miniforge3/envs/spotCondaEnv/lib/python3.10/site-packages/spotRiver/data/synth/sea.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SEA</span><span class="p">(</span><span class="n">datasets</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">SyntheticDataset</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;SEA synthetic dataset.</span>
-
-<span class="sd">    Implementation of the data stream with abrupt drift described in [^1]. Each observation is</span>
-<span class="sd">    composed of 3 features. Only the first two features are relevant. The target is binary, and is</span>
-<span class="sd">    positive if the sum of the features exceeds a certain threshold. There are 4 thresholds to</span>
-<span class="sd">    choose from. Concept drift can be introduced by switching the threshold anytime during the</span>
-<span class="sd">    stream.</span>
-
-<span class="sd">    * **Variant 0**: `True` if $att1 + att2 &gt; 8$</span>
-
-<span class="sd">    * **Variant 1**: `True` if $att1 + att2 &gt; 9$</span>
-
-<span class="sd">    * **Variant 2**: `True` if $att1 + att2 &gt; 7$</span>
-
-<span class="sd">    * **Variant 3**: `True` if $att1 + att2 &gt; 9.5$</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    variant</span>
-<span class="sd">        Determines the classification function to use. Possible choices are 0, 1, 2, 3.</span>
-<span class="sd">    noise</span>
-<span class="sd">        Determines the amount of observations for which the target sign will be flipped.</span>
-<span class="sd">    seed</span>
-<span class="sd">        Random seed number used for reproducibility.</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-
-<span class="sd">    &gt;&gt;&gt; from river.datasets import synth</span>
-
-<span class="sd">    &gt;&gt;&gt; dataset = synth.SEA(variant=0, seed=42)</span>
-
-<span class="sd">    &gt;&gt;&gt; for x, y in dataset.take(5):</span>
-<span class="sd">    ...     print(x, y)</span>
-<span class="sd">    {0: 6.39426, 1: 0.25010, 2: 2.75029} False</span>
-<span class="sd">    {0: 2.23210, 1: 7.36471, 2: 6.76699} True</span>
-<span class="sd">    {0: 8.92179, 1: 0.86938, 2: 4.21921} True</span>
-<span class="sd">    {0: 0.29797, 1: 2.18637, 2: 5.05355} False</span>
-<span class="sd">    {0: 0.26535, 1: 1.98837, 2: 6.49884} False</span>
-
-<span class="sd">    References</span>
-<span class="sd">    ----------</span>
-<span class="sd">    [^1]: [A Streaming Ensemble Algorithm (SEA) for Large-Scale Classification](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.482.3991&amp;rep=rep1&amp;type=pdf)</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variant</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">n_features</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">BINARY_CLF</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">variant</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown variant, possible choices are: 0, 1, 2, 3&quot;</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">variant</span> <span class="o">=</span> <span class="n">variant</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">noise</span> <span class="o">=</span> <span class="n">noise</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_threshold</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mf">9.5</span><span class="p">}[</span><span class="n">variant</span><span class="p">]</span>
-
-    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">rng</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
-
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)}</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_threshold</span>
-
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise</span> <span class="ow">and</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise</span><span class="p">:</span>
-                <span class="n">y</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">y</span>
-
-            <span class="k">yield</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">_repr_content</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">{</span><span class="o">**</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_repr_content</span><span class="p">,</span> <span class="s2">&quot;Variant&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variant</span><span class="p">)}</span>
-</code></pre></div></td></tr></table></div>
-        </details>
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-
-
-  </div>
-
-  </div>
-
-</div>
-
-
-
-
-  </div>
-
-  </div>
-
-</div>
+<h1 id="hyperparameter-tuning-cookbook">Hyperparameter Tuning Cookbook<a class="headerlink" href="#hyperparameter-tuning-cookbook" title="Permanent link">&para;</a></h1>
+<p>The following is a cookbook of hyperparameter tuning recipes. It is not meant to be exhaustive, but instead act as a place to capture a number of the common patterns used in hyperparameter tuning.</p>
+<p><a href="https://sequential-parameter-optimization.github.io/Hyperparameter-Tuning-Cookbook/">Hyperparameter Tuning Cookbook</a></p>
 
 
 
@@ -1321,10 +1014,10 @@ seed
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      <script src="../assets/javascripts/bundle.220ee61c.min.js"></script>
       
     
   </body>

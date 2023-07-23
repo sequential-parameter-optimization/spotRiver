@@ -1545,7 +1545,7 @@ See <a href="https://numpy.org/doc/stable/reference/random/index.html#random-qui
 <span class="sd">        Returns:</span>
 <span class="sd">            (np.ndarray): The objective function values.</span>
 
-<span class="sd">        Example:</span>
+<span class="sd">        Examples:</span>
 <span class="sd">            &gt;&gt;&gt; fun_oml_horizon(X, fun_control={&#39;train&#39;: train_data, &#39;test&#39;: test_data, &#39;target_column&#39;: &#39;y&#39;, &#39;horizon&#39;: 5, &#39;oml_grace_period&#39;: 10, &#39;metric_sklearn&#39;: &#39;accuracy&#39;})</span>
 <span class="sd">            array([0.8, 0.85, 0.9])</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -2270,17 +2270,11 @@ df_eval, df_preds = evaluate_model(model, fun_control)</p>
     </tbody>
   </table>
 
-<details class="example" open>
-  <summary>Example</summary>
-  <blockquote>
-<blockquote>
-<blockquote>
-<p>fun_oml_horizon(X, fun_control={&lsquo;train&rsquo;: train_data, &lsquo;test&rsquo;: test_data, &lsquo;target_column&rsquo;: &lsquo;y&rsquo;, &lsquo;horizon&rsquo;: 5, &lsquo;oml_grace_period&rsquo;: 10, &lsquo;metric_sklearn&rsquo;: &lsquo;accuracy&rsquo;})
-array([0.8, 0.85, 0.9])</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</details>
+<p><strong>Examples:</strong></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">fun_oml_horizon</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">fun_control</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;train&#39;</span><span class="p">:</span> <span class="n">train_data</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">:</span> <span class="n">test_data</span><span class="p">,</span> <span class="s1">&#39;target_column&#39;</span><span class="p">:</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;horizon&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;oml_grace_period&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;metric_sklearn&#39;</span><span class="p">:</span> <span class="s1">&#39;accuracy&#39;</span><span class="p">})</span>
+<span class="go">array([0.8, 0.85, 0.9])</span>
+</code></pre></div>
+
       <details class="quote">
         <summary>Source code in <code>/Users/bartz/miniforge3/envs/spotCondaEnv/lib/python3.10/site-packages/spotRiver/fun/hyperriver.py</code></summary>
         <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">183</span>
@@ -2343,7 +2337,7 @@ array([0.8, 0.85, 0.9])</p>
 <span class="sd">    Returns:</span>
 <span class="sd">        (np.ndarray): The objective function values.</span>
 
-<span class="sd">    Example:</span>
+<span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; fun_oml_horizon(X, fun_control={&#39;train&#39;: train_data, &#39;test&#39;: test_data, &#39;target_column&#39;: &#39;y&#39;, &#39;horizon&#39;: 5, &#39;oml_grace_period&#39;: 10, &#39;metric_sklearn&#39;: &#39;accuracy&#39;})</span>
 <span class="sd">        array([0.8, 0.85, 0.9])</span>
 <span class="sd">    &quot;&quot;&quot;</span>

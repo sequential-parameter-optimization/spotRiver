@@ -5,7 +5,7 @@ nav:
 - Home: index.md
 - Documentation: hyperparameter-tuning-cookbook.md
 - Download: download.md
-- Examples: examples.md
+- Examples: examples.html
 - Code Reference: reference/
 - About: about.md
 theme:

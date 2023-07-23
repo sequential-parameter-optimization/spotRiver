@@ -16,6 +16,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://github.com/sequential-parameter-optimization/spotRiver/examples/</loc>
+         <lastmod>2023-07-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://github.com/sequential-parameter-optimization/spotRiver/hyperparameter-tuning-cookbook/</loc>
          <lastmod>2023-07-23</lastmod>
          <changefreq>daily</changefreq>

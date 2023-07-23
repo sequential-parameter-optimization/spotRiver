@@ -133,7 +133,7 @@ class HyperRiver:
                 - df_eval: The evaluation dataframe.
                 - df_preds: The predictions dataframe.
 
-        Example:
+        Examples:
             >>> model = SomeModel()
             >>> fun_control = {
             ...     "train": train_data,
@@ -199,7 +199,7 @@ class HyperRiver:
         Returns:
             (np.ndarray): The objective function values.
 
-        Example:
+        Examples:
             >>> fun_oml_horizon(X, fun_control={'train': train_data, 'test': test_data, 'target_column': 'y', 'horizon': 5, 'oml_grace_period': 10, 'metric_sklearn': 'accuracy'})
             array([0.8, 0.85, 0.9])
         """

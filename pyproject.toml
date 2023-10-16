@@ -24,7 +24,6 @@ classifiers = [
 # PEP 621 dependencies declaration
 # adapt to your dependencies manager
 dependencies = [
-  "importlib",
   "lightning>=2.0.0rc0",
   "matplotlib",
   "numpy",

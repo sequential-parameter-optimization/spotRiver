@@ -41,7 +41,7 @@ def eval_oml_iter_progressive(dataset, metric, models, step=100, weight_coeff=0.
 
     Reference:
         https://riverml.xyz/0.15.0/recipes/on-hoeffding-trees/
-    
+
     Examples:
         >>> from river import compose
             from river import linear_model

@@ -1,6 +1,7 @@
 from river import stream
 from . import base
-from typing import Dict, List, Union, Generator
+from typing import Dict, List, Union
+
 
 class GenericData(base.GenericFileDataset):
     """A class for handling generic data.
@@ -40,6 +41,7 @@ class GenericData(base.GenericFileDataset):
             {'Time': datetime.datetime(2016, 12, 31, 23, 0, tzinfo=datetime.timezone.utc)} 10951.217
 
     """
+
     def __init__(
         self,
         filename: str,
@@ -50,7 +52,7 @@ class GenericData(base.GenericFileDataset):
         parse_dates: List[str],
         directory: str,
         task: str = base.REG,
-        fraction: float = 1.0
+        fraction: float = 1.0,
     ):
         super().__init__(
             filename=filename,

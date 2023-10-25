@@ -41,6 +41,7 @@ class HyperRiver:
                 See [Numpy Random Sampling](https://numpy.org/doc/stable/reference/random/index.html#random-quick-start)
             log_level (int): The level of logging to use. 0 = no logging, 50 = print only important
                             information. Defaults to 50.
+
         Returns:
             (NoneType): None
         """
@@ -67,10 +68,13 @@ class HyperRiver:
 
     def compute_y(self, df_eval):
         """Compute the objective function value.
+
         Args:
             df_eval (pd.DataFrame): DataFrame with the evaluation results.
+
         Returns:
             (float): objective function value. Mean of the MAEs of the predicted values.
+
         Examples:
             >>> df_eval = pd.DataFrame( [[1, 2, 3], [4, 5, 6]], columns=['Metric', 'CompTime (s)', 'Memory (MB)'])
             >>> weights = [1, 1, 1]
@@ -94,10 +98,13 @@ class HyperRiver:
     def check_X_shape(self, X):
         """
         Check the shape of X.
+
         Args:
             X (np.ndarray): The input data.
+
         Returns:
             (NoneType): None
+
         Examples:
             >>> X = np.array([[1, 2, 3], [4, 5, 6]])
             >>> check_X_shape(X)
@@ -162,12 +169,15 @@ class HyperRiver:
 
     def get_river_df_eval_preds(self, model):
         """Get the evaluation and prediction dataframes for a river model.
+
         Args:
             model (object): The model to be evaluated.
+
         Returns:
             (Tuple[pd.DataFrame, pd.DataFrame]): A tuple containing two dataframes:
                 - df_eval: The evaluation dataframe.
                 - df_preds: The predictions dataframe.
+
         Examples:
             >>> model = SomeModel()
             >>> df_eval, df_preds = get_river_df_eval_preds(model)
@@ -201,7 +211,13 @@ class HyperRiver:
             (np.ndarray): The objective function values.
 
         Examples:
-            >>> fun_oml_horizon(X, fun_control={'train': train_data, 'test': test_data, 'target_column': 'y', 'horizon': 5, 'oml_grace_period': 10, 'metric_sklearn': 'accuracy'})
+            >>> fun_oml_horizon(X,
+                                fun_control={'train': train_data,
+                                             'test': test_data,
+                                              'target_column': 'y',
+                                              'horizon': 5,
+                                              'oml_grace_period': 10,
+                                              'metric_sklearn': 'accuracy'})
             array([0.8, 0.85, 0.9])
         """
         z_res = []

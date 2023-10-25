@@ -8,6 +8,7 @@ def get_bike_sharing_data(train_size=0.6):
     Args:
         train_size (float):
             The proportion of the dataset to include in the training set. Default value: 0.6
+
     Returns:
         (tuple): tuple containing:
             df (pd.DataFrame): The full dataset.

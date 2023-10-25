@@ -8,7 +8,6 @@ from dataclasses import dataclass
 from typing import Tuple, Generator
 import matplotlib.pyplot as plt
 import copy
-from typing import Optional, Any
 
 
 class ResourceMonitorError(Exception):
@@ -37,12 +36,16 @@ class ResourceUsage:
 class ResourceMonitor:
     """
     A context manager for monitoring resource usage.
+
     Args:
         name (str, optional): A description of the resource usage. Defaults to None.
+
     Raises:
         (ResourceMonitorError): If the resource monitor is already tracing memory usage.
+
     Returns:
         (ResourceMonitor): A ResourceMonitor object.
+
     Examples:
         >>> import time
         >>> from spotRiver.evaluation.eval_bml import ResourceMonitor
@@ -76,33 +79,30 @@ class ResourceMonitor:
         tracemalloc.stop()
 
     def result(self):
-        """ Returns a ResourceUsage object with the results of the resource monitor.
+        """Returns a ResourceUsage object with the results of the resource monitor.
+
         Raises:
-            (ResourceMonitorError):
-                If the resource monitor has not been used yet.
+            (ResourceMonitorError): If the resource monitor has not been used yet.
+
         Returns:
-            (ResourceUsage):
-                A ResourceUsage object with the results of the resource monitor.
+            (ResourceUsage): A ResourceUsage object.
+
         Examples:
-            >>> from time import sleep
+            >>> import time
             >>> from spotRiver.evaluation.eval_bml import ResourceMonitor
             >>> with ResourceMonitor() as rm:
-            >>> sleep(1)
-            >>> print(rm.result())
-        Resource usage:
-            Time [s]: 1.000000001
-            Memory [b]: 0.0
+            ...     time.sleep(1)
+            ...     print(rm.result())
+            Resource usage:
+                Time [s]: 1.000000001
+                Memory [b]: 0.0
         """
         if self.r_time is None or self.memory is None:
             raise ResourceMonitorError("No resources monitored yet.")
         return ResourceUsage(name=self.name, r_time=self.r_time, memory=self.memory)
 
 
-def evaluate_model(y_true: np.ndarray,
-                   y_pred: np.ndarray,
-                   memory: float,
-                   r_time: float,
-                   metric) -> dict:
+def evaluate_model(y_true: np.ndarray, y_pred: np.ndarray, memory: float, r_time: float, metric) -> dict:
     """
     Evaluate a machine learning model on a test dataset.
 
@@ -116,8 +116,10 @@ def evaluate_model(y_true: np.ndarray,
         r_time (float): The computation time of the model.
         metric (object): An evaluation metric object that has an `evaluate` method.
             This metric will be used to evaluate the model's performance on the test dataset.
+
     Returns:
         dict: A dictionary containing the evaluation results.
+
     Examples:
         >>> from sklearn.metrics import accuracy_score
         >>> y_true = np.array([0, 1, 0, 1])
@@ -153,7 +155,6 @@ def eval_bml_horizon(
 ) -> tuple:
     """
     Evaluate a machine learning model on a rolling horizon basis.
-
     This function evaluates a machine learning model on a rolling horizon basis.
     The model is trained on the training data and then evaluated on the test data
     using a given evaluation metric. The evaluation results are returned as a tuple
@@ -166,10 +167,18 @@ def eval_bml_horizon(
         test (pd.DataFrame): The testing data set.
         target_column (str): The name of the column containing the target variable.
         horizon (int, optional): The number of steps ahead to forecast.
-        include_remainder (bool): Whether to include the remainder of the test dataframe if its length is not divisible by the horizon. Defaults to True.
-        metric (object): An evaluation metric object that has an `evaluate` method. This metric will be used to evaluate the model's performance on the test dataset.
+        include_remainder (bool):
+            Whether to include the remainder of the test dataframe if its length
+            is not divisible by the horizon. Defaults to True.
+        metric (object):
+            An evaluation metric object that has an `evaluate` method.
+            This metric will be used to evaluate the model's performance on the test dataset.
+
     Returns:
-        tuple: A tuple of two data frames. The first one contains evaluation metrics for each window. The second one contains the true and predicted values for each observation in the test set.
+        tuple: A tuple of two data frames.
+        The first one contains evaluation metrics for each window.
+        The second one contains the true and predicted values for each observation in the test set.
+
     Examples:
         >>> from sklearn.linear_model import LinearRegression
         >>> model = LinearRegression()
@@ -257,9 +266,15 @@ def eval_bml_landmark(
         target_column (str): The name of the column containing the target variable.
         horizon (int, optional): The number of steps ahead to forecast.
         include_remainder (bool): Whether to include the remainder of the test dataframe if its length is not divisible by the horizon. Defaults to True.
-        metric (object): An evaluation metric object that has an `evaluate` method. This metric will be used to evaluate the model's performance on the test dataset.
+        metric (object):
+            An evaluation metric object that has an `evaluate` method.
+            This metric will be used to evaluate the model's performance on the test dataset.
+
     Returns:
-        tuple: A tuple of two data frames. The first one contains evaluation metrics for each window. The second one contains the true and predicted values for each observation in the test set.
+        tuple:
+            A tuple of two data frames. The first one contains evaluation metrics for each window.
+            The second one contains the true and predicted values for each observation in the test set.
+
     Examples:
         >>> from sklearn.linear_model import LinearRegression
         >>> model = LinearRegression()
@@ -312,10 +327,9 @@ def eval_bml_landmark(
     return df_eval, df_true
 
 
-def gen_sliding_window(df: pd.DataFrame,
-                       horizon: int,
-                       include_remainder: bool = True
-                       ) -> Generator[pd.DataFrame, None, None]:
+def gen_sliding_window(
+    df: pd.DataFrame, horizon: int, include_remainder: bool = True
+) -> Generator[pd.DataFrame, None, None]:
     """Generates sliding windows of a given size from a DataFrame.
 
     Args:
@@ -422,9 +436,7 @@ def eval_bml_window(
     return df_eval, df_true
 
 
-def gen_horizon_shifted_window(df: pd.DataFrame,
-                               window_size: int,
-                               horizon: int):
+def gen_horizon_shifted_window(df: pd.DataFrame, window_size: int, horizon: int):
     i = 0
     while True:
         train_window = df[i * horizon : i * horizon + window_size]
@@ -463,11 +475,23 @@ def eval_oml_horizon(
         test (pd.DataFrame): The testing data set.
         target_column (str): The name of the column containing the target variable.
         horizon (int, optional): The number of steps ahead to forecast.
-        include_remainder (bool): Whether to include the remainder of the test dataframe if its length is not divisible by the horizon. Defaults to True.
-        metric (object): An evaluation metric object that has an `evaluate` method. This metric will be used to evaluate the model's performance on the test dataset.
-        oml_grace_period (int, optional): The number of observations to use for initial training. Defaults to None, in which case the horizon is used.
+        include_remainder (bool):
+            Whether to include the remainder of the test dataframe if its
+            length is not divisible by the horizon. Defaults to True.
+        metric (object):
+            An evaluation metric object that has an `evaluate` method.
+            This metric will be used to evaluate the model's performance on the test dataset.
+        oml_grace_period (int, optional):
+            The number of observations to use for initial training. Defaults to None,
+            in which case the horizon is used.
+
     Returns:
-        tuple: A tuple of two data frames. The first one contains evaluation metrics for each window. The second one contains the true and predicted values for each observation in the test set.
+        tuple:
+            A tuple of two data frames.
+            The first one contains evaluation metrics for each window.
+            The second one contains the true and predicted values for each observation
+            in the test set.
+
     Examples:
         >>> from sklearn.linear_model import LinearRegression
         >>> model = LinearRegression()
@@ -563,15 +587,35 @@ def plot_bml_oml_horizon_metrics(
     to use logarithmic scales for the x-axis and y-axis.
 
     Args:
-        df_eval (list[pd.DataFrame], optional): A list of pandas dataframes containing the evaluation metrics for each model. Each dataframe should have an index column with the dataset name and three columns with the label names: e.g., "Metric", "CompTime (s)" and "Memory (MB)". If None, no plot is generated. Default is None.
-        df_labels (list, optional): A list of strings containing the labels for each model. The length of this list should match the length of df_eval. If None, numeric indices are used as labels. Default is None.
-        log_x (bool, optional): A flag indicating whether to use logarithmic scale for the x-axis. If True, log scale is used. If False, linear scale is used. Default is False.
-        log_y (bool, optional): A flag indicating whether to use logarithmic scale for the y-axis. If True, log scale is used. If False, linear scale is used. Default is False.
-        cumulative (bool, optional): A flag indicating whether to plot cumulative metrics. If True, cumulative metrics are plotted. If False, non-cumulative metrics are plotted. Default is True.
-        grid (bool, optional): A flag indicating whether to plot a grid. If True, grid is shown. Default is True.
-        figsize (tuple, optional): The size of the figure. Default is None.
-        metric (object): An evaluation metric object that has an `evaluate` method. This metric will be used to evaluate the model's performance on the test dataset.
-        filename (str, optional): The name of the file to save the plot to. If None, the plot is not saved. Default is None.
+        df_eval (list[pd.DataFrame], optional):
+            A list of pandas dataframes containing the evaluation metrics for each model.
+            Each dataframe should have an index column with the dataset name and three
+            columns with the label names: e.g., "Metric", "CompTime (s)" and "Memory (MB)".
+            If None, no plot is generated. Default is None.
+        df_labels (list, optional):
+            A list of strings containing the labels for each model.
+            The length of this list should match the length of df_eval.
+            If None, numeric indices are used as labels. Default is None.
+        log_x (bool, optional):
+            A flag indicating whether to use logarithmic scale for the x-axis.
+            If True, log scale is used. If False, linear scale is used. Default is False.
+        log_y (bool, optional):
+            A flag indicating whether to use logarithmic scale for the y-axis.
+            If True, log scale is used. If False, linear scale is used. Default is False.
+        cumulative (bool, optional):
+            A flag indicating whether to plot cumulative metrics.
+            If True, cumulative metrics are plotted. If False, non-cumulative metrics are plotted.
+            Default is True.
+        grid (bool, optional):
+            A flag indicating whether to plot a grid.
+            If True, grid is shown. Default is True.
+        figsize (tuple, optional):
+            The size of the figure. Default is None.
+        metric (object):
+            An evaluation metric object that has an `evaluate` method.
+            This metric will be used to evaluate the model's performance on the test dataset.
+        filename (str, optional):
+            The name of the file to save the plot to. If None, the plot is not saved. Default is None.
         **kwargs (Any): Additional keyword arguments to be passed to the plot function.
 
     Returns:
@@ -642,7 +686,7 @@ def plot_bml_oml_horizon_predictions(
     filename=None,
     **kwargs,
 ) -> None:
-    """ Plot actual vs predicted values for machine learning models.
+    """Plot actual vs predicted values for machine learning models.
 
     This function plots the actual vs predicted values for different machine learning models
     on a given dataset. The function takes a list of pandas dataframes as input,
@@ -651,15 +695,31 @@ def plot_bml_oml_horizon_predictions(
     to use logarithmic scales for the x-axis and y-axis.
 
     Args:
-        df_true (list[pd.DataFrame], optional): A list of pandas dataframes containing the actual and predicted values for each model. Each dataframe should have an index column with the dataset name and two columns with the label names: e.g., "Actual" and "Prediction". If None, no plot is generated. Default is None.
-        df_labels (list, optional): A list of strings containing the labels for each model. The length of this list should match the length of df_true. If None, numeric indices are used as labels. Default is None.
-        target_column (str, optional): The name of the column containing the target variable. Default is "Actual".
-        log_x (bool, optional): A flag indicating whether to use logarithmic scale for the x-axis. If True, log scale is used. If False, linear scale is used. Default is False.
-        log_y (bool, optional): A flag indicating whether to use logarithmic scale for the y-axis. If True, log scale is used. If False, linear scale is used. Default is False.
-        skip_first_n (int, optional): The number of rows to skip from the beginning of the dataframes. Default is 0.
-        grid (bool, optional): A flag indicating whether to plot a grid. If True, grid is shown. Default is True.
-        figsize (tuple, optional): The size of the figure. Default is None.
-        filename (str, optional): The name of the file to save the plot to. If None, the plot is not saved. Default is None.
+        df_true (list[pd.DataFrame], optional):
+            A list of pandas dataframes containing the actual and predicted values for each model.
+            Each dataframe should have an index column with the dataset name and two columns with
+            the label names: e.g., "Actual" and "Prediction".
+            If None, no plot is generated. Default is None.
+        df_labels (list, optional):
+            A list of strings containing the labels for each model.
+            The length of this list should match the length of df_true.
+            If None, numeric indices are used as labels. Default is None.
+        target_column (str, optional):
+            The name of the column containing the target variable. Default is "Actual".
+        log_x (bool, optional):
+            A flag indicating whether to use logarithmic scale for the x-axis.
+            If True, log scale is used. If False, linear scale is used. Default is False.
+        log_y (bool, optional):
+            A flag indicating whether to use logarithmic scale for the y-axis.
+            If True, log scale is used. If False, linear scale is used. Default is False.
+        skip_first_n (int, optional):
+            The number of rows to skip from the beginning of the dataframes. Default is 0.
+        grid (bool, optional):
+            A flag indicating whether to plot a grid. If True, grid is shown. Default is True.
+        figsize (tuple, optional):
+            The size of the figure. Default is None.
+        filename (str, optional):
+            The name of the file to save the plot to. If None, the plot is not saved. Default is None.
         **kwargs (Any): Additional keyword arguments to be passed to the plot function.
 
     Returns:

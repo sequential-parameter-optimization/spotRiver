@@ -4,7 +4,9 @@ from typing import List, Tuple
 import matplotlib.pyplot as plt
 
 
-def eval_nowcast_model(model, dataset, time_interval: str = "month", window_size: int = 12) -> Tuple[List, utils.Rolling, List, List]:
+def eval_nowcast_model(
+    model, dataset, time_interval: str = "month", window_size: int = 12
+) -> Tuple[List, utils.Rolling, List, List]:
     """
     Evaluates a time series model using a rolling mean absolute error metric.
 
@@ -53,7 +55,6 @@ def eval_nowcast_model(model, dataset, time_interval: str = "month", window_size
         y_trues.append(y)
         y_preds.append(y_pred)
     return dates, metric, y_trues, y_preds
-Kopieren
 
 
 def plot_nowcast_model(

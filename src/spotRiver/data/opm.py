@@ -49,52 +49,44 @@ def fetch_opm(
 ) -> Union[Tuple[pd.DataFrame, pd.Series], pd.DataFrame, Bunch]:
     """Fetch the OPM dataset from the Connecticut Open Data portal.
 
-    Parameters
-    ----------
-    data_home : str or pathlib.Path, default=None
-        Specify another download and cache folder for the datasets. By default
-        all spotRiver data is stored in '~/spotriver_data' subfolders.
-    download_if_missing : bool, default=True
-        If False, raise an IOError if the data is not locally available
-        rather than trying to download the data from the source site.
-    return_X_y : bool, default=False
-        If True, return `(X, y)` instead of a `Bunch` object. See
-        `sklearn.utils.Bunch` for more information.
-    include_numeric : bool, default=True
-        If True, include numeric columns in the output. Numeric columns include
-        'List Year', 'Assessed Value', 'Sale Amount', 'Sales Ratio', 'lat', 'lon',
-        and 'timestamp_rec'.
-    include_categorical : bool, default=False
-        If True, include categorical columns in the output. Categorical columns
-        include 'Town', 'Address', 'Property Type', 'Residential Type',
-        'Non Use Code', 'Assessor Remarks', and 'OPM remarks'. Columns with fewer
-        than 200 unique values will be treated as categorical.
+    Args:
+        data_home : str or pathlib.Path, default=None
+            Specify another download and cache folder for the datasets. By default
+            all spotRiver data is stored in '~/spotriver_data' subfolders.
+        download_if_missing : bool, default=True
+            If False, raise an IOError if the data is not locally available
+            rather than trying to download the data from the source site.
+        return_X_y : bool, default=False
+            If True, return `(X, y)` instead of a `Bunch` object. See
+            `sklearn.utils.Bunch` for more information.
+        include_numeric : bool, default=True
+            If True, include numeric columns in the output. Numeric columns include
+            'List Year', 'Assessed Value', 'Sale Amount', 'Sales Ratio', 'lat', 'lon',
+            and 'timestamp_rec'.
+        include_categorical : bool, default=False
+            If True, include categorical columns in the output. Categorical columns
+            include 'Town', 'Address', 'Property Type', 'Residential Type',
+            'Non Use Code', 'Assessor Remarks', and 'OPM remarks'. Columns with fewer
+            than 200 unique values will be treated as categorical.
 
-    Returns
-    -------
-    Bunch or Tuple[pd.DataFrame, pd.Series] or pd.DataFrame
-        If `return_X_y` is False, return a `Bunch` object with the following
-        attributes:
-            * data : pd.DataFrame of shape (n_samples, n_features)
-                The feature matrix.
-            * target : pd.Series of shape (n_samples,)
-                The target vector.
-            * DESCR : str
-                A short description of the dataset.
-        If `return_X_y` is True, return a tuple `(X, y)` where `X` is the feature
-        matrix and `y` is the target vector. If only numeric or categorical
-        columns are included in the output, return a pd.DataFrame instead of a
-        Bunch.
+    Returns:
+            Bunch or Tuple[pd.DataFrame, pd.Series] or pd.DataFrame:
+            If `return_X_y` is False, return a `Bunch` object with the following
+            attributes: pd.DataFrame of shape (n_samples, n_features), the feature matrix;
+            target : pd.Series of shape (n_samples,) The target vector. DESCR : str
+            A short description of the dataset.  If `return_X_y` is True, return a tuple `(X, y)`
+            where `X` is the feature matrix and `y` is the target vector.
+            If only numeric or categorical  columns are included in the output,
+            return a pd.DataFrame instead of a Bunch.
 
-    Examples
-    --------
-    >>> from spotRiver.data import fetch_opm
-        # Fetch the OPM dataset and return a pandas DataFrame
-        opm_df = fetch_opm()
-        # Fetch the OPM dataset, include categorical columns, and return a Bunch object
-        opm_data = fetch_opm(include_numeric=False, include_categorical=True, return_X_y=False)
-        # Fetch the OPM dataset, include numeric and categorical columns, and return a tuple of pandas DataFrames
-        X, y = fetch_opm(include_categorical=True, return_X_y=True)
+    Examples:
+        >>> from spotRiver.data import fetch_opm
+            # Fetch the OPM dataset and return a pandas DataFrame
+            opm_df = fetch_opm()
+            # Fetch the OPM dataset, include categorical columns, and return a Bunch object
+            opm_data = fetch_opm(include_numeric=False, include_categorical=True, return_X_y=False)
+            # Fetch the OPM dataset, include numeric and categorical columns, and return a tuple of pandas DataFrames
+            X, y = fetch_opm(include_categorical=True, return_X_y=True)
     """
     filename = get_data_home(data_home=data_home) / "opm_2001-2020.csv"
     if not filename.is_file():

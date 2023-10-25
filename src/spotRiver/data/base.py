@@ -110,7 +110,7 @@ class Dataset(abc.ABC):
     def __init__(
         self,
         task: str,
-        n_features: int=None,
+        n_features: int = None,
         n_samples=None,
         n_classes=None,
         n_outputs=None,
@@ -220,9 +220,6 @@ class FileConfig(Config):
             The file's name.
         directory (str):
             The directory where the file is contained. Defaults to the location of the `datasets` module.
-        desc (dict):
-            Extra config parameters to pass as keyword arguments.
-
     """
 
     def __init__(self, filename, directory=None, **desc):
@@ -252,8 +249,6 @@ class FileDataset(Dataset):
         filename (str): The file's name.
         directory (str):
             The directory where the file is contained. Defaults to the location of the `datasets` module.
-        desc (dict):
-            Extra dataset parameters to pass as keyword arguments.
 
     """
 
@@ -293,8 +288,6 @@ class RemoteDataset(FileDataset):
             Whether to unpack the download or not.
         filename (str):
             An optional name to given to the file if the file is unpacked.
-        desc (dict):
-            Extra dataset parameters to pass as keyword arguments.
     """
 
     def __init__(self, url, size, unpack=True, filename=None, **desc):
@@ -395,8 +388,6 @@ class GenericFileDataset(Dataset):
         filename (str): The file's name.
         directory (str):
             The directory where the file is contained. Defaults to the location of the `datasets` module.
-        desc (dict):
-            Extra dataset parameters to pass as keyword arguments.
     """
 
     def __init__(self, filename, target, converters, parse_dates, directory=None, **desc):

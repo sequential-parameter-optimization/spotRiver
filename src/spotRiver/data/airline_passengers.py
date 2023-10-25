@@ -47,8 +47,8 @@ class AirlinePassengers(base.FileDataset):
 
     def __iter__(self):
         """Iterate over the data.
-            Returns:
-                (Generator): An iterator over the data in the file.
+        Returns:
+            (Generator): An iterator over the data in the file.
         """
         return stream.iter_csv(
             self.path,

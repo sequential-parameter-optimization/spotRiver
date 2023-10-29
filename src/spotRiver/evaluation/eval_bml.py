@@ -515,8 +515,6 @@ def eval_oml_horizon(
         rem = len(test) % horizon
         if rem > 0:
             test = test[:-rem]
-    series_preds = pd.Series(dtype=float)
-    series_diffs = pd.Series(dtype=float)
 
     # Initial Training on Train Data
     # For OML, this is performed on a limited subset only (oml_grace_period).
@@ -532,10 +530,18 @@ def eval_oml_horizon(
             # metric = metric.update(yi, y_pred)
             model = model.learn_one(xi, yi)
     # TODO: Add error handling
+
+    # Create empty lists to collect data
+    eval_data = []
+    series_preds = []
+    series_diffs = []
+
     # Return res_dict = {"Metric": score, "Memory (MB)": memory, "CompTime (s)": r_time}
-    df_eval = pd.DataFrame.from_dict(
-        [evaluate_model(y_true=np.array([]), y_pred=np.array([]), memory=rm.memory, r_time=rm.r_time, metric=metric)]
+    # Initial evaluation with empty data
+    eval_data.append(
+        evaluate_model(y_true=np.array([]), y_pred=np.array([]), memory=rm.memory, r_time=rm.r_time, metric=metric)
     )
+
     # Test Data Evaluation
     for i, new_df in enumerate(gen_sliding_window(test, horizon)):
         preds = []
@@ -545,21 +551,22 @@ def eval_oml_horizon(
         with rm:
             for xi, yi in river_stream.iter_pandas(test_X, test_y):
                 pred = model.predict_one(xi)
-                preds.append(pred)  # This is falsly measured with the ResourceMonitor
+                preds.append(pred)
                 model = model.learn_one(xi, yi)
         preds = pd.Series(preds)
         diffs = new_df[target_column].values - preds
-        df_eval.loc[i + 1] = pd.Series(
+
+        # Collect data in lists
+        eval_data.append(
             evaluate_model(
-                y_true=new_df[target_column],
-                y_pred=preds,
-                memory=rm.memory,
-                r_time=rm.r_time,
-                metric=metric,
+                y_true=new_df[target_column], y_pred=preds, memory=rm.memory, r_time=rm.r_time, metric=metric
             )
         )
-        series_preds = pd.concat([series_preds, preds], ignore_index=True)
-        series_diffs = pd.concat([series_diffs, diffs], ignore_index=True)
+        series_preds.extend(preds)
+        series_diffs.extend(diffs)
+
+    # Create DataFrames from the collected data
+    df_eval = pd.DataFrame(eval_data)
     df_true = pd.DataFrame(test[target_column])
     df_true["Prediction"] = series_preds
     df_true["Difference"] = series_diffs

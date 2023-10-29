@@ -139,7 +139,8 @@ class HyperRiver:
 
     def evaluate_model(self, model: object, fun_control: dict) -> Tuple[pd.DataFrame, pd.DataFrame]:
         """
-        Evaluates a model using the eval_oml_horizon function.
+        Evaluates a model using the eval_oml_horizon function from
+        spotRiver.evaluation.eval_bml.
 
         Args:
             model (object): The model to be evaluated.

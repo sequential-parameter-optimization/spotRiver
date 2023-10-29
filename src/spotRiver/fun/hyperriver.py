@@ -27,23 +27,31 @@ logger.addHandler(py_handler)
 class HyperRiver:
     """
     Hyperparameter Tuning for River.
-
-    Args:
-        seed (int): seed.
-            See [Numpy Random Sampling](https://numpy.org/doc/stable/reference/random/index.html#random-quick-start)
-
     """
 
-    def __init__(self, seed=126, log_level=50):
+    def __init__(self, weights=np.array([1, 0, 0]), seed=126, log_level=50) -> None:
         """Initialize the class.
+
         Args:
-            seed (int): seed.
-                See [Numpy Random Sampling](https://numpy.org/doc/stable/reference/random/index.html#random-quick-start)
-            log_level (int): The level of logging to use. 0 = no logging, 50 = print only important
-                            information. Defaults to 50.
+            weights (np.array):
+                An array of weights for error, r_time, and memory.
+                Defaults to [1, 0, 0], which considers only the error.
+            seed (int):
+                seed. Defaults to 126.
+            log_level (int):
+                The level of logging to use. 0 = no logging, 50 = print only important information.
+                Defaults to 50.
 
         Returns:
             (NoneType): None
+
+        Examples:
+            >>> from spotRiver.fun.hyperriver import HyperRiver
+            >>> import pandas as pd
+            >>> hr = HyperRiver(weights=[1, 2, 3])
+            >>> df_eval = pd.DataFrame( [[1, 2, 3], [3, 4, 5]], columns=['Metric', 'CompTime (s)', 'Memory (MB)'])
+            >>> hr.compute_y(df_eval)
+                20.0
         """
         self.seed = seed
         self.rng = default_rng(seed=self.seed)
@@ -55,7 +63,7 @@ class HyperRiver:
             "grace_period": None,
             "metric_river": None,
             "metric_sklearn": mean_absolute_error,
-            "weights": array([1, 0, 0]),
+            "weights": weights,
             "weight_coeff": 0.0,
             "log_level": log_level,
             "var_name": [],
@@ -67,19 +75,26 @@ class HyperRiver:
         logger.info(f"Starting the logger at level {self.log_level} for module {__name__}:")
 
     def compute_y(self, df_eval):
-        """Compute the objective function value.
+        """Compute the objective function value as a weighted sum of
+            the errors, running time, and memory usage.
 
         Args:
-            df_eval (pd.DataFrame): DataFrame with the evaluation results.
+            df_eval (pd.DataFrame):
+                DataFrame with the evaluation results. Columns must have the following names:
+                - "Metric": The evaluation metric.
+                - "CompTime (s)": The running time.
+                - "Memory (MB)": The memory usage.
 
         Returns:
-            (float): objective function value. Mean of the MAEs of the predicted values.
+            (float): objective function value. Weighted mean of the errors, running time, and memory usage.
 
         Examples:
-            >>> df_eval = pd.DataFrame( [[1, 2, 3], [4, 5, 6]], columns=['Metric', 'CompTime (s)', 'Memory (MB)'])
-            >>> weights = [1, 1, 1]
-            >>> compute_y(df_eval, weights)
-            4.0
+            >>> from spotRiver.fun.hyperriver import HyperRiver
+                hr = HyperRiver()
+                # set the weights
+                hr.fun_control["weights"] = [1, 1, 1]
+                df_eval = pd.DataFrame( [[1, 2, 3], [3, 4, 5]], columns=['Metric', 'CompTime (s)', 'Memory (MB)'])
+                hr.compute_y(df_eval)
         """
         # take the mean of the MAEs/ACCs of the predicted values and ignore the NaN values
         df_eval = df_eval.dropna()

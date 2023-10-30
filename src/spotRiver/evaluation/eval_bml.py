@@ -461,29 +461,49 @@ def eval_oml_horizon(
     oml_grace_period: int = None,
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Evaluate a machine learning model on a rolling horizon basis.
+    Evaluate an online machine learning model on a rolling horizon basis using
+    evaluations from batch-machine learning.
 
-    This function evaluates a machine learning model on a rolling horizon basis.
+    This function evaluates an online-machine learning model on a rolling horizon basis.
     The model is trained on the training data and then evaluated on the test data
     using a given evaluation metric. The evaluation results are returned as a tuple
     of two data frames. The first one contains evaluation metrics for each window.
     The second one contains the true and predicted values for each observation in the test set.
 
+    Notes:
+        First, the model is trained on the (small) training data set. No predictions
+        are made during this initial training phase, but the memory and computation
+        time are measured. Then, the model is evaluated on the test data set using a
+        given (sklearn) evaluation metric.
+        The evaluation results are returned as a tuple of two data frames.
+
     Args:
-        model (object): The model to be evaluated.
-        train (pd.DataFrame): The training data set.
-        test (pd.DataFrame): The testing data set.
-        target_column (str): The name of the column containing the target variable.
-        horizon (int, optional): The number of steps ahead to forecast.
+        model (object):
+            The model to be evaluated. For example, a linear_model from river.
+        train (pd.DataFrame):
+            The training data set. Should be small compared to the test data set.
+            See also oml_grace_period below.
+        test (pd.DataFrame):
+            The testing data set.
+        target_column (str):
+            The name of the column containing the target variable.
+        horizon (int, optional):
+            The number of steps ahead to forecast. If set to 1, the model is evaluated and updated
+            incrementally on the next observation in the test set. If set to 2, the model is evaluated
+            and updated incrementally on the next two observations in the test set, and so on.
         include_remainder (bool):
             Whether to include the remainder of the test dataframe if its
             length is not divisible by the horizon. Defaults to True.
         metric (object):
             An evaluation metric object that has an `evaluate` method.
-            This metric will be used to evaluate the model's performance on the test dataset.
+            This metric will be used to evaluate the model's performance on the test dataset. Metrics
+            from sklearn, e.g., mean_absolute_error can be used.
         oml_grace_period (int, optional):
-            The number of observations to use for initial training. Defaults to None,
-            in which case the horizon is used.
+            The number of observations to use for (initial) training. Defaults to None,
+            in which case the horizon is used. Important: Not the entire training set is used
+            for initial training, but only the last oml_grace_period observations. This is
+            to simulate the online setting, where the model is trained on a small subset of
+            the training data set. If None, the horizon is used.
 
     Returns:
         tuple:
@@ -493,16 +513,55 @@ def eval_oml_horizon(
             in the test set.
 
     Examples:
-        >>> from sklearn.linear_model import LinearRegression
-        >>> model = LinearRegression()
-        >>> train = pd.DataFrame({"x": [1, 2, 3], "y": [2, 4, 6]})
-        >>> test = pd.DataFrame({"x": [4, 5], "y": [8, 10]})
-        >>> df_eval, df_true = eval_oml_horizon(model, train, test, "y", horizon=1)
-        >>> print(df_eval)
-                Metric  Memory (MB)  CompTime (s)
-        0  0.000000          0.0           0.0
-        1  0.000000          0.0           0.0
-        ...        ...          ...           ...
+        >>> from river import linear_model
+            from river import preprocessing
+            from sklearn.metrics import mean_absolute_error
+            from spotRiver.evaluation.eval.bml import eval_oml_horizon
+            model = (
+                    preprocessing.StandardScaler() |
+                    linear_model.LinearRegression(intercept_lr=.5)
+                )
+            horizon = 10
+            train = pd.DataFrame({"x": np.arange(1, 11), "y": np.arange(2, 22, 2)})
+            test = pd.DataFrame({"x": np.arange(11, 111), "y": np.arange(22, 222, 2)})
+            target_column = "y"
+            eval_oml_horizon(
+                model = model,
+                train = train,
+                test = test,
+                target_column = target_column,
+                horizon = horizon,
+                include_remainder = True,
+                metric = metric,
+                oml_grace_period = horizon,
+            )
+            (      Metric  Memory (MB)  CompTime (s)
+            0        NaN     0.025515      0.001253
+            1   1.721100     0.009296      0.001499
+            2   1.700408     0.007614      0.000801
+            3   1.690827     0.007833      0.002240
+            4   1.685174     0.007614      0.000784
+            5   1.681406     0.007614      0.000738
+            6   1.678697     0.007937      0.001930
+            7   1.676648     0.007614      0.000782
+            8   1.675039     0.007431      0.000760
+            9   1.673739     0.007431      0.000687
+            10  1.672665     0.007431      0.000678,
+                y  Prediction  Difference
+            0    22   20.261831    1.738169
+            1    24   22.267027    1.732973
+            2    26   24.271507    1.728493
+            3    28   26.275414    1.724586
+            4    30   28.278854    1.721146
+            ..  ...         ...         ...
+            95  212  210.327390    1.672610
+            96  214  212.327487    1.672513
+            97  216  214.327581    1.672419
+            98  218  216.327674    1.672326
+            99  220  218.327766    1.672234
+
+            [100 rows x 3 columns])
+
     """
     # Check if metric is None or null and raise ValueError if it is
     if metric is None:
@@ -516,8 +575,10 @@ def eval_oml_horizon(
         if rem > 0:
             test = test[:-rem]
 
-    # Initial Training on Train Data
-    # For OML, this is performed on a limited subset only (oml_grace_period).
+    # Fit the model on the train data, i.e., initial Training on Train Data.
+    # This is performed on a limited subset only (oml_grace_period).
+    # No predictions are made here, only the model is fitted.
+    # Memory and runtime are measured for the model fitting
     train_X = train.loc[:, train.columns != target_column]
     train_y = train[target_column]
     train_X = train_X.tail(oml_grace_period)
@@ -525,24 +586,33 @@ def eval_oml_horizon(
     rm = ResourceMonitor()
     with rm:
         for xi, yi in river_stream.iter_pandas(train_X, train_y):
-            # The following line returns y_pred, which is not used, therefore set to "_":
-            _ = model.predict_one(xi)
-            # metric = metric.update(yi, y_pred)
+            # Before v0.19 we had to call predict_one before learn_one
+            # in order for the whole pipeline to be updated.
+            # Since v0.19, calling learn_one in a pipeline will update each part
+            # of the pipeline in turn.
+            # Before v0.19, predict_one has to be called for updating the unsupervised parts
+            # of the pipeline.
+            # The following line, which returns y_pred, which is not used after v0.19:
+            # _ = model.predict_one(xi)
             model = model.learn_one(xi, yi)
-    # TODO: Add error handling
 
     # Create empty lists to collect data
     eval_data = []
     series_preds = []
     series_diffs = []
 
+    # Measure the costs of the initial training:
+    # Add the evaluation of the model (memory and time, not predictions) on the train data to the eval_data list
+    # A metric must not be passed to the evaluate_model function, because no predictions are made here
+    # If a metric is passed, it will be ignored, because no predictions are passed to the evaluation function
+    # So, metric=None and metric=mean_absolute_error will both work
     # Return res_dict = {"Metric": score, "Memory (MB)": memory, "CompTime (s)": r_time}
-    # Initial evaluation with empty data
     eval_data.append(
         evaluate_model(y_true=np.array([]), y_pred=np.array([]), memory=rm.memory, r_time=rm.r_time, metric=metric)
     )
 
     # Test Data Evaluation
+    # A sliding window of length horizon is used to evaluate the model on the test data
     for i, new_df in enumerate(gen_sliding_window(test, horizon)):
         preds = []
         test_X = new_df.loc[:, new_df.columns != target_column]

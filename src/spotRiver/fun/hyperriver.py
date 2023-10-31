@@ -209,7 +209,7 @@ class HyperRiver:
 
     def fun_oml_horizon(self, X: np.ndarray, fun_control: Optional[Dict[str, Any]] = None) -> np.ndarray:
         """
-        The objective function for hyperparameter tuning.
+        The objective function for hyperparameter tuning. Prepares the data and calls the evaluate_model function.
 
         This function takes in input data and a dictionary of control parameters to compute the objective function values for hyperparameter tuning.
 
@@ -236,14 +236,14 @@ class HyperRiver:
                                               'metric_sklearn': 'accuracy'})
             array([0.8, 0.85, 0.9])
         """
-        logger.debug("X from eval_oml_horizon: %s", X)
-        logger.debug("fun_control from eval_oml_horizon: %s", fun_control)
+        logger.debug("X from fun_oml_horizon: %s", X)
+        logger.debug("fun_control from fun_oml_horizon: %s", fun_control)
         z_res = []
         self.fun_control.update(fun_control)
         self.check_X_shape(X)
         var_dict = assign_values(X, self.fun_control["var_name"])
         for config in generate_one_config_from_var_dict(var_dict, self.fun_control):
-            logger.debug("config from eval_oml_horizon: %s", config)
+            logger.debug("config from fun_oml_horizon: %s", config)
             config_id = generate_config_id(config)
             if self.fun_control["prep_model"] is not None:
                 model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**config))
@@ -254,7 +254,7 @@ class HyperRiver:
                 y = self.compute_y(df_eval)
             except Exception as err:
                 y = np.nan
-                print(f"Error in fun(). Call to evaluate or compute_y failed. {err=}, {type(err)=}")
+                print(f"Error in fun_oml_horizon(). Call to evaluate or compute_y failed. {err=}, {type(err)=}")
                 print("Setting y to np.nan.")
             z_res.append(y / self.fun_control["n_samples"])
         return np.array(z_res)

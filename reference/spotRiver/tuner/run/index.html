@@ -1438,7 +1438,8 @@ full data set is used.</p>
 
           <details class="quote">
             <summary>Source code in <code>spotRiver/tuner/run.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 30</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 29</span>
+<span class="normal"> 30</span>
 <span class="normal"> 31</span>
 <span class="normal"> 32</span>
 <span class="normal"> 33</span>
@@ -1654,7 +1655,8 @@ full data set is used.</p>
     <span class="p">)</span>
     <span class="n">spot_tuner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">X_start</span><span class="o">=</span><span class="n">X_start</span><span class="p">)</span>
     <span class="n">stop_tensorboard</span><span class="p">(</span><span class="n">p_open</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">spot_tuner</span>
+    <span class="c1"># return spot_tuner and fun_control for further analysis</span>
+    <span class="k">return</span> <span class="n">spot_tuner</span><span class="p">,</span> <span class="n">fun_control</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>

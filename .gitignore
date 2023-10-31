@@ -168,3 +168,5 @@ notebooks/runs_OLD/*
 notebooks/runs/*
 runs/spot_logs/*
 runs_OLD/*
+gui/runs/*
+gui/runs_OLD/*

@@ -653,6 +653,7 @@ def plot_bml_oml_horizon_metrics(
     figsize=None,
     metric=None,
     filename=None,
+    show=False,
     **kwargs,
 ) -> None:
     """Plot evaluation metrics for machine learning models.
@@ -749,6 +750,8 @@ def plot_bml_oml_horizon_metrics(
                     axes[i].set_yscale("log")
         if filename is not None:
             plt.savefig(filename)
+    if show:
+        plt.show()
 
 
 def plot_bml_oml_horizon_predictions(

@@ -13,7 +13,6 @@ from spotRiver.fun.hyperriver import HyperRiver
 from spotRiver.evaluation.eval_bml import plot_bml_oml_horizon_metrics
 from spotPython.plot.validation import plot_roc_from_dataframes
 from spotPython.plot.validation import plot_confusion_matrix
-from spotRiver.evaluation.eval_bml import plot_bml_oml_horizon_metrics
 from spotPython.hyperparameters.values import add_core_model_to_fun_control
 from spotPython.utils.init import fun_control_init
 from spotPython.utils.file import get_spot_tensorboard_path
@@ -135,8 +134,41 @@ def run_spot_river_experiment(
     )
     spot_tuner.run(X_start=X_start)
     stop_tensorboard(p_open)
-    return spot_tuner
+    # return spot_tuner and fun_control for further analysis
+    return spot_tuner, fun_control
 
 
-if __name__ == "__main__":
-    tuner = run_spot_river_experiment()
+def compare_tuned_default(spot_tuner, fun_control) -> None:
+    X = spot_tuner.to_all_dim(spot_tuner.min_X.reshape(1, -1))
+    print(f"X = {X}")
+    model_spot = get_one_core_model_from_X(X, fun_control)
+    df_eval_spot, df_true_spot = eval_oml_horizon(
+        model=model_spot,
+        train=fun_control["train"],
+        test=fun_control["test"],
+        target_column=fun_control["target_column"],
+        horizon=fun_control["horizon"],
+        oml_grace_period=fun_control["oml_grace_period"],
+        metric=fun_control["metric_sklearn"],
+    )
+    X_start = get_default_hyperparameters_as_array(fun_control)
+    model_default = get_one_core_model_from_X(X_start, fun_control)
+    df_eval_default, df_true_default = eval_oml_horizon(
+        model=model_default,
+        train=fun_control["train"],
+        test=fun_control["test"],
+        target_column=fun_control["target_column"],
+        horizon=fun_control["horizon"],
+        oml_grace_period=fun_control["oml_grace_period"],
+        metric=fun_control["metric_sklearn"],
+    )
+
+    df_labels = ["default", "spot"]
+    plot_bml_oml_horizon_metrics(
+        df_eval=[df_eval_default, df_eval_spot],
+        log_y=False,
+        df_labels=df_labels,
+        metric=fun_control["metric_sklearn"],
+        filename=None,
+        show=True,
+    )

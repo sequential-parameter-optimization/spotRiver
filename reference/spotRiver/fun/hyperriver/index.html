@@ -465,6 +465,8 @@
       
         
       
+        
+      
     
     
     
@@ -1021,8 +1023,6 @@
       
         
       
-        
-      
     
     
     
@@ -1039,7 +1039,7 @@
             
   
   <span class="md-ellipsis">
-    utils
+    tuner
   </span>
   
 
@@ -1048,6 +1048,76 @@
         
         <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_1_7">
+            <span class="md-nav__icon md-icon"></span>
+            tuner
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tuner/run/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    run
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_8" id="__nav_2_1_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    utils
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_8">
             <span class="md-nav__icon md-icon"></span>
             utils
           </label>
@@ -1753,7 +1823,7 @@
 
     <span class="k">def</span> <span class="nf">fun_oml_horizon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The objective function for hyperparameter tuning.</span>
+<span class="sd">        The objective function for hyperparameter tuning. Prepares the data and calls the evaluate_model function.</span>
 
 <span class="sd">        This function takes in input data and a dictionary of control parameters to compute the objective function values for hyperparameter tuning.</span>
 
@@ -1780,14 +1850,14 @@
 <span class="sd">                                              &#39;metric_sklearn&#39;: &#39;accuracy&#39;})</span>
 <span class="sd">            array([0.8, 0.85, 0.9])</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;X from eval_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;fun_control from eval_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;X from fun_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;fun_control from fun_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">)</span>
         <span class="n">z_res</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">fun_control</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_X_shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="n">var_dict</span> <span class="o">=</span> <span class="n">assign_values</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;var_name&quot;</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">generate_one_config_from_var_dict</span><span class="p">(</span><span class="n">var_dict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;config from eval_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;config from fun_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
             <span class="n">config_id</span> <span class="o">=</span> <span class="n">generate_config_id</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;prep_model&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">model</span> <span class="o">=</span> <span class="n">compose</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;prep_model&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;core_model&quot;</span><span class="p">](</span><span class="o">**</span><span class="n">config</span><span class="p">))</span>
@@ -1798,7 +1868,7 @@
                 <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_y</span><span class="p">(</span><span class="n">df_eval</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
                 <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in fun(). Call to evaluate or compute_y failed. </span><span class="si">{</span><span class="n">err</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in fun_oml_horizon(). Call to evaluate or compute_y failed. </span><span class="si">{</span><span class="n">err</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Setting y to np.nan.&quot;</span><span class="p">)</span>
             <span class="n">z_res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;n_samples&quot;</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">z_res</span><span class="p">)</span>
@@ -2545,7 +2615,7 @@ spotRiver.evaluation.eval_bml.</p>
 
   <div class="doc doc-contents ">
   
-      <p>The objective function for hyperparameter tuning.</p>
+      <p>The objective function for hyperparameter tuning. Prepares the data and calls the evaluate_model function.</p>
 <p>This function takes in input data and a dictionary of control parameters to compute the objective function values for hyperparameter tuning.</p>
 
 
@@ -2689,7 +2759,7 @@ spotRiver.evaluation.eval_bml.</p>
 <span class="normal">259</span>
 <span class="normal">260</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fun_oml_horizon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The objective function for hyperparameter tuning.</span>
+<span class="sd">    The objective function for hyperparameter tuning. Prepares the data and calls the evaluate_model function.</span>
 
 <span class="sd">    This function takes in input data and a dictionary of control parameters to compute the objective function values for hyperparameter tuning.</span>
 
@@ -2716,14 +2786,14 @@ spotRiver.evaluation.eval_bml.</p>
 <span class="sd">                                          &#39;metric_sklearn&#39;: &#39;accuracy&#39;})</span>
 <span class="sd">        array([0.8, 0.85, 0.9])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;X from eval_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;fun_control from eval_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;X from fun_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;fun_control from fun_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">)</span>
     <span class="n">z_res</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">fun_control</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">check_X_shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="n">var_dict</span> <span class="o">=</span> <span class="n">assign_values</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;var_name&quot;</span><span class="p">])</span>
     <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">generate_one_config_from_var_dict</span><span class="p">(</span><span class="n">var_dict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;config from eval_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;config from fun_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
         <span class="n">config_id</span> <span class="o">=</span> <span class="n">generate_config_id</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;prep_model&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">model</span> <span class="o">=</span> <span class="n">compose</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;prep_model&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;core_model&quot;</span><span class="p">](</span><span class="o">**</span><span class="n">config</span><span class="p">))</span>
@@ -2734,7 +2804,7 @@ spotRiver.evaluation.eval_bml.</p>
             <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_y</span><span class="p">(</span><span class="n">df_eval</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in fun(). Call to evaluate or compute_y failed. </span><span class="si">{</span><span class="n">err</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in fun_oml_horizon(). Call to evaluate or compute_y failed. </span><span class="si">{</span><span class="n">err</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Setting y to np.nan.&quot;</span><span class="p">)</span>
         <span class="n">z_res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;n_samples&quot;</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">z_res</span><span class="p">)</span>

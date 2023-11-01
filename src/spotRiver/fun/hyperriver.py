@@ -1,7 +1,6 @@
 from numpy.random import default_rng
 import numpy as np
 import pandas as pd
-from numpy import array
 from river import compose
 from typing import Optional, Dict, Any, Tuple
 from spotPython.hyperparameters.values import assign_values

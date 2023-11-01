@@ -199,15 +199,14 @@ def compare_tuned_default(spot_tuner, fun_control) -> None:
     )
     plt.figure(1)
 
-    # # Second Plot
-    # plt.figure(2)
-    # plot_roc_from_dataframes(
-    #     [df_true_default, df_true_spot],
-    #     model_names=["default", "spot"],
-    #     target_column=fun_control["target_column"],
-    #     show=False,
-    # )
-
+    # Second Plot
+    plot_roc_from_dataframes(
+        [df_true_default, df_true_spot],
+        model_names=["default", "spot"],
+        target_column=fun_control["target_column"],
+        show=False,
+    )
+    plt.figure(2)
     # Third Plot
 
     plot_confusion_matrix(

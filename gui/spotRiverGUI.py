@@ -6,24 +6,6 @@ from spotRiver.tuner.run import run_spot_river_experiment, compare_tuned_default
 result = None
 fun_control = None
 
-def on_core_model_select(event):
-    selected_core_model = core_model_var.get()
-    if selected_core_model == "AMFClassifier":
-        # If "AMFClassifier" is selected, update the options to include both models
-        core_model_menu['menu'].delete(0, 'end')
-        core_model_options = ["AMFClassifier", "HoeffdingAdaptiveTreeClassifier"]
-        for option in core_model_options:
-            core_model_menu['menu'].add_command(label=option, command=tk._setit(core_model_var, option))
-
-    elif selected_core_model == "HoeffdingAdaptiveTreeClassifier":
-        # If "HoeffdingAdaptiveTreeClassifier" is selected, update the options accordingly
-        core_model_menu['menu'].delete(0, 'end')
-        core_model_options = ["HoeffdingAdaptiveTreeClassifier", "AMFClassifier"]
-        for option in core_model_options:
-            core_model_menu['menu'].add_command(label=option, command=tk._setit(core_model_var, option))
-
-
-
 def run_experiment():
     global result, fun_control
     MAX_TIME = float(max_time_entry.get())
@@ -33,9 +15,9 @@ def run_experiment():
     n_samples = int(n_samples_entry.get())
     n_train = int(n_train_entry.get())
     oml_grace_period = int(oml_grace_period_entry.get())
-    data_set = data_set_var.get()
-    prep_model = prep_model_var.get()
-    core_model = core_model_var.get()
+    data_set = data_set_combo.get()
+    prep_model = prep_model_combo.get()
+    core_model = core_model_combo.get()
 
     result, fun_control = run_spot_river_experiment(
         MAX_TIME=MAX_TIME,
@@ -65,80 +47,109 @@ notebook = ttk.Notebook(app)
 
 # Create and pack entry fields for the "Run" tab
 run_tab = ttk.Frame(notebook)
-notebook.add(run_tab, text="Run")
+notebook.add(run_tab, text="Classification")
 
-max_time_label = tk.Label(run_tab, text="MAX_TIME:")
-max_time_label.grid(row=1, column=0, sticky="W")
-max_time_entry = tk.Entry(run_tab)
-max_time_entry.insert(0, "1")
-max_time_entry.grid(row=1, column=1)
+# colummns 0+1: Data
 
+data_label = tk.Label(run_tab, text="Data options:")
+data_label.grid(row=0, column=0, sticky="W")
 
-init_size_label = tk.Label(run_tab, text="INIT_SIZE:")
-init_size_label.grid(row=2, column=0, sticky="W")
-init_size_entry = tk.Entry(run_tab)
-init_size_entry.insert(0, "3")
-init_size_entry.grid(row=2, column=1)
+data_set_label = tk.Label(run_tab, text="Select data_set:")
+data_set_label.grid(row=1, column=0, sticky="W")
+data_set_values = ["Bananas", "CreditCard", "Phishing"]
+data_set_combo = ttk.Combobox(run_tab, values=data_set_values)
+data_set_combo.set("Phishing")  # Default selection
+data_set_combo.grid(row=1, column=1)
 
-prefix_label = tk.Label(run_tab, text="PREFIX:")
-prefix_label.grid(row=3, column=0, sticky="W")
-prefix_entry = tk.Entry(run_tab)
-prefix_entry.insert(0, "00")
-prefix_entry.grid(row=3, column=1)
-
-horizon_label = tk.Label(run_tab, text="horizon:")
-horizon_label.grid(row=4, column=0, sticky="W")
-horizon_entry = tk.Entry(run_tab)
-horizon_entry.insert(0, "1")
-horizon_entry.grid(row=4, column=1)
 
 n_samples_label = tk.Label(run_tab, text="n_samples:")
-n_samples_label.grid(row=5, column=0, sticky="W")
+n_samples_label.grid(row=2, column=0, sticky="W")
 n_samples_entry = tk.Entry(run_tab)
 n_samples_entry.insert(0, "1000")
-n_samples_entry.grid(row=5, column=1)
+n_samples_entry.grid(row=2, column=1, sticky="W")
 
 n_train_label = tk.Label(run_tab, text="n_train:")
-n_train_label.grid(row=6, column=0, sticky="W")
+n_train_label.grid(row=3, column=0, sticky="W")
 n_train_entry = tk.Entry(run_tab)
 n_train_entry.insert(0, "100")
-n_train_entry.grid(row=6, column=1)
+n_train_entry.grid(row=3, column=1, sticky="W")
+
+
+# colummns 2+3: Model
+model_label = tk.Label(run_tab, text="Model options:")
+model_label.grid(row=0, column=2, sticky="W")
+
+prep_model_label = tk.Label(run_tab, text="Select preprocessing model")
+prep_model_label.grid(row=1, column=2, sticky="W")
+prep_model_values = ["MinMaxScaler", "StandardScaler", "None"]
+prep_model_combo = ttk.Combobox(run_tab, values=prep_model_values)
+prep_model_combo.set("StandardScaler")  # Default selection
+prep_model_combo.grid(row=1, column=3)
+
+
+core_model_label = tk.Label(run_tab, text="Select core model")
+core_model_label.grid(row=2, column=2, sticky="W")
+core_model_values = ["AMFClassifier", "HoeffdingAdaptiveTreeClassifier"]
+core_model_combo = ttk.Combobox(run_tab, values=core_model_values)
+core_model_combo.set("AMFClassifier")  # Default selection
+core_model_combo.grid(row=2, column=3)
+
+
+# columns 4+5: Experiment
+experiment_label = tk.Label(run_tab, text="Experiment options:")
+experiment_label.grid(row=0, column=4, sticky="W")
+
+max_time_label = tk.Label(run_tab, text="MAX_TIME:")
+max_time_label.grid(row=1, column=4, sticky="W")
+max_time_entry = tk.Entry(run_tab)
+max_time_entry.insert(0, "1")
+max_time_entry.grid(row=1, column=5)
+
+init_size_label = tk.Label(run_tab, text="INIT_SIZE:")
+init_size_label.grid(row=2, column=4, sticky="W")
+init_size_entry = tk.Entry(run_tab)
+init_size_entry.insert(0, "3")
+init_size_entry.grid(row=2, column=5)
+
+prefix_label = tk.Label(run_tab, text="PREFIX:")
+prefix_label.grid(row=3, column=4, sticky="W")
+prefix_entry = tk.Entry(run_tab)
+prefix_entry.insert(0, "00")
+prefix_entry.grid(row=3, column=5)
+
+horizon_label = tk.Label(run_tab, text="horizon:")
+horizon_label.grid(row=4, column=4, sticky="W")
+horizon_entry = tk.Entry(run_tab)
+horizon_entry.insert(0, "1")
+horizon_entry.grid(row=4, column=5)
 
 oml_grace_period_label = tk.Label(run_tab, text="oml_grace_period:")
-oml_grace_period_label.grid(row=7, column=0, sticky="W")
+oml_grace_period_label.grid(row=5, column=4, sticky="W")
 oml_grace_period_entry = tk.Entry(run_tab)
 oml_grace_period_entry.insert(0, "100")
-oml_grace_period_entry.grid(row=7, column=1)
+oml_grace_period_entry.grid(row=5, column=5)
 
-
-data_set_label = ttk.Label(run_tab, text="Select data_set")
-data_set_label.grid(row=8, column=0, sticky="W")
-data_set_var = tk.StringVar()
-data_set_var.set("Phishing")  # Default selection
-data_set_options = ["Bananas", "CreditCard", "Phishing"]
-data_set_menu = ttk.OptionMenu(run_tab, data_set_var, *data_set_options)
-data_set_menu.grid(row=8, column=1, sticky="W")
-
-prep_model_label = ttk.Label(run_tab, text="Select preprocessing model")
-prep_model_label.grid(row=9, column=0, sticky="W")
-prep_model_var = tk.StringVar()
-prep_model_var.set("StandardScaler")  # Default selection
-prep_model_options = ["StandardScaler", "MinMaxScaler", "None"]
-prep_model_menu = ttk.OptionMenu(run_tab, prep_model_var, *prep_model_options)
-prep_model_menu.grid(row=9, column=1, sticky="W")
-
-
-core_model_label = ttk.Label(run_tab, text="Select core model")
-core_model_label.grid(row=10, column=0, sticky="W")
-core_model_var = tk.StringVar()
-core_model_var.set("AMFClassifier")  # Default selection
-core_model_options = ["AMFClassifier", "HoeffdingAdaptiveTreeClassifier"]
-core_model_menu = ttk.OptionMenu(run_tab, core_model_var, *core_model_options, command=on_core_model_select)
-core_model_menu.grid(row=10, column=1, columnspan=2, sticky="W")
-
-
+# column 6: Run button
 run_button = ttk.Button(run_tab, text="Run Experiment", command=run_experiment)
-run_button.grid(row=11, column=3, columnspan=2, sticky="E")
+run_button.grid(row=7, column=6, columnspan=2, sticky="E")
+
+# Create and pack the "Regression" tab with a button to run the analysis
+regression_tab = ttk.Frame(notebook)
+notebook.add(regression_tab, text="Regression")
+
+# colummns 0+1: Data
+
+regression_data_label = tk.Label(regression_tab, text="Data options:")
+regression_data_label.grid(row=0, column=0, sticky="W")
+
+# colummns 2+3: Model
+regression_model_label = tk.Label(regression_tab, text="Model options:")
+regression_model_label.grid(row=0, column=2, sticky="W")
+
+# columns 4+5: Experiment
+regression_experiment_label = tk.Label(regression_tab, text="Experiment options:")
+regression_experiment_label.grid(row=0, column=4, sticky="W")
+
 
 # Create and pack the "Analysis" tab with a button to run the analysis
 analysis_tab = ttk.Frame(notebook)
@@ -162,8 +173,11 @@ compare_tuned_default_checkbox.grid(row=2, column=1, sticky="W")
 analyze_button = ttk.Button(analysis_tab, text="Analyze Data", command=analyze_data)
 analyze_button.grid(row=3, column=2, columnspan=2, sticky="E")
 
-logo_label = tk.Label(analysis_tab, image=logo_image)
-logo_label.grid(row=0, column=6, rowspan=1, columnspan=1)
+analysis_logo_label = tk.Label(analysis_tab, image=logo_image)
+analysis_logo_label.grid(row=0, column=6, rowspan=1, columnspan=1)
+
+regression_logo_label = tk.Label(regression_tab, image=logo_image)
+regression_logo_label.grid(row=0, column=6, rowspan=1, columnspan=1)
 
 # Run the mainloop
 

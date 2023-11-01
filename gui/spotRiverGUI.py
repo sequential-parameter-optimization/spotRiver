@@ -128,14 +128,6 @@ prep_model_menu = ttk.OptionMenu(run_tab, prep_model_var, *prep_model_options)
 prep_model_menu.grid(row=9, column=1, sticky="W")
 
 
-# core_model_label = ttk.Label(run_tab, text="Select core model")
-# core_model_label.grid(row=10, column=0, sticky="W")
-# core_model_var = tk.StringVar()
-# core_model_var.set("AMFClassifier")  # Default selection
-# core_model_options = ["AMFClassifier", "HoeffdingAdaptiveTreeClassifier"]
-# core_model_menu = ttk.OptionMenu(run_tab, core_model_var, *core_model_options)
-# core_model_menu.grid(row=10, column=1, columnspan=2, sticky="W")
-
 core_model_label = ttk.Label(run_tab, text="Select core model")
 core_model_label.grid(row=10, column=0, sticky="W")
 core_model_var = tk.StringVar()

@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score
 from river import preprocessing
 from river.forest import AMFClassifier
@@ -185,11 +186,43 @@ def compare_tuned_default(spot_tuner, fun_control) -> None:
     )
 
     df_labels = ["default", "spot"]
+
+    # First Plot
+
     plot_bml_oml_horizon_metrics(
         df_eval=[df_eval_default, df_eval_spot],
         log_y=False,
         df_labels=df_labels,
         metric=fun_control["metric_sklearn"],
         filename=None,
-        show=True,
+        show=False,
     )
+    plt.figure(1)
+
+    # # Second Plot
+    # plt.figure(2)
+    # plot_roc_from_dataframes(
+    #     [df_true_default, df_true_spot],
+    #     model_names=["default", "spot"],
+    #     target_column=fun_control["target_column"],
+    #     show=False,
+    # )
+
+    # Third Plot
+
+    plot_confusion_matrix(
+        df=df_true_default,
+        title="Default",
+        y_true_name=fun_control["target_column"],
+        y_pred_name="Prediction",
+        show=False,
+    )
+    plt.figure(2)
+    # Fourth Plot
+
+    plot_confusion_matrix(
+        df=df_true_spot, title="Spot", y_true_name=fun_control["target_column"], y_pred_name="Prediction", show=False
+    )
+    plt.figure(3)
+
+    plt.show()  # Display all four plots simultaneously

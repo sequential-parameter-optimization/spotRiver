@@ -122,8 +122,8 @@ data_set_menu.grid(row=8, column=1, sticky="W")
 prep_model_label = ttk.Label(run_tab, text="Select preprocessing model")
 prep_model_label.grid(row=9, column=0, sticky="W")
 prep_model_var = tk.StringVar()
-prep_model_var.set("StandardScalar")  # Default selection
-prep_model_options = ["StandardScalar", "MinMaxScalar", "None"]
+prep_model_var.set("StandardScaler")  # Default selection
+prep_model_options = ["StandardScaler", "MinMaxScaler", "None"]
 prep_model_menu = ttk.OptionMenu(run_tab, prep_model_var, *prep_model_options)
 prep_model_menu.grid(row=9, column=1, sticky="W")
 

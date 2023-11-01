@@ -2,6 +2,7 @@ import numpy as np
 from sklearn.metrics import accuracy_score
 from river import preprocessing
 from river.forest import AMFClassifier
+from river.tree import HoeffdingAdaptiveTreeClassifier
 from river.datasets import Bananas, CreditCard, Phishing
 from math import inf
 import pandas as pd
@@ -35,6 +36,8 @@ def run_spot_river_experiment(
     n_train=None,
     oml_grace_period=None,
     data_set="Phishing",
+    prepmodel="StandardScaler",
+    coremodel="AMFClassifier",
 ) -> spot.Spot:
     """Runs a spot experiment with the river package.
 
@@ -80,7 +83,14 @@ def run_spot_river_experiment(
     df = convert_to_df(dataset, target_column=target_column, n_total=n_samples)
     df.columns = [f"x{i}" for i in range(1, dataset.n_features + 1)] + ["y"]
     df["y"] = df["y"].astype(int)
-    prep_model = preprocessing.StandardScaler()
+
+    if prepmodel == "StandardScaler":
+        prep_model = preprocessing.StandardScaler()
+    elif prepmodel == "MinMaxScaler":
+        prep_model = preprocessing.MinMaxScaler()
+    else:
+        prep_model = None
+
     fun_control.update(
         {
             "train": df[:n_train],
@@ -96,11 +106,22 @@ def run_spot_river_experiment(
             "metric_sklearn": accuracy_score,
         }
     )
-    add_core_model_to_fun_control(
-        core_model=AMFClassifier, fun_control=fun_control, hyper_dict=RiverHyperDict, filename=None
-    )
-    modify_hyper_parameter_bounds(fun_control, "n_estimators", bounds=[2, 20])
-    modify_hyper_parameter_bounds(fun_control, "step", bounds=[0.5, 2])
+
+    if coremodel == "AMFClassifier":
+        add_core_model_to_fun_control(
+            core_model=AMFClassifier, fun_control=fun_control, hyper_dict=RiverHyperDict, filename=None
+        )
+        modify_hyper_parameter_bounds(fun_control, "n_estimators", bounds=[2, 20])
+        modify_hyper_parameter_bounds(fun_control, "step", bounds=[0.5, 2])
+    elif coremodel == "HoeffdingAdaptiveTreeClassifier":
+        add_core_model_to_fun_control(
+            core_model=HoeffdingAdaptiveTreeClassifier,
+            fun_control=fun_control,
+            hyper_dict=RiverHyperDict,
+            filename=None,
+        )
+    else:
+        raise ValueError("core_model must be 'AMFClassifier' or 'HoeffdingAdaptiveTreeClassifier'")
 
     X_start = get_default_hyperparameters_as_array(fun_control)
     fun = HyperRiver(log_level=50).fun_oml_horizon

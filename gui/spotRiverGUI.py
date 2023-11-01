@@ -6,6 +6,24 @@ from spotRiver.tuner.run import run_spot_river_experiment, compare_tuned_default
 result = None
 fun_control = None
 
+def on_core_model_select(event):
+    selected_core_model = core_model_var.get()
+    if selected_core_model == "AMFClassifier":
+        # If "AMFClassifier" is selected, update the options to include both models
+        core_model_menu['menu'].delete(0, 'end')
+        core_model_options = ["AMFClassifier", "HoeffdingAdaptiveTreeClassifier"]
+        for option in core_model_options:
+            core_model_menu['menu'].add_command(label=option, command=tk._setit(core_model_var, option))
+
+    elif selected_core_model == "HoeffdingAdaptiveTreeClassifier":
+        # If "HoeffdingAdaptiveTreeClassifier" is selected, update the options accordingly
+        core_model_menu['menu'].delete(0, 'end')
+        core_model_options = ["HoeffdingAdaptiveTreeClassifier", "AMFClassifier"]
+        for option in core_model_options:
+            core_model_menu['menu'].add_command(label=option, command=tk._setit(core_model_var, option))
+
+
+
 def run_experiment():
     global result, fun_control
     MAX_TIME = float(max_time_entry.get())
@@ -16,6 +34,8 @@ def run_experiment():
     n_train = int(n_train_entry.get())
     oml_grace_period = int(oml_grace_period_entry.get())
     data_set = data_set_var.get()
+    prep_model = prep_model_var.get()
+    core_model = core_model_var.get()
 
     result, fun_control = run_spot_river_experiment(
         MAX_TIME=MAX_TIME,
@@ -25,11 +45,13 @@ def run_experiment():
         n_samples=n_samples,
         n_train=n_train,
         oml_grace_period=oml_grace_period,
-        data_set=data_set
+        data_set=data_set,
+        prepmodel=prep_model,
+        coremodel=core_model,
     )
 
 def analyze_data():
-    if result is not None and fun_control is not None:
+    if result is not None and fun_control is not None and compare_tuned_default_var.get():
         compare_tuned_default(result, fun_control)  # Call the analysis method
 
 
@@ -97,8 +119,34 @@ data_set_options = ["Bananas", "CreditCard", "Phishing"]
 data_set_menu = ttk.OptionMenu(run_tab, data_set_var, *data_set_options)
 data_set_menu.grid(row=8, column=1, sticky="W")
 
+prep_model_label = ttk.Label(run_tab, text="Select preprocessing model")
+prep_model_label.grid(row=9, column=0, sticky="W")
+prep_model_var = tk.StringVar()
+prep_model_var.set("StandardScalar")  # Default selection
+prep_model_options = ["StandardScalar", "MinMaxScalar", "None"]
+prep_model_menu = ttk.OptionMenu(run_tab, prep_model_var, *prep_model_options)
+prep_model_menu.grid(row=9, column=1, sticky="W")
+
+
+# core_model_label = ttk.Label(run_tab, text="Select core model")
+# core_model_label.grid(row=10, column=0, sticky="W")
+# core_model_var = tk.StringVar()
+# core_model_var.set("AMFClassifier")  # Default selection
+# core_model_options = ["AMFClassifier", "HoeffdingAdaptiveTreeClassifier"]
+# core_model_menu = ttk.OptionMenu(run_tab, core_model_var, *core_model_options)
+# core_model_menu.grid(row=10, column=1, columnspan=2, sticky="W")
+
+core_model_label = ttk.Label(run_tab, text="Select core model")
+core_model_label.grid(row=10, column=0, sticky="W")
+core_model_var = tk.StringVar()
+core_model_var.set("AMFClassifier")  # Default selection
+core_model_options = ["AMFClassifier", "HoeffdingAdaptiveTreeClassifier"]
+core_model_menu = ttk.OptionMenu(run_tab, core_model_var, *core_model_options, command=on_core_model_select)
+core_model_menu.grid(row=10, column=1, columnspan=2, sticky="W")
+
+
 run_button = ttk.Button(run_tab, text="Run Experiment", command=run_experiment)
-run_button.grid(row=9, column=3, columnspan=2, sticky="E")
+run_button.grid(row=11, column=3, columnspan=2, sticky="E")
 
 # Create and pack the "Analysis" tab with a button to run the analysis
 analysis_tab = ttk.Frame(notebook)
@@ -106,7 +154,25 @@ notebook.add(analysis_tab, text="Analysis")
 
 notebook.pack()
 
+
+# Add the Logo image in both tabs
+logo_image = tk.PhotoImage(file="images/spotlogo.png")
+logo_label = tk.Label(run_tab, image=logo_image)
+logo_label.grid(row=0, column=6, rowspan=1, columnspan=1)
+
+analysis_label = tk.Label(analysis_tab, text="Analysis options:")
+analysis_label.grid(row=0, column=1, sticky="W")
+
+compare_tuned_default_var = tk.BooleanVar(value=True)
+compare_tuned_default_checkbox = tk.Checkbutton(analysis_tab, text="Compare tuned vs. default", variable=compare_tuned_default_var)
+compare_tuned_default_checkbox.grid(row=2, column=1, sticky="W")
+
 analyze_button = ttk.Button(analysis_tab, text="Analyze Data", command=analyze_data)
-analyze_button.pack()
+analyze_button.grid(row=3, column=2, columnspan=2, sticky="E")
+
+logo_label = tk.Label(analysis_tab, image=logo_image)
+logo_label.grid(row=0, column=6, rowspan=1, columnspan=1)
+
+# Run the mainloop
 
 app.mainloop()

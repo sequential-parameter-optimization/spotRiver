@@ -1328,8 +1328,7 @@ Returns:
 
           <details class="quote">
             <summary>Source code in <code>spotRiver/utils/data_conversion.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">48</span>
-<span class="normal">49</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">49</span>
 <span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
@@ -1342,7 +1341,8 @@ Returns:
 <span class="normal">59</span>
 <span class="normal">60</span>
 <span class="normal">61</span>
-<span class="normal">62</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compare_two_tree_models</span><span class="p">(</span><span class="n">model1</span><span class="p">,</span> <span class="n">model2</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Parameter&quot;</span><span class="p">,</span> <span class="s2">&quot;Default&quot;</span><span class="p">,</span> <span class="s2">&quot;Spot&quot;</span><span class="p">]):</span>
+<span class="normal">62</span>
+<span class="normal">63</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compare_two_tree_models</span><span class="p">(</span><span class="n">model1</span><span class="p">,</span> <span class="n">model2</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Parameter&quot;</span><span class="p">,</span> <span class="s2">&quot;Default&quot;</span><span class="p">,</span> <span class="s2">&quot;Spot&quot;</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compares two tree models and returns a table of the differences.</span>
 <span class="sd">    Args:</span>
 <span class="sd">        model1 (Pipeline): A river model pipeline.</span>
@@ -1418,6 +1418,20 @@ Returns:
           </td>
           <td>
               <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>n_total</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The number of samples to be converted. Defaults to None, i.e, the full dataset is converted.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
           </td>
         </tr>
     </tbody>
@@ -1507,12 +1521,14 @@ Returns:
 <span class="normal">42</span>
 <span class="normal">43</span>
 <span class="normal">44</span>
-<span class="normal">45</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">convert_to_df</span><span class="p">(</span><span class="n">dataset</span><span class="p">:</span> <span class="n">datasets</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">target_column</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n_total</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="normal">45</span>
+<span class="normal">46</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">convert_to_df</span><span class="p">(</span><span class="n">dataset</span><span class="p">:</span> <span class="n">datasets</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">target_column</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n_total</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a river dataset into a pandas DataFrame.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        dataset (datasets.base.Dataset): The river dataset to be converted.</span>
 <span class="sd">        target_column (str): The name of the target column in the resulting DataFrame.</span>
+<span class="sd">        n_total (int, optional): The number of samples to be converted. Defaults to None, i.e, the full dataset is converted.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        (pd.DataFrame): A pandas DataFrame representation of the given dataset.</span>

@@ -1298,7 +1298,7 @@
 
 
 <h2 id="spotRiver.tuner.run.run_spot_river_experiment" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">run_spot_river_experiment</span><span class="p">(</span><span class="n">MAX_TIME</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">INIT_SIZE</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">PREFIX</span><span class="o">=</span><span class="s1">&#39;0000-river&#39;</span><span class="p">,</span> <span class="n">horizon</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">oml_grace_period</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data_set</span><span class="o">=</span><span class="s1">&#39;Phishing&#39;</span><span class="p">,</span> <span class="n">prepmodel</span><span class="o">=</span><span class="s1">&#39;StandardScaler&#39;</span><span class="p">,</span> <span class="n">coremodel</span><span class="o">=</span><span class="s1">&#39;AMFClassifier&#39;</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">run_spot_river_experiment</span><span class="p">(</span><span class="n">MAX_TIME</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">INIT_SIZE</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">PREFIX</span><span class="o">=</span><span class="s1">&#39;0000-river&#39;</span><span class="p">,</span> <span class="n">horizon</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_total</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">perc_train</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">oml_grace_period</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data_set</span><span class="o">=</span><span class="s1">&#39;Phishing&#39;</span><span class="p">,</span> <span class="n">prepmodel</span><span class="o">=</span><span class="s1">&#39;StandardScaler&#39;</span><span class="p">,</span> <span class="n">coremodel</span><span class="o">=</span><span class="s1">&#39;AMFClassifier&#39;</span><span class="p">)</span></code>
 
 <a href="#spotRiver.tuner.run.run_spot_river_experiment" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -1377,7 +1377,7 @@
           </td>
         </tr>
         <tr>
-          <td><code>n_samples</code></td>
+          <td><code>n_total</code></td>
           <td>
                 <code>int</code>
           </td>
@@ -1392,17 +1392,17 @@ full data set is used.</p>
           </td>
         </tr>
         <tr>
-          <td><code>n_train</code></td>
+          <td><code>perc_train</code></td>
           <td>
-                <code>int</code>
+                <code>float</code>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>Number of training samples. Defaults to None.</p>
+              <p>Percentage of training samples. Defaults to 0.6.</p>
             </div>
           </td>
           <td>
-                <code>None</code>
+                <code>0.6</code>
           </td>
         </tr>
         <tr>
@@ -1567,13 +1567,31 @@ full data set is used.</p>
 <span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
-<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">run_spot_river_experiment</span><span class="p">(</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">run_spot_river_experiment</span><span class="p">(</span>
     <span class="n">MAX_TIME</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">INIT_SIZE</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
     <span class="n">PREFIX</span><span class="o">=</span><span class="s2">&quot;0000-river&quot;</span><span class="p">,</span>
     <span class="n">horizon</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">n_samples</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">n_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">n_total</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">perc_train</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
     <span class="n">oml_grace_period</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">data_set</span><span class="o">=</span><span class="s2">&quot;Phishing&quot;</span><span class="p">,</span>
     <span class="n">prepmodel</span><span class="o">=</span><span class="s2">&quot;StandardScaler&quot;</span><span class="p">,</span>
@@ -1590,11 +1608,11 @@ full data set is used.</p>
 <span class="sd">            Prefix for the experiment name. Defaults to &quot;0000-river&quot;.</span>
 <span class="sd">        horizon (int, optional):</span>
 <span class="sd">            Horizon for the evaluation. Defaults to 1.</span>
-<span class="sd">        n_samples (int, optional):</span>
+<span class="sd">        n_total (int, optional):</span>
 <span class="sd">            Number of samples in the data set. Defaults to None, i.e., the</span>
 <span class="sd">            full data set is used.</span>
-<span class="sd">        n_train (int, optional):</span>
-<span class="sd">            Number of training samples. Defaults to None.</span>
+<span class="sd">        perc_train (float, optional):</span>
+<span class="sd">            Percentage of training samples. Defaults to 0.6.</span>
 <span class="sd">        oml_grace_period (int, optional):</span>
 <span class="sd">            Grace period for the online machine learning. Defaults to None.</span>
 <span class="sd">        data_set (str, optional):</span>
@@ -1605,24 +1623,31 @@ full data set is used.</p>
         <span class="n">spot_tensorboard_path</span><span class="o">=</span><span class="n">get_spot_tensorboard_path</span><span class="p">(</span><span class="n">experiment_name</span><span class="p">),</span> <span class="n">TENSORBOARD_CLEAN</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;Bananas&quot;</span><span class="p">:</span>
-        <span class="n">dataset</span> <span class="o">=</span> <span class="n">Bananas</span><span class="p">()</span>
-    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;CreditCard&quot;</span><span class="p">:</span>
-        <span class="n">dataset</span> <span class="o">=</span> <span class="n">CreditCard</span><span class="p">()</span>
-    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;Phishing&quot;</span><span class="p">:</span>
-        <span class="n">dataset</span> <span class="o">=</span> <span class="n">Phishing</span><span class="p">()</span>
-        <span class="n">horizon</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">1250</span>
-        <span class="n">n_train</span> <span class="o">=</span> <span class="mi">100</span>
-        <span class="n">oml_grace_period</span> <span class="o">=</span> <span class="mi">100</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;data_set must be &#39;Bananas&#39; or &#39;ConceptDriftStream&#39;&quot;</span><span class="p">)</span>
+    <span class="c1"># if data_set == &quot;Bananas&quot;:</span>
+    <span class="c1">#     dataset = Bananas()</span>
+    <span class="c1"># elif data_set == &quot;CreditCard&quot;:</span>
+    <span class="c1">#     dataset = CreditCard()</span>
+    <span class="c1"># elif data_set == &quot;Elec2&quot;:</span>
+    <span class="c1">#     dataset = Elec2()</span>
+    <span class="c1"># elif data_set == &quot;Phishing&quot;:</span>
+    <span class="c1">#     dataset = Phishing()</span>
+    <span class="c1">#     horizon = 1</span>
+    <span class="c1">#     n_samples = 1250</span>
+    <span class="c1">#     perc_train = 100</span>
+    <span class="c1">#     oml_grace_period = 100</span>
+    <span class="c1"># else:</span>
+    <span class="c1">#     raise ValueError(&quot;data_set must be &#39;Bananas&#39; or &#39;ConceptDriftStream&#39;&quot;)</span>
+
+    <span class="n">dataset</span><span class="p">,</span> <span class="n">n_samples</span> <span class="o">=</span> <span class="n">data_selector</span><span class="p">(</span><span class="n">data_set</span><span class="p">)</span>
     <span class="n">target_column</span> <span class="o">=</span> <span class="s2">&quot;y&quot;</span>
     <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">])</span> <span class="o">*</span> <span class="mf">10_000.0</span>
     <span class="n">weight_coeff</span> <span class="o">=</span> <span class="mf">1.0</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">convert_to_df</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">target_column</span><span class="o">=</span><span class="n">target_column</span><span class="p">,</span> <span class="n">n_total</span><span class="o">=</span><span class="n">n_samples</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">convert_to_df</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">target_column</span><span class="o">=</span><span class="n">target_column</span><span class="p">,</span> <span class="n">n_total</span><span class="o">=</span><span class="n">n_total</span><span class="p">)</span>
     <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;x</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dataset</span><span class="o">.</span><span class="n">n_features</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="c1"># update n_samples to the actual number of samples in the data set, because n_total might be smaller than n_samples which results in a smaller data set:</span>
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">prepmodel</span> <span class="o">==</span> <span class="s2">&quot;StandardScaler&quot;</span><span class="p">:</span>
         <span class="n">prep_model</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">StandardScaler</span><span class="p">()</span>
@@ -1631,11 +1656,22 @@ full data set is used.</p>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">prep_model</span> <span class="o">=</span> <span class="kc">None</span>
 
+    <span class="n">n_train</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">perc_train</span> <span class="o">*</span> <span class="n">n_samples</span><span class="p">)</span>
+
+    <span class="c1"># if oml_grace_period is None set it to n_train:</span>
+    <span class="k">if</span> <span class="n">oml_grace_period</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">oml_grace_period</span> <span class="o">=</span> <span class="n">n_train</span>
+
+    <span class="n">train</span> <span class="o">=</span> <span class="n">df</span><span class="p">[:</span><span class="n">n_train</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;train = </span><span class="si">{</span><span class="n">train</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">n_train</span><span class="p">:]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;test = </span><span class="si">{</span><span class="n">test</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
     <span class="n">fun_control</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
         <span class="p">{</span>
-            <span class="s2">&quot;train&quot;</span><span class="p">:</span> <span class="n">df</span><span class="p">[:</span><span class="n">n_train</span><span class="p">],</span>
+            <span class="s2">&quot;train&quot;</span><span class="p">:</span> <span class="n">train</span><span class="p">,</span>
             <span class="s2">&quot;oml_grace_period&quot;</span><span class="p">:</span> <span class="n">oml_grace_period</span><span class="p">,</span>
-            <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="n">n_train</span><span class="p">:],</span>
+            <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="n">test</span><span class="p">,</span>
             <span class="s2">&quot;n_samples&quot;</span><span class="p">:</span> <span class="n">n_samples</span><span class="p">,</span>
             <span class="s2">&quot;target_column&quot;</span><span class="p">:</span> <span class="n">target_column</span><span class="p">,</span>
             <span class="s2">&quot;prep_model&quot;</span><span class="p">:</span> <span class="n">prep_model</span><span class="p">,</span>

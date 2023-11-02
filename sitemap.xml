@@ -66,6 +66,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/data/selector/</loc>
+         <lastmod>2023-11-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/data/synth/</loc>
          <lastmod>2023-11-02</lastmod>
          <changefreq>daily</changefreq>

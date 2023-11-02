@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/data/river_hyper_dict/">
+        <link rel="canonical" href="https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/data/selector/">
       
       
-        <link rel="prev" href="../opm/">
+        <link rel="prev" href="../river_hyper_dict/">
       
       
-        <link rel="next" href="../selector/">
+        <link rel="next" href="../synth/">
       
       
       <link rel="icon" href="../../../../images/favicon.png">
@@ -24,7 +24,7 @@
     
     
       
-        <title>river_hyper_dict - spotRiver</title>
+        <title>selector - spotRiver</title>
       
     
     
@@ -81,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#spotRiver.data.river_hyper_dict" class="md-skip">
+        <a href="#spotRiver.data.selector" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              river_hyper_dict
+              selector
             
           </span>
         </div>
@@ -1187,15 +1187,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#spotRiver.data.river_hyper_dict" class="md-nav__link">
-    river_hyper_dict
+  <a href="#spotRiver.data.selector" class="md-nav__link">
+    selector
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#spotRiver.data.river_hyper_dict.RiverHyperDict" class="md-nav__link">
-    RiverHyperDict
+  <a href="#spotRiver.data.selector.data_selector" class="md-nav__link">
+    data_selector()
   </a>
   
 </li>
@@ -1218,13 +1218,13 @@
   
 
 
-  <h1>river_hyper_dict</h1>
+  <h1>selector</h1>
 
 <div class="doc doc-object doc-module">
 
 
 
-<a id="spotRiver.data.river_hyper_dict"></a>
+<a id="spotRiver.data.selector"></a>
   <div class="doc doc-contents first">
 
   
@@ -1238,28 +1238,101 @@
 
 
 
-<div class="doc doc-object doc-class">
+
+
+<div class="doc doc-object doc-function">
 
 
 
 
-<h2 id="spotRiver.data.river_hyper_dict.RiverHyperDict" class="doc doc-heading">
-          <code>RiverHyperDict</code>
+<h2 id="spotRiver.data.selector.data_selector" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">data_selector</span><span class="p">(</span><span class="n">data_set</span><span class="p">)</span></code>
 
-
-<a href="#spotRiver.data.river_hyper_dict.RiverHyperDict" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#spotRiver.data.selector.data_selector" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
   <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><a class="autorefs autorefs-internal" title="spotRiver.data.base.FileConfig" href="../base/#spotRiver.data.base.FileConfig">FileConfig</a></code></p>
-
   
-      <p>River hyperparameter dictionary.</p>
+      <p>Selects the data set to be used.</p>
 
-            <details class="quote">
-              <summary>Source code in <code>spotRiver/data/river_hyper_dict.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 5</span>
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>data_set</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Data set to use. Defaults to &ldquo;Phishing&rdquo;.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>dataset</code></td>          <td>
+                <code>object</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Data set to use.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+<td><code>n_samples</code></td>          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Number of samples in the data set.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+      <p>Raises:
+    ValueError:
+        If data_set is not &ldquo;Bananas&rdquo; or &ldquo;CreditCard&rdquo; or &ldquo;Elec2&rdquo; or &ldquo;Higgs&rdquo; or
+        &ldquo;HTTP&rdquo; or &ldquo;MaliciousURL&rdquo; or &ldquo;Phishing&rdquo; or &ldquo;SMSSpam&rdquo; or &ldquo;SMTP&rdquo; or &ldquo;TREC07&rdquo;.</p>
+
+
+
+<p><strong>Examples:</strong></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span><span class="p">,</span> <span class="n">n_samples</span> <span class="o">=</span> <span class="n">data_selector</span><span class="p">(</span><span class="s2">&quot;Phishing&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+          <details class="quote">
+            <summary>Source code in <code>spotRiver/data/selector.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 4</span>
+<span class="normal"> 5</span>
 <span class="normal"> 6</span>
 <span class="normal"> 7</span>
 <span class="normal"> 8</span>
@@ -1270,41 +1343,114 @@
 <span class="normal">13</span>
 <span class="normal">14</span>
 <span class="normal">15</span>
-<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">RiverHyperDict</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">FileConfig</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;River hyperparameter dictionary.&quot;&quot;&quot;</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">data_selector</span><span class="p">(</span><span class="n">data_set</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Selects the data set to be used.</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;river_hyper_dict.json&quot;</span><span class="p">,</span>
+<span class="sd">    Args:</span>
+<span class="sd">        data_set (str, optional):</span>
+<span class="sd">            Data set to use. Defaults to &quot;Phishing&quot;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dataset (object):</span>
+<span class="sd">            Data set to use.</span>
+<span class="sd">        n_samples (int):</span>
+<span class="sd">            Number of samples in the data set.</span>
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError:</span>
+<span class="sd">            If data_set is not &quot;Bananas&quot; or &quot;CreditCard&quot; or &quot;Elec2&quot; or &quot;Higgs&quot; or</span>
+<span class="sd">            &quot;HTTP&quot; or &quot;MaliciousURL&quot; or &quot;Phishing&quot; or &quot;SMSSpam&quot; or &quot;SMTP&quot; or &quot;TREC07&quot;.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; dataset, n_samples = data_selector(&quot;Phishing&quot;)</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;Bananas&quot;</span><span class="p">:</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">Bananas</span><span class="p">()</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">5300</span>
+    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;CreditCard&quot;</span><span class="p">:</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">CreditCard</span><span class="p">()</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">284_807</span>
+    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;Elec2&quot;</span><span class="p">:</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">Elec2</span><span class="p">()</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">45_312</span>
+    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;Higgs&quot;</span><span class="p">:</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">Higgs</span><span class="p">()</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">11_000_000</span>
+    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;HTTP&quot;</span><span class="p">:</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">HTTP</span><span class="p">()</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">567_498</span>
+    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;MaliciousURL&quot;</span><span class="p">:</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">MaliciousURL</span><span class="p">()</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">2_396_130</span>
+    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;Phishing&quot;</span><span class="p">:</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">Phishing</span><span class="p">()</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">1250</span>
+    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;SMSSpam&quot;</span><span class="p">:</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">SMSSpam</span><span class="p">()</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">5574</span>
+    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;SMTP&quot;</span><span class="p">:</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">SMTP</span><span class="p">()</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">95_156</span>
+    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;TREC07&quot;</span><span class="p">:</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">75_419</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">TREC07</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s1">&#39;data_set must be &quot;Bananas&quot; or &quot;CreditCard&quot; or &quot;Elec2&quot; or &quot;Higgs&quot; or &quot;HTTP&quot; or &quot;MaliciousURL&quot; or &quot;Phishing&quot; or &quot;SMSSpam&quot; or &quot;SMTP&quot; or &quot;TREC07&quot;&#39;</span>
         <span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">d</span>
+    <span class="k">return</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">n_samples</span>
 </code></pre></div></td></tr></table></div>
-            </details>
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-
-
-  </div>
-
+          </details>
   </div>
 
 </div>
-
 
 
 

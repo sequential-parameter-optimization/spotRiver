@@ -12,9 +12,17 @@ def run_experiment():
     INIT_SIZE = int(init_size_entry.get())
     PREFIX = prefix_entry.get()
     horizon = int(horizon_entry.get())
-    n_samples = int(n_samples_entry.get())
-    n_train = int(n_train_entry.get())
-    oml_grace_period = int(oml_grace_period_entry.get())
+    n_total = n_total_entry.get()
+    if n_total == "None" or n_total == "All":
+        n_total = None
+    else:
+        n_total = int(n_total)
+    perc_train = float(perc_train_entry.get())
+    oml_grace_period = oml_grace_period_entry.get()
+    if oml_grace_period == "None" or oml_grace_period == "n_train":
+        oml_grace_period = None
+    else:
+        oml_grace_period = int(oml_grace_period)
     data_set = data_set_combo.get()
     prep_model = prep_model_combo.get()
     core_model = core_model_combo.get()
@@ -24,8 +32,8 @@ def run_experiment():
         INIT_SIZE=INIT_SIZE,
         PREFIX=PREFIX,
         horizon=horizon,
-        n_samples=n_samples,
-        n_train=n_train,
+        n_total=n_total,
+        perc_train=perc_train,
         oml_grace_period=oml_grace_period,
         data_set=data_set,
         prepmodel=prep_model,
@@ -62,7 +70,7 @@ notebook = ttk.Notebook(app)
 
 # Create and pack entry fields for the "Run" tab
 run_tab = ttk.Frame(notebook)
-notebook.add(run_tab, text="Classification")
+notebook.add(run_tab, text="Binary classification")
 
 # colummns 0+1: Data
 
@@ -71,23 +79,23 @@ data_label.grid(row=0, column=0, sticky="W")
 
 data_set_label = tk.Label(run_tab, text="Select data_set:")
 data_set_label.grid(row=1, column=0, sticky="W")
-data_set_values = ["Bananas", "CreditCard", "Phishing"]
+data_set_values = ["Bananas", "CreditCard", "Elec2", "Higgs", "HTTP", "MaliciousURL", "Phishing", "SMSSpam", "SMTP", "TREC07"]
 data_set_combo = ttk.Combobox(run_tab, values=data_set_values)
 data_set_combo.set("Phishing")  # Default selection
 data_set_combo.grid(row=1, column=1)
 
 
-n_samples_label = tk.Label(run_tab, text="n_samples:")
-n_samples_label.grid(row=2, column=0, sticky="W")
-n_samples_entry = tk.Entry(run_tab)
-n_samples_entry.insert(0, "1000")
-n_samples_entry.grid(row=2, column=1, sticky="W")
+n_total_label = tk.Label(run_tab, text="n_total:")
+n_total_label.grid(row=2, column=0, sticky="W")
+n_total_entry = tk.Entry(run_tab)
+n_total_entry.insert(0, "All")
+n_total_entry.grid(row=2, column=1, sticky="W")
 
-n_train_label = tk.Label(run_tab, text="n_train:")
-n_train_label.grid(row=3, column=0, sticky="W")
-n_train_entry = tk.Entry(run_tab)
-n_train_entry.insert(0, "100")
-n_train_entry.grid(row=3, column=1, sticky="W")
+perc_train_label = tk.Label(run_tab, text="perc_train:")
+perc_train_label.grid(row=3, column=0, sticky="W")
+perc_train_entry = tk.Entry(run_tab)
+perc_train_entry.insert(0, "0.60")
+perc_train_entry.grid(row=3, column=1, sticky="W")
 
 
 # colummns 2+3: Model
@@ -141,7 +149,7 @@ horizon_entry.grid(row=4, column=5)
 oml_grace_period_label = tk.Label(run_tab, text="oml_grace_period:")
 oml_grace_period_label.grid(row=5, column=4, sticky="W")
 oml_grace_period_entry = tk.Entry(run_tab)
-oml_grace_period_entry.insert(0, "100")
+oml_grace_period_entry.insert(0, "n_train")
 oml_grace_period_entry.grid(row=5, column=5)
 
 # column 6: Run button

@@ -9,6 +9,7 @@ def convert_to_df(dataset: datasets.base.Dataset, target_column: str, n_total=No
     Args:
         dataset (datasets.base.Dataset): The river dataset to be converted.
         target_column (str): The name of the target column in the resulting DataFrame.
+        n_total (int, optional): The number of samples to be converted. Defaults to None, i.e, the full dataset is converted.
 
     Returns:
         (pd.DataFrame): A pandas DataFrame representation of the given dataset.

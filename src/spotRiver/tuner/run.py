@@ -4,13 +4,13 @@ from sklearn.metrics import accuracy_score
 from river import preprocessing
 from river.forest import AMFClassifier
 from river.tree import HoeffdingAdaptiveTreeClassifier
-from river.datasets import Bananas, CreditCard, Phishing
 from math import inf
 import pylab
 from spotRiver.data.river_hyper_dict import RiverHyperDict
 from spotRiver.utils.data_conversion import convert_to_df
 from spotRiver.evaluation.eval_bml import eval_oml_horizon
 from spotRiver.fun.hyperriver import HyperRiver
+from spotRiver.data.selector import data_selector
 from spotRiver.evaluation.eval_bml import plot_bml_oml_horizon_metrics
 from spotPython.plot.validation import plot_roc_from_dataframes
 from spotPython.plot.validation import plot_confusion_matrix
@@ -31,8 +31,8 @@ def run_spot_river_experiment(
     INIT_SIZE=5,
     PREFIX="0000-river",
     horizon=1,
-    n_samples=None,
-    n_train=None,
+    n_total=None,
+    perc_train=0.6,
     oml_grace_period=None,
     data_set="Phishing",
     prepmodel="StandardScaler",
@@ -49,11 +49,11 @@ def run_spot_river_experiment(
             Prefix for the experiment name. Defaults to "0000-river".
         horizon (int, optional):
             Horizon for the evaluation. Defaults to 1.
-        n_samples (int, optional):
+        n_total (int, optional):
             Number of samples in the data set. Defaults to None, i.e., the
             full data set is used.
-        n_train (int, optional):
-            Number of training samples. Defaults to None.
+        perc_train (float, optional):
+            Percentage of training samples. Defaults to 0.6.
         oml_grace_period (int, optional):
             Grace period for the online machine learning. Defaults to None.
         data_set (str, optional):
@@ -64,24 +64,31 @@ def run_spot_river_experiment(
         spot_tensorboard_path=get_spot_tensorboard_path(experiment_name), TENSORBOARD_CLEAN=True
     )
 
-    if data_set == "Bananas":
-        dataset = Bananas()
-    elif data_set == "CreditCard":
-        dataset = CreditCard()
-    elif data_set == "Phishing":
-        dataset = Phishing()
-        horizon = 1
-        n_samples = 1250
-        n_train = 100
-        oml_grace_period = 100
-    else:
-        raise ValueError("data_set must be 'Bananas' or 'ConceptDriftStream'")
+    # if data_set == "Bananas":
+    #     dataset = Bananas()
+    # elif data_set == "CreditCard":
+    #     dataset = CreditCard()
+    # elif data_set == "Elec2":
+    #     dataset = Elec2()
+    # elif data_set == "Phishing":
+    #     dataset = Phishing()
+    #     horizon = 1
+    #     n_samples = 1250
+    #     perc_train = 100
+    #     oml_grace_period = 100
+    # else:
+    #     raise ValueError("data_set must be 'Bananas' or 'ConceptDriftStream'")
+
+    dataset, n_samples = data_selector(data_set)
     target_column = "y"
     weights = np.array([-1, 1 / 1000, 1 / 1000]) * 10_000.0
     weight_coeff = 1.0
-    df = convert_to_df(dataset, target_column=target_column, n_total=n_samples)
+    df = convert_to_df(dataset, target_column=target_column, n_total=n_total)
     df.columns = [f"x{i}" for i in range(1, dataset.n_features + 1)] + ["y"]
     df["y"] = df["y"].astype(int)
+
+    # update n_samples to the actual number of samples in the data set, because n_total might be smaller than n_samples which results in a smaller data set:
+    n_samples = len(df)
 
     if prepmodel == "StandardScaler":
         prep_model = preprocessing.StandardScaler()
@@ -90,11 +97,22 @@ def run_spot_river_experiment(
     else:
         prep_model = None
 
+    n_train = int(perc_train * n_samples)
+
+    # if oml_grace_period is None set it to n_train:
+    if oml_grace_period is None:
+        oml_grace_period = n_train
+
+    train = df[:n_train]
+    print(f"train = {train.describe(include='all')}")
+    test = df[n_train:]
+    print(f"test = {test.describe(include='all')}")
+
     fun_control.update(
         {
-            "train": df[:n_train],
+            "train": train,
             "oml_grace_period": oml_grace_period,
-            "test": df[n_train:],
+            "test": test,
             "n_samples": n_samples,
             "target_column": target_column,
             "prep_model": prep_model,

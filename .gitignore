@@ -170,3 +170,4 @@ runs/spot_logs/*
 runs_OLD/*
 gui/runs/*
 gui/runs_OLD/*
+gui/plot.png

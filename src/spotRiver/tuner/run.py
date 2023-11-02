@@ -6,8 +6,7 @@ from river.forest import AMFClassifier
 from river.tree import HoeffdingAdaptiveTreeClassifier
 from river.datasets import Bananas, CreditCard, Phishing
 from math import inf
-import pandas as pd
-import spotRiver
+import pylab
 from spotRiver.data.river_hyper_dict import RiverHyperDict
 from spotRiver.utils.data_conversion import convert_to_df
 from spotRiver.evaluation.eval_bml import eval_oml_horizon
@@ -24,7 +23,6 @@ from spotPython.hyperparameters.values import get_one_core_model_from_X
 from spotPython.hyperparameters.values import get_default_hyperparameters_as_array
 from spotPython.spot import spot
 from spotPython.hyperparameters.values import get_var_type, get_var_name, get_bound_values
-from spotPython.utils.eda import gen_design_table
 from spotPython.utils.tensorboard import start_tensorboard, stop_tensorboard
 
 
@@ -225,3 +223,24 @@ def compare_tuned_default(spot_tuner, fun_control) -> None:
     plt.figure(3)
 
     plt.show()  # Display all four plots simultaneously
+
+
+def parallel_plot(spot_tuner):
+    fig = spot_tuner.parallel_plot()
+    fig.show()
+
+
+def contour_plot(spot_tuner):
+    spot_tuner.plot_important_hyperparameter_contour(show=False)
+    pylab.show()
+
+
+def importance_plot(spot_tuner):
+    plt.figure()
+    spot_tuner.plot_importance(show=False)
+    plt.show()
+
+
+def progress_plot(spot_tuner):
+    spot_tuner.plot_progress(show=False)
+    plt.show()

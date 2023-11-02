@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from spotRiver.tuner.run import run_spot_river_experiment, compare_tuned_default
+from spotRiver.tuner.run import run_spot_river_experiment, compare_tuned_default, contour_plot, parallel_plot, importance_plot, progress_plot
 
 result = None
 fun_control = None
@@ -32,14 +32,29 @@ def run_experiment():
         coremodel=core_model,
     )
 
-def analyze_data():
-    if result is not None and fun_control is not None and compare_tuned_default_var.get():
-        compare_tuned_default(result, fun_control)  # Call the analysis method
+def call_compare_tuned_default():
+    if result is not None and fun_control is not None:
+        compare_tuned_default(result, fun_control) 
 
+def call_parallel_plot():
+    if result is not None:
+        parallel_plot(result)  
+
+def call_contour_plot():
+    if result is not None:
+        contour_plot(result)  
+
+def call_importance_plot():
+    if result is not None:
+        importance_plot(result)  
+
+def call_progress_plot():
+    if result is not None:
+        progress_plot(result)  
 
 # Create the main application window
 app = tk.Tk()
-app.title("Spot River Experiment GUI")
+app.title("Spot River Hyperparameter Tuning GUI")
 
 # Create a notebook (tabbed interface)
 notebook = ttk.Notebook(app)
@@ -166,12 +181,21 @@ logo_label.grid(row=0, column=6, rowspan=1, columnspan=1)
 analysis_label = tk.Label(analysis_tab, text="Analysis options:")
 analysis_label.grid(row=0, column=1, sticky="W")
 
-compare_tuned_default_var = tk.BooleanVar(value=True)
-compare_tuned_default_checkbox = tk.Checkbutton(analysis_tab, text="Compare tuned vs. default", variable=compare_tuned_default_var)
-compare_tuned_default_checkbox.grid(row=2, column=1, sticky="W")
+progress_plot_button = ttk.Button(analysis_tab, text="Progress plot", command=call_progress_plot)
+progress_plot_button.grid(row=1, column=1, columnspan=2, sticky="W")
 
-analyze_button = ttk.Button(analysis_tab, text="Analyze Data", command=analyze_data)
-analyze_button.grid(row=3, column=2, columnspan=2, sticky="E")
+compare_tuned_default_button = ttk.Button(analysis_tab, text="Compare tuned vs. default", command=call_compare_tuned_default)
+compare_tuned_default_button.grid(row=2, column=1, columnspan=2, sticky="W")
+
+importance_plot_button = ttk.Button(analysis_tab, text="Importance plot", command=call_importance_plot)
+importance_plot_button.grid(row=3, column=1, columnspan=2, sticky="W")
+
+contour_plot_button = ttk.Button(analysis_tab, text="Contour plot", command=call_contour_plot)
+contour_plot_button.grid(row=4, column=1, columnspan=2, sticky="W")
+
+parallel_plot_button = ttk.Button(analysis_tab, text="Parallel plot (Browser)", command=call_parallel_plot)
+parallel_plot_button.grid(row=5, column=1, columnspan=2, sticky="W")
+
 
 analysis_logo_label = tk.Label(analysis_tab, image=logo_image)
 analysis_logo_label.grid(row=0, column=6, rowspan=1, columnspan=1)

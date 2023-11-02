@@ -1365,16 +1365,16 @@ stream.</p>
 <span class="go">    dataset = synth.SEA(variant=0, seed=42)</span>
 <span class="go">    for x, y in dataset.take(5):</span>
 <span class="go">        print(x, y)</span>
+<span class="go">    {0: 6.39426, 1: 0.25010, 2: 2.75029} False</span>
+<span class="go">    {0: 2.23210, 1: 7.36471, 2: 6.76699} True</span>
+<span class="go">    {0: 8.92179, 1: 0.86938, 2: 4.21921} True</span>
+<span class="go">    {0: 0.29797, 1: 2.18637, 2: 5.05355} False</span>
+<span class="go">    {0: 0.26535, 1: 1.98837, 2: 6.49884} False</span>
 </code></pre></div>
-      <p>{0: 6.39426, 1: 0.25010, 2: 2.75029} False
-{0: 2.23210, 1: 7.36471, 2: 6.76699} True
-{0: 8.92179, 1: 0.86938, 2: 4.21921} True
-{0: 0.29797, 1: 2.18637, 2: 5.05355} False
-{0: 0.26535, 1: 1.98837, 2: 6.49884} False</p>
 
 <details class="references" open>
   <summary>References</summary>
-  <p>[1]: <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.482.3991&amp;rep=rep1&amp;type=pdf">A Streaming Ensemble Algorithm (SEA) for Large-Scale Classification</a></p>
+  <p>[1]: A Streaming Ensemble Algorithm (SEA) for Large-Scale Classification</p>
 </details>
             <details class="quote">
               <summary>Source code in <code>spotRiver/data/synth/sea.py</code></summary>
@@ -1443,8 +1443,7 @@ stream.</p>
 <span class="normal">67</span>
 <span class="normal">68</span>
 <span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SEA</span><span class="p">(</span><span class="n">datasets</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">SyntheticDataset</span><span class="p">):</span>
+<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SEA</span><span class="p">(</span><span class="n">datasets</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">SyntheticDataset</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;SEA synthetic dataset.</span>
 
 <span class="sd">    Implementation of the data stream with abrupt drift described in [1]. Each observation is</span>
@@ -1474,15 +1473,14 @@ stream.</p>
 <span class="sd">            dataset = synth.SEA(variant=0, seed=42)</span>
 <span class="sd">            for x, y in dataset.take(5):</span>
 <span class="sd">                print(x, y)</span>
-<span class="sd">    {0: 6.39426, 1: 0.25010, 2: 2.75029} False</span>
-<span class="sd">    {0: 2.23210, 1: 7.36471, 2: 6.76699} True</span>
-<span class="sd">    {0: 8.92179, 1: 0.86938, 2: 4.21921} True</span>
-<span class="sd">    {0: 0.29797, 1: 2.18637, 2: 5.05355} False</span>
-<span class="sd">    {0: 0.26535, 1: 1.98837, 2: 6.49884} False</span>
+<span class="sd">            {0: 6.39426, 1: 0.25010, 2: 2.75029} False</span>
+<span class="sd">            {0: 2.23210, 1: 7.36471, 2: 6.76699} True</span>
+<span class="sd">            {0: 8.92179, 1: 0.86938, 2: 4.21921} True</span>
+<span class="sd">            {0: 0.29797, 1: 2.18637, 2: 5.05355} False</span>
+<span class="sd">            {0: 0.26535, 1: 1.98837, 2: 6.49884} False</span>
 
 <span class="sd">    References:</span>
-<span class="sd">        [1]: [A Streaming Ensemble Algorithm (SEA) for Large-Scale Classification](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.482.3991&amp;rep=rep1&amp;type=pdf)</span>
-
+<span class="sd">        [1]: A Streaming Ensemble Algorithm (SEA) for Large-Scale Classification</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variant</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>

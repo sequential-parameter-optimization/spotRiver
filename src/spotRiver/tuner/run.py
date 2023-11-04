@@ -64,31 +64,22 @@ def run_spot_river_experiment(
         spot_tensorboard_path=get_spot_tensorboard_path(experiment_name), TENSORBOARD_CLEAN=True
     )
 
-    # if data_set == "Bananas":
-    #     dataset = Bananas()
-    # elif data_set == "CreditCard":
-    #     dataset = CreditCard()
-    # elif data_set == "Elec2":
-    #     dataset = Elec2()
-    # elif data_set == "Phishing":
-    #     dataset = Phishing()
-    #     horizon = 1
-    #     n_samples = 1250
-    #     perc_train = 100
-    #     oml_grace_period = 100
-    # else:
-    #     raise ValueError("data_set must be 'Bananas' or 'ConceptDriftStream'")
-
     dataset, n_samples = data_selector(data_set)
     target_column = "y"
-    weights = np.array([-1, 1 / 1000, 1 / 1000]) * 10_000.0
-    weight_coeff = 1.0
     df = convert_to_df(dataset, target_column=target_column, n_total=n_total)
     df.columns = [f"x{i}" for i in range(1, dataset.n_features + 1)] + ["y"]
     df["y"] = df["y"].astype(int)
-
     # update n_samples to the actual number of samples in the data set, because n_total might be smaller than n_samples which results in a smaller data set:
     n_samples = len(df)
+    n_train = int(perc_train * n_samples)
+    train = df[:n_train]
+    print(f"train = {train.describe(include='all')}")
+    test = df[n_train:]
+    print(f"test = {test.describe(include='all')}")
+
+    # if oml_grace_period is None set it to n_train:
+    if oml_grace_period is None:
+        oml_grace_period = n_train
 
     if prepmodel == "StandardScaler":
         prep_model = preprocessing.StandardScaler()
@@ -97,16 +88,8 @@ def run_spot_river_experiment(
     else:
         prep_model = None
 
-    n_train = int(perc_train * n_samples)
-
-    # if oml_grace_period is None set it to n_train:
-    if oml_grace_period is None:
-        oml_grace_period = n_train
-
-    train = df[:n_train]
-    print(f"train = {train.describe(include='all')}")
-    test = df[n_train:]
-    print(f"test = {test.describe(include='all')}")
+    weights = np.array([-1, 1 / 1000, 1 / 1000]) * 10_000.0
+    weight_coeff = 1.0
 
     fun_control.update(
         {
@@ -171,8 +154,9 @@ def run_spot_river_experiment(
         log_level=50,
     )
     spot_tuner.run(X_start=X_start)
+    df_vars = spot_tuner.get_vars()
+    df_vars
     stop_tensorboard(p_open)
-    # return spot_tuner and fun_control for further analysis
     return spot_tuner, fun_control
 
 

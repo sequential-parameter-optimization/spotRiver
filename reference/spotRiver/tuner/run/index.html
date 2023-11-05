@@ -1298,7 +1298,7 @@
 
 
 <h2 id="spotRiver.tuner.run.run_spot_river_experiment" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">run_spot_river_experiment</span><span class="p">(</span><span class="n">MAX_TIME</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">INIT_SIZE</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">PREFIX</span><span class="o">=</span><span class="s1">&#39;0000-river&#39;</span><span class="p">,</span> <span class="n">horizon</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_total</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">perc_train</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">oml_grace_period</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data_set</span><span class="o">=</span><span class="s1">&#39;Phishing&#39;</span><span class="p">,</span> <span class="n">prepmodel</span><span class="o">=</span><span class="s1">&#39;StandardScaler&#39;</span><span class="p">,</span> <span class="n">coremodel</span><span class="o">=</span><span class="s1">&#39;AMFClassifier&#39;</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">run_spot_river_experiment</span><span class="p">(</span><span class="n">MAX_TIME</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">INIT_SIZE</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">PREFIX</span><span class="o">=</span><span class="s1">&#39;0000-river&#39;</span><span class="p">,</span> <span class="n">horizon</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_total</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">perc_train</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">oml_grace_period</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data_set</span><span class="o">=</span><span class="s1">&#39;Phishing&#39;</span><span class="p">,</span> <span class="n">prepmodel</span><span class="o">=</span><span class="s1">&#39;StandardScaler&#39;</span><span class="p">,</span> <span class="n">coremodel</span><span class="o">=</span><span class="s1">&#39;AMFClassifier&#39;</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></code>
 
 <a href="#spotRiver.tuner.run.run_spot_river_experiment" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -1433,15 +1433,26 @@ full data set is used.</p>
                 <code>&#39;Phishing&#39;</code>
           </td>
         </tr>
+        <tr>
+          <td><code>log_level</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Log level. Defaults to 50.</p>
+            </div>
+          </td>
+          <td>
+                <code>50</code>
+          </td>
+        </tr>
     </tbody>
   </table>
 
           <details class="quote">
             <summary>Source code in <code>spotRiver/tuner/run.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 29</span>
-<span class="normal"> 30</span>
-<span class="normal"> 31</span>
-<span class="normal"> 32</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 32</span>
 <span class="normal"> 33</span>
 <span class="normal"> 34</span>
 <span class="normal"> 35</span>
@@ -1585,7 +1596,12 @@ full data set is used.</p>
 <span class="normal">173</span>
 <span class="normal">174</span>
 <span class="normal">175</span>
-<span class="normal">176</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">run_spot_river_experiment</span><span class="p">(</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">run_spot_river_experiment</span><span class="p">(</span>
     <span class="n">MAX_TIME</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">INIT_SIZE</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
     <span class="n">PREFIX</span><span class="o">=</span><span class="s2">&quot;0000-river&quot;</span><span class="p">,</span>
@@ -1596,6 +1612,7 @@ full data set is used.</p>
     <span class="n">data_set</span><span class="o">=</span><span class="s2">&quot;Phishing&quot;</span><span class="p">,</span>
     <span class="n">prepmodel</span><span class="o">=</span><span class="s2">&quot;StandardScaler&quot;</span><span class="p">,</span>
     <span class="n">coremodel</span><span class="o">=</span><span class="s2">&quot;AMFClassifier&quot;</span><span class="p">,</span>
+    <span class="n">log_level</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">spot</span><span class="o">.</span><span class="n">Spot</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Runs a spot experiment with the river package.</span>
 
@@ -1617,37 +1634,30 @@ full data set is used.</p>
 <span class="sd">            Grace period for the online machine learning. Defaults to None.</span>
 <span class="sd">        data_set (str, optional):</span>
 <span class="sd">            Data set to use. Defaults to &quot;Phishing&quot;.</span>
+<span class="sd">        log_level (int, optional):</span>
+<span class="sd">            Log level. Defaults to 50.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">experiment_name</span> <span class="o">=</span> <span class="n">get_experiment_name</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">PREFIX</span><span class="p">)</span>
     <span class="n">fun_control</span> <span class="o">=</span> <span class="n">fun_control_init</span><span class="p">(</span>
         <span class="n">spot_tensorboard_path</span><span class="o">=</span><span class="n">get_spot_tensorboard_path</span><span class="p">(</span><span class="n">experiment_name</span><span class="p">),</span> <span class="n">TENSORBOARD_CLEAN</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
 
-    <span class="c1"># if data_set == &quot;Bananas&quot;:</span>
-    <span class="c1">#     dataset = Bananas()</span>
-    <span class="c1"># elif data_set == &quot;CreditCard&quot;:</span>
-    <span class="c1">#     dataset = CreditCard()</span>
-    <span class="c1"># elif data_set == &quot;Elec2&quot;:</span>
-    <span class="c1">#     dataset = Elec2()</span>
-    <span class="c1"># elif data_set == &quot;Phishing&quot;:</span>
-    <span class="c1">#     dataset = Phishing()</span>
-    <span class="c1">#     horizon = 1</span>
-    <span class="c1">#     n_samples = 1250</span>
-    <span class="c1">#     perc_train = 100</span>
-    <span class="c1">#     oml_grace_period = 100</span>
-    <span class="c1"># else:</span>
-    <span class="c1">#     raise ValueError(&quot;data_set must be &#39;Bananas&#39; or &#39;ConceptDriftStream&#39;&quot;)</span>
-
     <span class="n">dataset</span><span class="p">,</span> <span class="n">n_samples</span> <span class="o">=</span> <span class="n">data_selector</span><span class="p">(</span><span class="n">data_set</span><span class="p">)</span>
     <span class="n">target_column</span> <span class="o">=</span> <span class="s2">&quot;y&quot;</span>
-    <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">])</span> <span class="o">*</span> <span class="mf">10_000.0</span>
-    <span class="n">weight_coeff</span> <span class="o">=</span> <span class="mf">1.0</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">convert_to_df</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">target_column</span><span class="o">=</span><span class="n">target_column</span><span class="p">,</span> <span class="n">n_total</span><span class="o">=</span><span class="n">n_total</span><span class="p">)</span>
     <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;x</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dataset</span><span class="o">.</span><span class="n">n_features</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-
     <span class="c1"># update n_samples to the actual number of samples in the data set, because n_total might be smaller than n_samples which results in a smaller data set:</span>
     <span class="n">n_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">n_train</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">perc_train</span> <span class="o">*</span> <span class="n">n_samples</span><span class="p">)</span>
+    <span class="n">train</span> <span class="o">=</span> <span class="n">df</span><span class="p">[:</span><span class="n">n_train</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;train = </span><span class="si">{</span><span class="n">train</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">n_train</span><span class="p">:]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;test = </span><span class="si">{</span><span class="n">test</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># if oml_grace_period is None set it to n_train:</span>
+    <span class="k">if</span> <span class="n">oml_grace_period</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">oml_grace_period</span> <span class="o">=</span> <span class="n">n_train</span>
 
     <span class="k">if</span> <span class="n">prepmodel</span> <span class="o">==</span> <span class="s2">&quot;StandardScaler&quot;</span><span class="p">:</span>
         <span class="n">prep_model</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">StandardScaler</span><span class="p">()</span>
@@ -1656,16 +1666,8 @@ full data set is used.</p>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">prep_model</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="n">n_train</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">perc_train</span> <span class="o">*</span> <span class="n">n_samples</span><span class="p">)</span>
-
-    <span class="c1"># if oml_grace_period is None set it to n_train:</span>
-    <span class="k">if</span> <span class="n">oml_grace_period</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">oml_grace_period</span> <span class="o">=</span> <span class="n">n_train</span>
-
-    <span class="n">train</span> <span class="o">=</span> <span class="n">df</span><span class="p">[:</span><span class="n">n_train</span><span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;train = </span><span class="si">{</span><span class="n">train</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">test</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">n_train</span><span class="p">:]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;test = </span><span class="si">{</span><span class="n">test</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">])</span> <span class="o">*</span> <span class="mf">10_000.0</span>
+    <span class="n">weight_coeff</span> <span class="o">=</span> <span class="mf">1.0</span>
 
     <span class="n">fun_control</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
         <span class="p">{</span>
@@ -1680,10 +1682,24 @@ full data set is used.</p>
             <span class="s2">&quot;weights&quot;</span><span class="p">:</span> <span class="n">weights</span><span class="p">,</span>
             <span class="s2">&quot;weight_coeff&quot;</span><span class="p">:</span> <span class="n">weight_coeff</span><span class="p">,</span>
             <span class="s2">&quot;metric_sklearn&quot;</span><span class="p">:</span> <span class="n">accuracy_score</span><span class="p">,</span>
+            <span class="s2">&quot;log_level&quot;</span><span class="p">:</span> <span class="n">log_level</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">coremodel</span> <span class="o">==</span> <span class="s2">&quot;AMFClassifier&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">coremodel</span> <span class="o">==</span> <span class="s2">&quot;LogisticRegression&quot;</span><span class="p">:</span>
+        <span class="n">add_core_model_to_fun_control</span><span class="p">(</span>
+            <span class="n">core_model</span><span class="o">=</span><span class="n">LogisticRegression</span><span class="p">,</span>
+            <span class="n">fun_control</span><span class="o">=</span><span class="n">fun_control</span><span class="p">,</span>
+            <span class="n">hyper_dict</span><span class="o">=</span><span class="n">RiverHyperDict</span><span class="p">,</span>
+            <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="c1"># modify_hyper_parameter_bounds(fun_control, &quot;l2&quot;, bounds=[0.0, 0.01])</span>
+        <span class="c1"># Note (from the River documentation):</span>
+        <span class="c1"># For now, only one type of penalty can be used. The joint use of L1 and L2 is not explicitly supported.</span>
+        <span class="c1"># Therefore, we set l1 bounds to 0.0:</span>
+        <span class="c1"># modify_hyper_parameter_bounds(fun_control, &quot;l1&quot;, bounds=[0.0, 0.0])</span>
+        <span class="c1"># modify_hyper_parameter_levels(fun_control, &quot;optimizer&quot;, [&quot;SGD&quot;])</span>
+    <span class="k">elif</span> <span class="n">coremodel</span> <span class="o">==</span> <span class="s2">&quot;AMFClassifier&quot;</span><span class="p">:</span>
         <span class="n">add_core_model_to_fun_control</span><span class="p">(</span>
             <span class="n">core_model</span><span class="o">=</span><span class="n">AMFClassifier</span><span class="p">,</span> <span class="n">fun_control</span><span class="o">=</span><span class="n">fun_control</span><span class="p">,</span> <span class="n">hyper_dict</span><span class="o">=</span><span class="n">RiverHyperDict</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span>
         <span class="p">)</span>
@@ -1697,16 +1713,19 @@ full data set is used.</p>
             <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;core_model must be &#39;AMFClassifier&#39; or &#39;HoeffdingAdaptiveTreeClassifier&#39;&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;core_model must be &#39;LogisticRegression&#39; or &#39;AMFClassifier&#39; or &#39;HoeffdingAdaptiveTreeClassifier&#39;&quot;</span>
+        <span class="p">)</span>
 
     <span class="n">X_start</span> <span class="o">=</span> <span class="n">get_default_hyperparameters_as_array</span><span class="p">(</span><span class="n">fun_control</span><span class="p">)</span>
-    <span class="n">fun</span> <span class="o">=</span> <span class="n">HyperRiver</span><span class="p">(</span><span class="n">log_level</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">fun_oml_horizon</span>
+    <span class="n">fun</span> <span class="o">=</span> <span class="n">HyperRiver</span><span class="p">(</span><span class="n">log_level</span><span class="o">=</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;log_level&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">fun_oml_horizon</span>
     <span class="n">var_type</span> <span class="o">=</span> <span class="n">get_var_type</span><span class="p">(</span><span class="n">fun_control</span><span class="p">)</span>
     <span class="n">var_name</span> <span class="o">=</span> <span class="n">get_var_name</span><span class="p">(</span><span class="n">fun_control</span><span class="p">)</span>
     <span class="n">lower</span> <span class="o">=</span> <span class="n">get_bound_values</span><span class="p">(</span><span class="n">fun_control</span><span class="p">,</span> <span class="s2">&quot;lower&quot;</span><span class="p">)</span>
     <span class="n">upper</span> <span class="o">=</span> <span class="n">get_bound_values</span><span class="p">(</span><span class="n">fun_control</span><span class="p">,</span> <span class="s2">&quot;upper&quot;</span><span class="p">)</span>
 
     <span class="n">p_open</span> <span class="o">=</span> <span class="n">start_tensorboard</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fun_control</span><span class="p">)</span>
     <span class="n">spot_tuner</span> <span class="o">=</span> <span class="n">spot</span><span class="o">.</span><span class="n">Spot</span><span class="p">(</span>
         <span class="n">fun</span><span class="o">=</span><span class="n">fun</span><span class="p">,</span>
         <span class="n">lower</span><span class="o">=</span><span class="n">lower</span><span class="p">,</span>
@@ -1731,7 +1750,6 @@ full data set is used.</p>
     <span class="p">)</span>
     <span class="n">spot_tuner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">X_start</span><span class="o">=</span><span class="n">X_start</span><span class="p">)</span>
     <span class="n">stop_tensorboard</span><span class="p">(</span><span class="n">p_open</span><span class="p">)</span>
-    <span class="c1"># return spot_tuner and fun_control for further analysis</span>
     <span class="k">return</span> <span class="n">spot_tuner</span><span class="p">,</span> <span class="n">fun_control</span>
 </code></pre></div></td></tr></table></div>
           </details>

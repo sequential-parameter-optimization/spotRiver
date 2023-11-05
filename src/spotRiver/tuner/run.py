@@ -4,6 +4,7 @@ from sklearn.metrics import accuracy_score
 from river import preprocessing
 from river.forest import AMFClassifier
 from river.tree import HoeffdingAdaptiveTreeClassifier
+from river.linear_model import LogisticRegression
 from math import inf
 import pylab
 from spotRiver.data.river_hyper_dict import RiverHyperDict
@@ -19,6 +20,8 @@ from spotPython.utils.init import fun_control_init
 from spotPython.utils.file import get_spot_tensorboard_path
 from spotPython.utils.file import get_experiment_name
 from spotPython.hyperparameters.values import modify_hyper_parameter_bounds
+
+# from spotPython.hyperparameters.values import modify_hyper_parameter_levels
 from spotPython.hyperparameters.values import get_one_core_model_from_X
 from spotPython.hyperparameters.values import get_default_hyperparameters_as_array
 from spotPython.spot import spot
@@ -37,6 +40,7 @@ def run_spot_river_experiment(
     data_set="Phishing",
     prepmodel="StandardScaler",
     coremodel="AMFClassifier",
+    log_level=50,
 ) -> spot.Spot:
     """Runs a spot experiment with the river package.
 
@@ -58,6 +62,8 @@ def run_spot_river_experiment(
             Grace period for the online machine learning. Defaults to None.
         data_set (str, optional):
             Data set to use. Defaults to "Phishing".
+        log_level (int, optional):
+            Log level. Defaults to 50.
     """
     experiment_name = get_experiment_name(prefix=PREFIX)
     fun_control = fun_control_init(
@@ -104,10 +110,24 @@ def run_spot_river_experiment(
             "weights": weights,
             "weight_coeff": weight_coeff,
             "metric_sklearn": accuracy_score,
+            "log_level": log_level,
         }
     )
 
-    if coremodel == "AMFClassifier":
+    if coremodel == "LogisticRegression":
+        add_core_model_to_fun_control(
+            core_model=LogisticRegression,
+            fun_control=fun_control,
+            hyper_dict=RiverHyperDict,
+            filename=None,
+        )
+        # modify_hyper_parameter_bounds(fun_control, "l2", bounds=[0.0, 0.01])
+        # Note (from the River documentation):
+        # For now, only one type of penalty can be used. The joint use of L1 and L2 is not explicitly supported.
+        # Therefore, we set l1 bounds to 0.0:
+        # modify_hyper_parameter_bounds(fun_control, "l1", bounds=[0.0, 0.0])
+        # modify_hyper_parameter_levels(fun_control, "optimizer", ["SGD"])
+    elif coremodel == "AMFClassifier":
         add_core_model_to_fun_control(
             core_model=AMFClassifier, fun_control=fun_control, hyper_dict=RiverHyperDict, filename=None
         )
@@ -121,16 +141,19 @@ def run_spot_river_experiment(
             filename=None,
         )
     else:
-        raise ValueError("core_model must be 'AMFClassifier' or 'HoeffdingAdaptiveTreeClassifier'")
+        raise ValueError(
+            "core_model must be 'LogisticRegression' or 'AMFClassifier' or 'HoeffdingAdaptiveTreeClassifier'"
+        )
 
     X_start = get_default_hyperparameters_as_array(fun_control)
-    fun = HyperRiver(log_level=50).fun_oml_horizon
+    fun = HyperRiver(log_level=fun_control["log_level"]).fun_oml_horizon
     var_type = get_var_type(fun_control)
     var_name = get_var_name(fun_control)
     lower = get_bound_values(fun_control, "lower")
     upper = get_bound_values(fun_control, "upper")
 
     p_open = start_tensorboard()
+    print(fun_control)
     spot_tuner = spot.Spot(
         fun=fun,
         lower=lower,
@@ -154,8 +177,6 @@ def run_spot_river_experiment(
         log_level=50,
     )
     spot_tuner.run(X_start=X_start)
-    df_vars = spot_tuner.get_vars()
-    df_vars
     stop_tensorboard(p_open)
     return spot_tuner, fun_control
 

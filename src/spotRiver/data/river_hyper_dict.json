@@ -489,6 +489,50 @@
                 "lower": 100000000000.0,
                 "upper": 10000000000000.0}
     },
+    "LogisticRegression":{
+        "optimizer": {
+            "levels": ["SGD"],
+            "type": "factor",
+            "default": "SGD",
+            "transform": "None",
+            "class_name": "river.optim",
+            "core_model_parameter_type": "instance()",
+            "lower": 0,
+            "upper": 0},
+        "loss": {
+            "levels": ["Log"],
+            "type": "factor",
+            "default": "Log",
+            "transform": "None",
+            "class_name": "river.optim.losses",
+            "core_model_parameter_type": "instance()",
+            "lower": 0,
+            "upper": 0},
+        "l1": {
+            "type": "float",
+            "default": 0.0,
+            "transform": "None",
+            "lower": 0.0,
+            "upper": 0.1},
+        "intercept_init": {
+            "type": "float",
+            "default": 0.0,
+            "transform": "None",
+            "lower": -10.0,
+            "upper": 10.0},
+        "intercept_lr": {
+            "type": "float",
+            "default": 0.01,
+            "transform": "None",
+            "lower": 0.001,
+            "upper": 0.1},
+        "clip_gradient": {
+                "type": "float",
+                "default": 1000000000000.0,
+                "transform": "None",
+                "lower": 100000000000.0,
+                "upper": 10000000000000.0}
+    },
     "Template":{
             "integer_hyperparameter": {
                 "type": "int",

@@ -38,6 +38,7 @@ def run_experiment():
         data_set=data_set,
         prepmodel=prep_model,
         coremodel=core_model,
+        log_level=20,
     )
 
 def call_compare_tuned_default():
@@ -112,9 +113,9 @@ prep_model_combo.grid(row=1, column=3)
 
 core_model_label = tk.Label(run_tab, text="Select core model")
 core_model_label.grid(row=2, column=2, sticky="W")
-core_model_values = ["AMFClassifier", "HoeffdingAdaptiveTreeClassifier"]
+core_model_values = ["AMFClassifier", "HoeffdingAdaptiveTreeClassifier", "LogisticRegression"]
 core_model_combo = ttk.Combobox(run_tab, values=core_model_values)
-core_model_combo.set("AMFClassifier")  # Default selection
+core_model_combo.set("LogisticRegression")  # Default selection
 core_model_combo.grid(row=2, column=3)
 
 

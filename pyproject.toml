@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spotRiver"
-version = "0.2.7"
+version = "0.2.8"
 authors = [
   { name="T. Bartz-Beielstein", email="tbb@bartzundbartz.de" }
 ]
@@ -33,7 +33,7 @@ dependencies = [
   "plotly",
   "pytest",
   "pytorch-lightning>=1.4",
-  "river",
+  "river<=0.19.0",
   "scikit-learn",
   "scipy",
   "spotPython",

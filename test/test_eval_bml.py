@@ -65,9 +65,8 @@ def test_eval_oml_horizon():
 
 def test_eval_oml_horizon_with_default():
     PREFIX = "0000"
-    experiment_name = get_experiment_name(prefix=PREFIX)
     fun_control = fun_control_init(
-        spot_tensorboard_path=get_spot_tensorboard_path(experiment_name),
+        PREFIX=PREFIX,
         TENSORBOARD_CLEAN=True)
     #fun_control
     horizon = 30

@@ -594,7 +594,11 @@ def eval_oml_horizon(
             # of the pipeline.
             # The following line, which returns y_pred, which is not used after v0.19:
             # _ = model.predict_one(xi)
-            model = model.learn_one(xi, yi)
+            # model = model.learn_one(xi, yi)
+            # Starting with 0.21.0, the learn_one and learn_many methods of each estimator don't not 
+            # return anything anymore.
+            # This is to emphasize that the estimators are stateful.
+            model.learn_one(xi, yi)
 
     # Create empty lists to collect data
     eval_data = []
@@ -622,7 +626,11 @@ def eval_oml_horizon(
             for xi, yi in river_stream.iter_pandas(test_X, test_y):
                 pred = model.predict_one(xi)
                 preds.append(pred)
-                model = model.learn_one(xi, yi)
+                # model = model.learn_one(xi, yi)
+                # Starting with 0.21.0, the learn_one and learn_many methods of each estimator don't not
+                # return anything anymore.
+                # This is to emphasize that the estimators are stateful.
+                model.learn_one(xi, yi)
         preds = pd.Series(preds)
         diffs = new_df[target_column].values - preds
 

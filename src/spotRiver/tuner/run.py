@@ -17,16 +17,14 @@ from spotPython.plot.validation import plot_roc_from_dataframes
 from spotPython.plot.validation import plot_confusion_matrix
 from spotPython.hyperparameters.values import add_core_model_to_fun_control
 from spotPython.utils.init import fun_control_init
-from spotPython.utils.file import get_spot_tensorboard_path
 from spotPython.utils.file import get_experiment_name
-from spotPython.hyperparameters.values import modify_hyper_parameter_bounds
+from spotPython.hyperparameters.values import set_control_key_value
 
 # from spotPython.hyperparameters.values import modify_hyper_parameter_levels
 from spotPython.hyperparameters.values import get_one_core_model_from_X
 from spotPython.hyperparameters.values import get_default_hyperparameters_as_array
 from spotPython.spot import spot
-from spotPython.hyperparameters.values import get_var_type, get_var_name, get_bound_values
-from spotPython.utils.tensorboard import start_tensorboard, stop_tensorboard
+from spotPython.utils.tensorboard import start_tensorboard
 
 
 def run_spot_river_experiment(
@@ -66,8 +64,12 @@ def run_spot_river_experiment(
             Log level. Defaults to 50.
     """
     experiment_name = get_experiment_name(prefix=PREFIX)
+    # fun_control = fun_control_init(
+    #     spot_tensorboard_path=get_spot_tensorboard_path(experiment_name), TENSORBOARD_CLEAN=True
+    # )
+
     fun_control = fun_control_init(
-        spot_tensorboard_path=get_spot_tensorboard_path(experiment_name), TENSORBOARD_CLEAN=True
+        PREFIX=PREFIX, TENSORBOARD_CLEAN=True, max_time=MAX_TIME, fun_evals=inf, tolerance_x=np.sqrt(np.spacing(1))
     )
 
     dataset, n_samples = data_selector(data_set)
@@ -131,8 +133,12 @@ def run_spot_river_experiment(
         add_core_model_to_fun_control(
             core_model=AMFClassifier, fun_control=fun_control, hyper_dict=RiverHyperDict, filename=None
         )
-        modify_hyper_parameter_bounds(fun_control, "n_estimators", bounds=[2, 20])
-        modify_hyper_parameter_bounds(fun_control, "step", bounds=[0.5, 2])
+        # modify_hyper_parameter_bounds(fun_control, "n_estimators", bounds=[2, 20])
+        # modify_hyper_parameter_bounds(fun_control, "step", bounds=[0.5, 2])
+        from spotPython.hyperparameters.values import set_control_hyperparameter_value
+
+        set_control_hyperparameter_value(fun_control, "n_estimators", [2, 10])
+        set_control_hyperparameter_value(fun_control, "step", [0.5, 2])
     elif coremodel == "HoeffdingAdaptiveTreeClassifier":
         add_core_model_to_fun_control(
             core_model=HoeffdingAdaptiveTreeClassifier,
@@ -147,37 +153,25 @@ def run_spot_river_experiment(
 
     X_start = get_default_hyperparameters_as_array(fun_control)
     fun = HyperRiver(log_level=fun_control["log_level"]).fun_oml_horizon
-    var_type = get_var_type(fun_control)
-    var_name = get_var_name(fun_control)
-    lower = get_bound_values(fun_control, "lower")
-    upper = get_bound_values(fun_control, "upper")
+
+    from spotPython.utils.init import design_control_init, surrogate_control_init
+
+    design_control = design_control_init()
+    set_control_key_value(control_dict=design_control, key="init_size", value=INIT_SIZE, replace=True)
+
+    surrogate_control = surrogate_control_init(noise=True, n_theta=2)
 
     p_open = start_tensorboard()
     print(fun_control)
+
+    from spotPython.spot import spot
+
     spot_tuner = spot.Spot(
-        fun=fun,
-        lower=lower,
-        upper=upper,
-        fun_evals=inf,
-        max_time=MAX_TIME,
-        tolerance_x=np.sqrt(np.spacing(1)),
-        var_type=var_type,
-        var_name=var_name,
-        show_progress=True,
-        fun_control=fun_control,
-        design_control={"init_size": INIT_SIZE},
-        surrogate_control={
-            "noise": False,
-            "cod_type": "norm",
-            "min_theta": -4,
-            "max_theta": 3,
-            "n_theta": len(var_name),
-            "model_fun_evals": 10_000,
-        },
-        log_level=50,
+        fun=fun, fun_control=fun_control, design_control=design_control, surrogate_control=surrogate_control
     )
     spot_tuner.run(X_start=X_start)
-    stop_tensorboard(p_open)
+
+    # stop_tensorboard(p_open)
     return spot_tuner, fun_control
 
 

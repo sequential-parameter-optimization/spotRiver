@@ -595,7 +595,7 @@ def eval_oml_horizon(
             # The following line, which returns y_pred, which is not used after v0.19:
             # _ = model.predict_one(xi)
             # model = model.learn_one(xi, yi)
-            # Starting with 0.21.0, the learn_one and learn_many methods of each estimator don't not 
+            # Starting with 0.21.0, the learn_one and learn_many methods of each estimator don't not
             # return anything anymore.
             # This is to emphasize that the estimators are stateful.
             model.learn_one(xi, yi)

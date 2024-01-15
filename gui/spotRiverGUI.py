@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import tkinter as tk
 from tkinter import ttk
 
@@ -5,6 +7,7 @@ from spotRiver.tuner.run import run_spot_river_experiment, compare_tuned_default
 
 result = None
 fun_control = None
+
 
 def run_experiment():
     global result, fun_control
@@ -41,25 +44,31 @@ def run_experiment():
         log_level=20,
     )
 
+
 def call_compare_tuned_default():
     if result is not None and fun_control is not None:
-        compare_tuned_default(result, fun_control) 
+        compare_tuned_default(result, fun_control)
+
 
 def call_parallel_plot():
     if result is not None:
-        parallel_plot(result)  
+        parallel_plot(result)
+
 
 def call_contour_plot():
     if result is not None:
-        contour_plot(result)  
+        contour_plot(result)
+
 
 def call_importance_plot():
     if result is not None:
-        importance_plot(result)  
+        importance_plot(result)
+
 
 def call_progress_plot():
     if result is not None:
-        progress_plot(result)  
+        progress_plot(result)
+
 
 # Create the main application window
 app = tk.Tk()

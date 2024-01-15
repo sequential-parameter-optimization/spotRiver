@@ -1,13 +1,47 @@
 from river import datasets
+from spotRiver.data.generic import GenericData
 
 
-def data_selector(data_set):
+def data_selector(
+    data_set,
+    filename="PhishingData.csv",
+    directory="./userData",
+    target="is_phishing",
+    n_samples=1_250,
+    n_features=9,
+    converters={
+        "empty_server_form_handler": float,
+        "popup_window": float,
+        "https": float,
+        "request_from_other_domain": float,
+        "anchor_from_other_domain": float,
+        "is_popular": float,
+        "long_url": float,
+        "age_of_domain": int,
+        "ip_in_url": int,
+        "is_phishing": lambda x: x == "1",
+    },
+    parse_dates={"Time": "%Y-%m-%d %H:%M:%S%z"},
+):
     """
     Selects the data set to be used.
 
     Args:
         data_set (str, optional):
             Data set to use. Defaults to "Phishing".
+        filename (str, optional):
+            Name of the file to read. Defaults to "user_data.csv".
+        directory (str, optional):
+            Directory where the file is located. Defaults to "./userData".
+        target (str, optional):
+            Name of the target column. Defaults to "Consumption".
+        n_features (int, optional):
+            Number of features. Defaults to 1.
+        converters (dict, optional):
+            Dictionary of functions for converting values in certain columns. Defaults to {"Consumption": float}.
+        parse_dates (dict, optional):
+            Dictionary of functions for parsing values in certain columns. Defaults to {"Time": "%Y-%m-%d %H:%M:%S%z"}.
+
 
     Returns:
         dataset (object):
@@ -54,8 +88,22 @@ def data_selector(data_set):
     elif data_set == "TREC07":
         n_samples = 75_419
         dataset = datasets.TREC07()
+    elif data_set == "USER":
+        dataset = GenericData(
+            filename=filename,
+            directory=directory,
+            target=target,
+            n_features=n_features,
+            n_samples=n_samples,
+            converters=converters,
+            parse_dates=parse_dates,
+        )
+        n_samples = dataset.n_samples
     else:
         raise ValueError(
-            'data_set must be "Bananas" or "CreditCard" or "Elec2" or "Higgs" or "HTTP" or "MaliciousURL" or "Phishing" or "SMSSpam" or "SMTP" or "TREC07"'
+            "data_set must be "
+            '"Bananas" or "CreditCard" or "Elec2" or "Higgs" or '
+            '"HTTP" or "MaliciousURL" or "Phishing" or "SMSSpam" or '
+            '"SMTP" or "TREC07" or "USER"'
         )
     return dataset, n_samples

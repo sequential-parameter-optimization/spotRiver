@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import tkinter as tk
 from tkinter import ttk
 
@@ -89,7 +87,7 @@ data_label.grid(row=0, column=0, sticky="W")
 
 data_set_label = tk.Label(run_tab, text="Select data_set:")
 data_set_label.grid(row=1, column=0, sticky="W")
-data_set_values = ["Bananas", "CreditCard", "Elec2", "Higgs", "HTTP", "MaliciousURL", "Phishing", "SMSSpam", "SMTP", "TREC07"]
+data_set_values = ["Bananas", "CreditCard", "Elec2", "Higgs", "HTTP", "MaliciousURL", "Phishing", "SMSSpam", "SMTP", "TREC07", "USER"]
 data_set_combo = ttk.Combobox(run_tab, values=data_set_values)
 data_set_combo.set("Phishing")  # Default selection
 data_set_combo.grid(row=1, column=1)

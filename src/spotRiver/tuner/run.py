@@ -17,7 +17,6 @@ from spotPython.plot.validation import plot_roc_from_dataframes
 from spotPython.plot.validation import plot_confusion_matrix
 from spotPython.hyperparameters.values import add_core_model_to_fun_control
 from spotPython.utils.init import fun_control_init
-from spotPython.utils.file import get_experiment_name
 from spotPython.hyperparameters.values import set_control_key_value
 
 # from spotPython.hyperparameters.values import modify_hyper_parameter_levels
@@ -36,6 +35,24 @@ def run_spot_river_experiment(
     perc_train=0.6,
     oml_grace_period=None,
     data_set="Phishing",
+    target="is_phishing",
+    filename="PhishingData.csv",
+    directory="./userData",
+    n_samples=1_250,
+    n_features=9,
+    converters={
+        "empty_server_form_handler": float,
+        "popup_window": float,
+        "https": float,
+        "request_from_other_domain": float,
+        "anchor_from_other_domain": float,
+        "is_popular": float,
+        "long_url": float,
+        "age_of_domain": int,
+        "ip_in_url": int,
+        "is_phishing": lambda x: x == "1",
+    },
+    parse_dates=None,
     prepmodel="StandardScaler",
     coremodel="AMFClassifier",
     log_level=50,
@@ -60,19 +77,40 @@ def run_spot_river_experiment(
             Grace period for the online machine learning. Defaults to None.
         data_set (str, optional):
             Data set to use. Defaults to "Phishing".
+        filename (str, optional):
+            Name of the data file to read. Defaults to "user_data.csv".
+        directory (str, optional):
+            Directory where the data file is located. Defaults to "./userData".
+        target (str, optional):
+            Name of the target column in the data file. Defaults to "Consumption".
+        n_features (int, optional):
+            Number of features in the data file. Defaults to 1.
+        converters (dict, optional):
+            Dictionary of functions for converting data values in certain columns. Defaults to {"Consumption": float}.
+        parse_dates (dict, optional):
+            Dictionary of functions for parsing data values in certain columns. Defaults to {"Time": "%Y-%m-%d %H:%M:%S%z"}.
+        prepmodel (str, optional):
+            Name of the preprocessing model. Defaults to "StandardScaler".
+        coremodel (str, optional):
+            Name of the core model. Defaults to "AMFClassifier".
         log_level (int, optional):
             Log level. Defaults to 50.
     """
-    experiment_name = get_experiment_name(prefix=PREFIX)
-    # fun_control = fun_control_init(
-    #     spot_tensorboard_path=get_spot_tensorboard_path(experiment_name), TENSORBOARD_CLEAN=True
-    # )
-
     fun_control = fun_control_init(
         PREFIX=PREFIX, TENSORBOARD_CLEAN=True, max_time=MAX_TIME, fun_evals=inf, tolerance_x=np.sqrt(np.spacing(1))
     )
 
-    dataset, n_samples = data_selector(data_set)
+    dataset, n_samples = data_selector(
+        data_set,
+        filename=filename,
+        directory=directory,
+        target=target,
+        n_features=n_features,
+        n_samples=n_samples,
+        converters=converters,
+        parse_dates=parse_dates,
+    )
+    # target_column is the name of the target column in the resulting data frame df:
     target_column = "y"
     df = convert_to_df(dataset, target_column=target_column, n_total=n_total)
     df.columns = [f"x{i}" for i in range(1, dataset.n_features + 1)] + ["y"]

@@ -24,6 +24,8 @@ from spotPython.hyperparameters.values import get_one_core_model_from_X
 from spotPython.hyperparameters.values import get_default_hyperparameters_as_array
 from spotPython.spot import spot
 from spotPython.utils.tensorboard import start_tensorboard
+from spotPython.hyperparameters.values import set_control_hyperparameter_value
+from spotPython.utils.init import design_control_init, surrogate_control_init
 
 
 def run_spot_river_experiment(
@@ -173,7 +175,6 @@ def run_spot_river_experiment(
         )
         # modify_hyper_parameter_bounds(fun_control, "n_estimators", bounds=[2, 20])
         # modify_hyper_parameter_bounds(fun_control, "step", bounds=[0.5, 2])
-        from spotPython.hyperparameters.values import set_control_hyperparameter_value
 
         set_control_hyperparameter_value(fun_control, "n_estimators", [2, 10])
         set_control_hyperparameter_value(fun_control, "step", [0.5, 2])
@@ -192,8 +193,6 @@ def run_spot_river_experiment(
     X_start = get_default_hyperparameters_as_array(fun_control)
     fun = HyperRiver(log_level=fun_control["log_level"]).fun_oml_horizon
 
-    from spotPython.utils.init import design_control_init, surrogate_control_init
-
     design_control = design_control_init()
     set_control_key_value(control_dict=design_control, key="init_size", value=INIT_SIZE, replace=True)
 
@@ -201,8 +200,6 @@ def run_spot_river_experiment(
 
     p_open = start_tensorboard()
     print(fun_control)
-
-    from spotPython.spot import spot
 
     spot_tuner = spot.Spot(
         fun=fun, fun_control=fun_control, design_control=design_control, surrogate_control=surrogate_control

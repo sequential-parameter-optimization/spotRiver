@@ -64,6 +64,7 @@ def run_experiment(save_only=False):
     else:
         fun_evals_val = int(fun_evals)
 
+    # River specific parameters
     oml_grace_period = oml_grace_period_entry.get()
     if oml_grace_period == "None" or oml_grace_period == "n_train":
         oml_grace_period = None
@@ -89,6 +90,7 @@ def run_experiment(save_only=False):
     n_features = 9
     parse_dates = None
 
+    # check if data_set provided by spotRiver as a data set from the river package
     data_set = data_set_combo.get()
     dataset, n_samples = data_selector(
         data_set=data_set,
@@ -133,12 +135,7 @@ def run_experiment(save_only=False):
         log_level=50,
     )
 
-
-    design_control = design_control_init(
-        init_size=int(init_size_entry.get()),
-        repeats=1,
-    )
-
+    # Get the selected prep and core model and add it to the fun_control dictionary
     prepmodel = prep_model_combo.get()
     if prepmodel == "StandardScaler":
         prep_model = preprocessing.StandardScaler()
@@ -207,14 +204,8 @@ def run_experiment(save_only=False):
             set_control_hyperparameter_value(fun_control, key, fle)
             fun_control["core_model_hyper_dict"][key].update({"upper": len(fle) - 1})
 
-    # if oml_grace_period is None set it to n_train:
-    if oml_grace_period is None:
-        oml_grace_period = n_train
-
     weights = np.array([-1, 1 / 1000, 1 / 1000]) * 10_000.0
     weight_coeff = 1.0
-
-    log_level = 50
 
     fun_control.update(
         {
@@ -228,7 +219,6 @@ def run_experiment(save_only=False):
             "weights": weights,
             "weight_coeff": weight_coeff,
             "metric_sklearn": accuracy_score,
-            "log_level": log_level,
             "horizon": int(horizon_entry.get()),
         }
     )
@@ -274,28 +264,28 @@ def run_experiment(save_only=False):
 
 
 def call_compare_tuned_default():
-    if result is not None and fun_control is not None:
-        compare_tuned_default(result, fun_control)
+    if spot_tuner is not None and fun_control is not None:
+        compare_tuned_default(spot_tuner, fun_control)
 
 
 def call_parallel_plot():
-    if result is not None:
-        parallel_plot(result)
+    if spot_tuner is not None:
+        parallel_plot(spot_tuner)
 
 
 def call_contour_plot():
-    if result is not None:
-        contour_plot(result)
+    if spot_tuner is not None:
+        contour_plot(spot_tuner)
 
 
 def call_importance_plot():
-    if result is not None:
-        importance_plot(result)
+    if spot_tuner is not None:
+        importance_plot(spot_tuner)
 
 
 def call_progress_plot():
-    if result is not None:
-        progress_plot(result)
+    if spot_tuner is not None:
+        progress_plot(spot_tuner)
 
 
 def update_hyperparams():
@@ -314,7 +304,7 @@ def update_hyperparams():
     upper_bound_entry = [None] * n_keys
     factor_level_entry = [None] * n_keys
     for i, (key, value) in enumerate(dict.items()):
-        if dict[key]["type"] == "int" or dict[key]["type"] == "float":
+        if dict[key]["type"] == "int" or dict[key]["type"] == "float" or dict[key]["core_model_parameter_type"] == "bool":
             # Create a label with the key as text
             label[i] = tk.Label(run_tab, text=key)
             label[i].grid(row=i + 3, column=2, sticky="W")
@@ -380,12 +370,18 @@ data_set_combo = ttk.Combobox(run_tab, values=data_set_values)
 data_set_combo.set("Phishing")  # Default selection
 data_set_combo.grid(row=1, column=1)
 
+target_column_label = tk.Label(run_tab, text="target_column:")
+target_column_label.grid(row=2, column=0, sticky="W")
+target_column_entry = tk.Entry(run_tab)
+target_column_entry.insert(0, "target")
+target_column_entry.grid(row=2, column=1, sticky="W")
+
 
 n_total_label = tk.Label(run_tab, text="n_total:")
-n_total_label.grid(row=2, column=0, sticky="W")
+n_total_label.grid(row=3, column=0, sticky="W")
 n_total_entry = tk.Entry(run_tab)
 n_total_entry.insert(0, "All")
-n_total_entry.grid(row=2, column=1, sticky="W")
+n_total_entry.grid(row=3, column=1, sticky="W")
 
 test_size_label = tk.Label(run_tab, text="test_size:")
 test_size_label.grid(row=3, column=0, sticky="W")
@@ -393,9 +389,66 @@ test_size_entry = tk.Entry(run_tab)
 test_size_entry.insert(0, "0.10")
 test_size_entry.grid(row=3, column=1, sticky="W")
 
-# colummns 2+3: Model
+# columns 0+1: Experiment
+experiment_label = tk.Label(run_tab, text="Experiment options:")
+experiment_label.grid(row=4, column=0, sticky="W")
+
+max_time_label = tk.Label(run_tab, text="MAX_TIME:")
+max_time_label.grid(row=5, column=0, sticky="W")
+max_time_entry = tk.Entry(run_tab)
+max_time_entry.insert(0, "1")
+max_time_entry.grid(row=5, column=1)
+
+fun_evals_label = tk.Label(run_tab, text="FUN_EVALS:")
+fun_evals_label.grid(row=6, column=0, sticky="W")
+fun_evals_entry = tk.Entry(run_tab)
+fun_evals_entry.insert(0, "inf")
+fun_evals_entry.grid(row=6, column=1)
+
+init_size_label = tk.Label(run_tab, text="INIT_SIZE:")
+init_size_label.grid(row=7, column=0, sticky="W")
+init_size_entry = tk.Entry(run_tab)
+init_size_entry.insert(0, "3")
+init_size_entry.grid(row=7, column=1)
+
+prefix_label = tk.Label(run_tab, text="PREFIX:")
+prefix_label.grid(row=8, column=0, sticky="W")
+prefix_entry = tk.Entry(run_tab)
+prefix_entry.insert(0, "00")
+prefix_entry.grid(row=8, column=1)
+
+noise_label = tk.Label(run_tab, text="NOISE:")
+noise_label.grid(row=9, column=0, sticky="W")
+noise_entry = tk.Entry(run_tab)
+noise_entry.insert(0, "TRUE")
+noise_entry.grid(row=9, column=1)
+
+horizon_label = tk.Label(run_tab, text="horizon:")
+horizon_label.grid(row=10, column=0, sticky="W")
+horizon_entry = tk.Entry(run_tab)
+horizon_entry.insert(0, "1")
+horizon_entry.grid(row=10, column=1)
+
+oml_grace_period_label = tk.Label(run_tab, text="oml_grace_period:")
+oml_grace_period_label.grid(row=11, column=0, sticky="W")
+oml_grace_period_entry = tk.Entry(run_tab)
+oml_grace_period_entry.insert(0, "n_train")
+oml_grace_period_entry.grid(row=11, column=1)
+
+
+
+# colummns 2-5: Model
 model_label = tk.Label(run_tab, text="Model options:")
 model_label.grid(row=0, column=2, sticky="W")
+
+model_label = tk.Label(run_tab, text="Default values:")
+model_label.grid(row=0, column=3, sticky="W")
+
+model_label = tk.Label(run_tab, text="Lower bounds:")
+model_label.grid(row=0, column=4, sticky="W")
+
+model_label = tk.Label(run_tab, text="Upper bounds:")
+model_label.grid(row=0, column=5, sticky="W")
 
 prep_model_label = tk.Label(run_tab, text="Select preprocessing model")
 prep_model_label.grid(row=1, column=2, sticky="W")
@@ -404,60 +457,17 @@ prep_model_combo = ttk.Combobox(run_tab, values=prep_model_values)
 prep_model_combo.set("StandardScaler")  # Default selection
 prep_model_combo.grid(row=1, column=3)
 
-
 core_model_label = tk.Label(run_tab, text="Select core model")
 core_model_label.grid(row=2, column=2, sticky="W")
 core_model_values = ["AMFClassifier", "HoeffdingAdaptiveTreeClassifier", "LogisticRegression"]
-core_model_combo = ttk.Combobox(run_tab, values=core_model_values)
+for filename in os.listdir("userModel"):
+    if filename.endswith(".json"):
+        core_model_values.append(os.path.splitext(filename)[0])
+core_model_combo = ttk.Combobox(run_tab, values=core_model_values, postcommand=update_hyperparams)
 core_model_combo.set("LogisticRegression")  # Default selection
+core_model_combo.bind("<<ComboboxSelected>>", update_hyperparams())
 core_model_combo.grid(row=2, column=3)
 
-
-# columns 4+5: Experiment
-experiment_label = tk.Label(run_tab, text="Experiment options:")
-experiment_label.grid(row=0, column=4, sticky="W")
-
-max_time_label = tk.Label(run_tab, text="MAX_TIME:")
-max_time_label.grid(row=1, column=4, sticky="W")
-max_time_entry = tk.Entry(run_tab)
-max_time_entry.insert(0, "1")
-max_time_entry.grid(row=1, column=5)
-
-fun_evals_label = tk.Label(run_tab, text="FUN_EVALS:")
-fun_evals_label.grid(row=2, column=4, sticky="W")
-fun_evals_entry = tk.Entry(run_tab)
-fun_evals_entry.insert(0, "inf")
-fun_evals_entry.grid(row=2, column=5)
-
-init_size_label = tk.Label(run_tab, text="INIT_SIZE:")
-init_size_label.grid(row=3, column=4, sticky="W")
-init_size_entry = tk.Entry(run_tab)
-init_size_entry.insert(0, "3")
-init_size_entry.grid(row=3, column=5)
-
-prefix_label = tk.Label(run_tab, text="PREFIX:")
-prefix_label.grid(row=4, column=4, sticky="W")
-prefix_entry = tk.Entry(run_tab)
-prefix_entry.insert(0, "00")
-prefix_entry.grid(row=4, column=5)
-
-horizon_label = tk.Label(run_tab, text="horizon:")
-horizon_label.grid(row=5, column=4, sticky="W")
-horizon_entry = tk.Entry(run_tab)
-horizon_entry.insert(0, "1")
-horizon_entry.grid(row=5, column=5)
-
-oml_grace_period_label = tk.Label(run_tab, text="oml_grace_period:")
-oml_grace_period_label.grid(row=6, column=4, sticky="W")
-oml_grace_period_entry = tk.Entry(run_tab)
-oml_grace_period_entry.insert(0, "n_train")
-oml_grace_period_entry.grid(row=6, column=5)
-
-noise_label = tk.Label(run_tab, text="NOISE:")
-noise_label.grid(row=7, column=4, sticky="W")
-noise_entry = tk.Entry(run_tab)
-noise_entry.insert(0, "TRUE")
-noise_entry.grid(row=7, column=5)
 
 update_hyperparams()
 
@@ -467,22 +477,22 @@ save_button.grid(row=7, column=6, columnspan=2, sticky="E")
 run_button = ttk.Button(run_tab, text="Run Experiment", command=run_experiment)
 run_button.grid(row=8, column=6, columnspan=2, sticky="E")
 
-# Create and pack the "Regression" tab with a button to run the analysis
-regression_tab = ttk.Frame(notebook)
-notebook.add(regression_tab, text="Regression")
+# TODO: Create and pack the "Regression" tab with a button to run the analysis
+# regression_tab = ttk.Frame(notebook)
+# notebook.add(regression_tab, text="Regression")
 
-# colummns 0+1: Data
+# # colummns 0+1: Data
 
-regression_data_label = tk.Label(regression_tab, text="Data options:")
-regression_data_label.grid(row=0, column=0, sticky="W")
+# regression_data_label = tk.Label(regression_tab, text="Data options:")
+# regression_data_label.grid(row=0, column=0, sticky="W")
 
-# colummns 2+3: Model
-regression_model_label = tk.Label(regression_tab, text="Model options:")
-regression_model_label.grid(row=0, column=2, sticky="W")
+# # colummns 2+3: Model
+# regression_model_label = tk.Label(regression_tab, text="Model options:")
+# regression_model_label.grid(row=0, column=2, sticky="W")
 
-# columns 4+5: Experiment
-regression_experiment_label = tk.Label(regression_tab, text="Experiment options:")
-regression_experiment_label.grid(row=0, column=4, sticky="W")
+# # columns 4+5: Experiment
+# regression_experiment_label = tk.Label(regression_tab, text="Experiment options:")
+# regression_experiment_label.grid(row=0, column=4, sticky="W")
 
 
 # Create and pack the "Analysis" tab with a button to run the analysis
@@ -495,7 +505,7 @@ notebook.pack()
 # Add the Logo image in both tabs
 logo_image = tk.PhotoImage(file="images/spotlogo.png")
 logo_label = tk.Label(run_tab, image=logo_image)
-logo_label.grid(row=0, column=6, rowspan=1, columnspan=1)
+logo_label.grid(row=0, column=8, rowspan=1, columnspan=1)
 
 analysis_label = tk.Label(analysis_tab, text="Analysis options:")
 analysis_label.grid(row=0, column=1, sticky="W")
@@ -519,8 +529,8 @@ parallel_plot_button.grid(row=5, column=1, columnspan=2, sticky="W")
 analysis_logo_label = tk.Label(analysis_tab, image=logo_image)
 analysis_logo_label.grid(row=0, column=6, rowspan=1, columnspan=1)
 
-regression_logo_label = tk.Label(regression_tab, image=logo_image)
-regression_logo_label.grid(row=0, column=6, rowspan=1, columnspan=1)
+# regression_logo_label = tk.Label(regression_tab, image=logo_image)
+# regression_logo_label.grid(row=0, column=6, rowspan=1, columnspan=1)
 
 # Run the mainloop
 

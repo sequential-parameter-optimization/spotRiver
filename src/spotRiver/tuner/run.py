@@ -10,8 +10,6 @@ from spotPython.plot.validation import plot_confusion_matrix
 from spotPython.utils.init import fun_control_init
 
 # from spotPython.hyperparameters.values import modify_hyper_parameter_levels
-from spotPython.hyperparameters.values import get_one_core_model_from_X
-from spotPython.hyperparameters.values import get_default_hyperparameters_as_array
 from spotPython.spot import spot
 from spotPython.utils.tensorboard import start_tensorboard
 from spotPython.utils.init import design_control_init, surrogate_control_init
@@ -106,73 +104,6 @@ def run_spot_river_experiment(
 
     # stop_tensorboard(p_open)
     return spot_tuner, fun_control
-
-
-def compare_tuned_default(spot_tuner, fun_control) -> None:
-    X = spot_tuner.to_all_dim(spot_tuner.min_X.reshape(1, -1))
-    print(f"X = {X}")
-    model_spot = get_one_core_model_from_X(X, fun_control)
-    df_eval_spot, df_true_spot = eval_oml_horizon(
-        model=model_spot,
-        train=fun_control["train"],
-        test=fun_control["test"],
-        target_column=fun_control["target_column"],
-        horizon=fun_control["horizon"],
-        oml_grace_period=fun_control["oml_grace_period"],
-        metric=fun_control["metric_sklearn"],
-    )
-    X_start = get_default_hyperparameters_as_array(fun_control)
-    model_default = get_one_core_model_from_X(X_start, fun_control)
-    df_eval_default, df_true_default = eval_oml_horizon(
-        model=model_default,
-        train=fun_control["train"],
-        test=fun_control["test"],
-        target_column=fun_control["target_column"],
-        horizon=fun_control["horizon"],
-        oml_grace_period=fun_control["oml_grace_period"],
-        metric=fun_control["metric_sklearn"],
-    )
-
-    df_labels = ["default", "spot"]
-
-    # First Plot
-
-    plot_bml_oml_horizon_metrics(
-        df_eval=[df_eval_default, df_eval_spot],
-        log_y=False,
-        df_labels=df_labels,
-        metric=fun_control["metric_sklearn"],
-        filename=None,
-        show=False,
-    )
-    plt.figure(1)
-
-    # Second Plot
-    plot_roc_from_dataframes(
-        [df_true_default, df_true_spot],
-        model_names=["default", "spot"],
-        target_column=fun_control["target_column"],
-        show=False,
-    )
-    plt.figure(2)
-    # Third Plot
-
-    plot_confusion_matrix(
-        df=df_true_default,
-        title="Default",
-        y_true_name=fun_control["target_column"],
-        y_pred_name="Prediction",
-        show=False,
-    )
-    plt.figure(2)
-    # Fourth Plot
-
-    plot_confusion_matrix(
-        df=df_true_spot, title="Spot", y_true_name=fun_control["target_column"], y_pred_name="Prediction", show=False
-    )
-    plt.figure(3)
-
-    plt.show()  # Display all four plots simultaneously
 
 
 def parallel_plot(spot_tuner):

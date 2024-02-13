@@ -4,20 +4,14 @@ from river import linear_model
 from river import preprocessing
 from sklearn.metrics import mean_absolute_error
 from spotRiver.evaluation.eval_bml import eval_oml_horizon
-
-
 from sklearn.metrics import accuracy_score
 from river import preprocessing
 from river.forest import AMFClassifier
 from river.datasets import Bananas
-
 from spotRiver.data.river_hyper_dict import RiverHyperDict
 from spotRiver.utils.data_conversion import convert_to_df
-
 from spotPython.hyperparameters.values import add_core_model_to_fun_control
 from spotPython.utils.init import fun_control_init
-from spotPython.utils.file import get_spot_tensorboard_path
-from spotPython.utils.file import get_experiment_name
 from spotPython.hyperparameters.values import modify_hyper_parameter_bounds
 from spotPython.hyperparameters.values import get_one_core_model_from_X
 from spotPython.hyperparameters.values import get_default_hyperparameters_as_array

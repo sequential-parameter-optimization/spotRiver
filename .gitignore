@@ -171,3 +171,4 @@ runs_OLD/*
 gui/runs/*
 gui/runs_OLD/*
 gui/plot.png
+gui/spot_00_experiment.pickle

@@ -88,7 +88,7 @@ def data_selector(
     elif data_set == "TREC07":
         n_samples = 75_419
         dataset = datasets.TREC07()
-    elif data_set == "USER":
+    else:
         dataset = GenericData(
             filename=filename,
             directory=directory,
@@ -99,11 +99,4 @@ def data_selector(
             parse_dates=parse_dates,
         )
         n_samples = dataset.n_samples
-    else:
-        raise ValueError(
-            "data_set must be "
-            '"Bananas" or "CreditCard" or "Elec2" or "Higgs" or '
-            '"HTTP" or "MaliciousURL" or "Phishing" or "SMSSpam" or '
-            '"SMTP" or "TREC07" or "USER"'
-        )
     return dataset, n_samples

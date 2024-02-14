@@ -1,16 +1,12 @@
 from river import datasets
-from spotRiver.data.generic import GenericData
 from spotRiver.utils.data_conversion import convert_to_df
+from spotRiver.data.csvdataset import CSVDataset
 
 
 def data_selector(
     data_set,
-    target,
-    directory="./userData/",
-    n_samples=None,
-    n_features=None,
-    converters=None,
-    parse_dates={"Time": "%Y-%m-%d %H:%M:%S%z"},
+    target_column,
+    n_total=None,
 ) -> tuple:
     """
     Selects the data set to be used.
@@ -42,6 +38,7 @@ def data_selector(
             dataset, n_samples = data_selector("Phishing")
 
     """
+    dataset = None
     if data_set == "Bananas":
         dataset = datasets.Bananas()
         n_samples = 5300
@@ -72,46 +69,25 @@ def data_selector(
     elif data_set == "TREC07":
         dataset = datasets.TREC07()
         n_samples = 75_419
-    elif data_set.endswith(".csv"):
-        directory = "./userData/"
-        # TODO: This is correct for the Phishing data set,
-        # but needs to be adapted for other data sets:
-        n_samples = 1_353
-        n_features = 9
-        parse_dates = None
-        converters = {
-            "empty_server_form_handler": float,
-            "popup_window": float,
-            "https": float,
-            "request_from_other_domain": float,
-            "anchor_from_other_domain": float,
-            "is_popular": float,
-            "long_url": float,
-            "age_of_domain": int,
-            "ip_in_url": int,
-            "is_phishing": lambda x: x == "1",
-        }
-        dataset = GenericData(
-            filename=data_set,
-            directory=directory,
-            target=target,
-            n_features=n_features,
-            n_samples=n_samples,
-            converters=converters,
-            parse_dates=parse_dates,
-        )
-        n_samples = dataset.n_samples
+    if dataset is not None:
+        df = convert_to_df(dataset, target_column=target_column, n_total=n_total)
+        return df, n_samples
     else:
-        raise ValueError(f"Data set {data_set} not found.")
-    return dataset, n_samples
+        if data_set.endswith(".csv"):
+            csv_data = CSVDataset(directory="./userData/", filename=data_set, target_column=target_column)
+            df = csv_data._load_data()
+            n_samples = len(df)
+            return df, n_samples
+        else:
+            raise ValueError(f"Data set {data_set} not found.")
 
 
-def get_train_test_from_data_set(dataset, n_total, test_size, target_column="y") -> tuple:
+def get_train_test_from_data_set(df, n_total, test_size, target_column="y") -> tuple:
     """Converts a data set to a data frame with target column
         and splits it into training and test sets.
 
     Args:
-        dataset:
+        df (DataFrame):
             data set to be used.
         n_total (int):
             total number of samples to be used in the data set.
@@ -129,8 +105,9 @@ def get_train_test_from_data_set(dataset, n_total, test_size, target_column="y")
             total number of samples (train and test) in the data set.
 
     """
-    df = convert_to_df(dataset, target_column=target_column, n_total=n_total)
-    df.columns = [f"x{i}" for i in range(1, dataset.n_features + 1)] + ["y"]
+    # df = convert_to_df(dataset, target_column=target_column, n_total=n_total)
+    n_features = len(df.columns) - 1
+    df.columns = [f"x{i}" for i in range(1, n_features + 1)] + ["y"]
     df["y"] = df["y"].astype(int)
     # update n_samples to the actual number of samples in the data set,
     # because n_total might be smaller than n_samples which results in a smaller data set:

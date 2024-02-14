@@ -1,5 +1,6 @@
 from river import datasets
 from spotRiver.data.generic import GenericData
+from spotRiver.utils.data_conversion import convert_to_df
 
 
 def data_selector(
@@ -100,3 +101,36 @@ def data_selector(
         )
         n_samples = dataset.n_samples
     return dataset, n_samples
+
+
+def get_train_test_from_data_set(dataset, n_total, test_size, target_column="y"):
+    """Converts a data set to a data frame with target column
+        and splits it into training and test sets.
+
+    Args:
+        dataset:
+            data set to be used.
+        n_total (int):
+            total number of samples to be used in the data set.
+        test_size (float):
+            percentage of the data set to be used as test set.
+        target_column (str, optional):
+            name of the target column. Defaults to "y".
+
+    Returns:
+        train:
+            training data set.
+        test:
+            test data set.
+    """
+    df = convert_to_df(dataset, target_column=target_column, n_total=n_total)
+    df.columns = [f"x{i}" for i in range(1, dataset.n_features + 1)] + ["y"]
+    df["y"] = df["y"].astype(int)
+    # update n_samples to the actual number of samples in the data set,
+    # because n_total might be smaller than n_samples which results in a smaller data set:
+    test_size = float(test_size)
+    n_samples = len(df)
+    n_train = int((1.0 - test_size) * n_samples)
+    train = df[:n_train]
+    test = df[n_train:]
+    return train, test

@@ -5,58 +5,41 @@ from spotRiver.utils.data_conversion import convert_to_df
 
 def data_selector(
     data_set,
-    filename="PhishingData.csv",
-    directory="./userData",
-    target="is_phishing",
-    n_samples=1_250,
-    n_features=9,
-    converters={
-        "empty_server_form_handler": float,
-        "popup_window": float,
-        "https": float,
-        "request_from_other_domain": float,
-        "anchor_from_other_domain": float,
-        "is_popular": float,
-        "long_url": float,
-        "age_of_domain": int,
-        "ip_in_url": int,
-        "is_phishing": lambda x: x == "1",
-    },
+    target,
+    directory="./userData/",
+    n_samples=None,
+    n_features=None,
+    converters=None,
     parse_dates={"Time": "%Y-%m-%d %H:%M:%S%z"},
-):
+) -> tuple:
     """
     Selects the data set to be used.
 
     Args:
-        data_set (str, optional):
-            Data set to use. Defaults to "Phishing".
-        filename (str, optional):
-            Name of the file to read. Defaults to "user_data.csv".
-        directory (str, optional):
-            Directory where the file is located. Defaults to "./userData".
-        target (str, optional):
-            Name of the target column. Defaults to "Consumption".
+        data_set (str):
+            Name of the data set to be used.
+        directory (str):
+            Name of the directory where the file is located.
+        target (str):
+            Name of the target column.
+        n_samples (int, optional):
+            Number of samples in the data set. Defaults to None.
         n_features (int, optional):
-            Number of features. Defaults to 1.
+            Number of features in the data set. Defaults to None.
         converters (dict, optional):
-            Dictionary of functions for converting values in certain columns. Defaults to {"Consumption": float}.
+            Dictionary of functions to be used to convert the data. Defaults to None.
         parse_dates (dict, optional):
-            Dictionary of functions for parsing values in certain columns. Defaults to {"Time": "%Y-%m-%d %H:%M:%S%z"}.
-
+            Dictionary of dates to be parsed. Defaults to {"Time": "%Y-%m-%d %H:%M:%S%z"}.
 
     Returns:
         dataset (object):
             Data set to use.
         n_samples (int):
             Number of samples in the data set.
-    Raises:
-        ValueError:
-            If data_set is not "Bananas" or "CreditCard" or "Elec2" or "Higgs" or
-            "HTTP" or "MaliciousURL" or "Phishing" or "SMSSpam" or "SMTP" or "TREC07".
 
     Examples:
-        >>> dataset, n_samples = data_selector("Phishing")
-
+        >>> from spotPython.data.selector import data_selector
+            dataset, n_samples = data_selector("Phishing")
 
     """
     if data_set == "Bananas":
@@ -87,11 +70,29 @@ def data_selector(
         dataset = datasets.SMTP()
         n_samples = 95_156
     elif data_set == "TREC07":
-        n_samples = 75_419
         dataset = datasets.TREC07()
-    else:
+        n_samples = 75_419
+    elif data_set.endswith(".csv"):
+        directory = "./userData/"
+        # TODO: This is correct for the Phishing data set,
+        # but needs to be adapted for other data sets:
+        n_samples = 1_353
+        n_features = 9
+        parse_dates = None
+        converters = {
+            "empty_server_form_handler": float,
+            "popup_window": float,
+            "https": float,
+            "request_from_other_domain": float,
+            "anchor_from_other_domain": float,
+            "is_popular": float,
+            "long_url": float,
+            "age_of_domain": int,
+            "ip_in_url": int,
+            "is_phishing": lambda x: x == "1",
+        }
         dataset = GenericData(
-            filename=filename,
+            filename=data_set,
             directory=directory,
             target=target,
             n_features=n_features,
@@ -100,10 +101,12 @@ def data_selector(
             parse_dates=parse_dates,
         )
         n_samples = dataset.n_samples
+    else:
+        raise ValueError(f"Data set {data_set} not found.")
     return dataset, n_samples
 
 
-def get_train_test_from_data_set(dataset, n_total, test_size, target_column="y"):
+def get_train_test_from_data_set(dataset, n_total, test_size, target_column="y") -> tuple:
     """Converts a data set to a data frame with target column
         and splits it into training and test sets.
 
@@ -122,6 +125,9 @@ def get_train_test_from_data_set(dataset, n_total, test_size, target_column="y")
             training data set.
         test:
             test data set.
+        n_samples:
+            total number of samples (train and test) in the data set.
+
     """
     df = convert_to_df(dataset, target_column=target_column, n_total=n_total)
     df.columns = [f"x{i}" for i in range(1, dataset.n_features + 1)] + ["y"]
@@ -133,4 +139,4 @@ def get_train_test_from_data_set(dataset, n_total, test_size, target_column="y")
     n_train = int((1.0 - test_size) * n_samples)
     train = df[:n_train]
     test = df[n_train:]
-    return train, test
+    return train, test, n_samples

@@ -16,7 +16,7 @@ def data_selector(
             Name of the data set to be used.
         directory (str):
             Name of the directory where the file is located.
-        target (str):
+        target_column (str):
             Name of the target column.
         n_samples (int, optional):
             Number of samples in the data set. Defaults to None.

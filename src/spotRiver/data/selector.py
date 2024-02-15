@@ -1,41 +1,34 @@
 from river import datasets
-from spotRiver.utils.data_conversion import convert_to_df
-from spotRiver.data.csvdataset import CSVDataset
 
 
 def data_selector(
     data_set,
-    target_column,
-    n_total=None,
 ) -> tuple:
     """
-    Selects the data set to be used.
+    Selects the river data set to be used.
 
     Args:
         data_set (str):
-            Name of the data set to be used.
-        directory (str):
-            Name of the directory where the file is located.
-        target_column (str):
-            Name of the target column.
-        n_samples (int, optional):
-            Number of samples in the data set. Defaults to None.
-        n_features (int, optional):
-            Number of features in the data set. Defaults to None.
-        converters (dict, optional):
-            Dictionary of functions to be used to convert the data. Defaults to None.
-        parse_dates (dict, optional):
-            Dictionary of dates to be parsed. Defaults to {"Time": "%Y-%m-%d %H:%M:%S%z"}.
+            Name of the data set to be used. Can be one of the following:
+            - "Bananas"
+            - "CreditCard"
+            - "Elec2"
+            - "Higgs"
+            - "HTTP"
+            - "Phishing"
 
     Returns:
         dataset (object):
-            Data set to use.
+            Data set to use. This is a dataset object from the river library.
         n_samples (int):
             Number of samples in the data set.
 
     Examples:
         >>> from spotPython.data.selector import data_selector
             dataset, n_samples = data_selector("Phishing")
+
+    Notes:
+        - The Higgs data set is very large and may take a long time to load.
 
     """
     dataset = None
@@ -54,32 +47,12 @@ def data_selector(
     elif data_set == "HTTP":
         dataset = datasets.HTTP()
         n_samples = 567_498
-    elif data_set == "MaliciousURL":
-        dataset = datasets.MaliciousURL()
-        n_samples = 2_396_130
     elif data_set == "Phishing":
         dataset = datasets.Phishing()
         n_samples = 1250
-    elif data_set == "SMSSpam":
-        dataset = datasets.SMSSpam()
-        n_samples = 5574
-    elif data_set == "SMTP":
-        dataset = datasets.SMTP()
-        n_samples = 95_156
-    elif data_set == "TREC07":
-        dataset = datasets.TREC07()
-        n_samples = 75_419
-    if dataset is not None:
-        df = convert_to_df(dataset, target_column=target_column, n_total=n_total)
-        return df, n_samples
     else:
-        if data_set.endswith(".csv"):
-            csv_data = CSVDataset(directory="./userData/", filename=data_set, target_column=target_column)
-            df = csv_data._load_data()
-            n_samples = len(df)
-            return df, n_samples
-        else:
-            raise ValueError(f"Data set {data_set} not found.")
+        raise ValueError(f"Data set '{data_set}' not found.")
+    return dataset, n_samples
 
 
 def get_train_test_from_data_set(df, n_total, test_size, target_column="y") -> tuple:
@@ -105,7 +78,6 @@ def get_train_test_from_data_set(df, n_total, test_size, target_column="y") -> t
             total number of samples (train and test) in the data set.
 
     """
-    # df = convert_to_df(dataset, target_column=target_column, n_total=n_total)
     n_features = len(df.columns) - 1
     df.columns = [f"x{i}" for i in range(1, n_features + 1)] + ["y"]
     df["y"] = df["y"].astype(int)

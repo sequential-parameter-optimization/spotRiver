@@ -71,7 +71,6 @@ def test_eval_oml_horizon_with_default():
     )
     target_column = "y"
     weights = np.array([- 1, 1/1000, 1/1000])*10_000.0
-    weight_coeff = 1.0
     df = convert_to_df(dataset, target_column=target_column, n_total=n_samples)
     df.columns = [f"x{i}" for i in range(1, dataset.n_features+1)] + ["y"]
     df["y"] = df["y"].astype(int)
@@ -85,7 +84,6 @@ def test_eval_oml_horizon_with_default():
                         "horizon": horizon,
                         "oml_grace_period": oml_grace_period,
                         "weights": weights,
-                        "weight_coeff": weight_coeff,
                         "metric_sklearn": accuracy_score
                         })
     add_core_model_to_fun_control(core_model=AMFClassifier,

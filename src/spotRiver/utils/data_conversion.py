@@ -66,3 +66,34 @@ def compare_two_tree_models(model1, model2, headers=["Parameter", "Default", "Sp
     for key, value1, value2 in zip(keys, values1, values2):
         tbl.append([key, value1, value2])
     return tabulate(tbl, headers=headers, numalign="right", tablefmt="github")
+
+
+def rename_df_to_xy(df, target_column="y"):
+    """Renames the columns of a DataFrame to x1, x2, ..., xn, y.
+
+    Args:
+        df (pd.DataFrame):
+            The DataFrame to be renamed.
+        target_column (str, optional):
+            The name of the target column. Defaults to "y".
+
+    Returns:
+        (pd.DataFrame): The renamed DataFrame.
+
+    Examples:
+        >>> from spotRiver.utils.data_conversion import rename_df_to_xy
+            df = pd.DataFrame({
+            "feature1": [1, 2, 3],
+            "feature2": [4, 5, 6],
+            "target": [7, 8, 9]
+        })
+        >>> df = rename_df_to_xy(df, "target")
+        >>> print(df)
+           x1  x2  y
+        0   1   4  7
+        1   2   5  8
+        2   3   6  9
+    """
+    n_features = len(df.columns) - 1
+    df.columns = [f"x{i}" for i in range(1, n_features + 1)] + [target_column]
+    return df

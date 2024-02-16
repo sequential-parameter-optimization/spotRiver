@@ -122,6 +122,8 @@ def evaluate_model(y_true: np.ndarray, y_pred: np.ndarray, memory: float, r_time
 
     Examples:
         >>> from sklearn.metrics import accuracy_score
+        >>> import numpy as np
+        >>> from spotRiver.evaluation.eval_bml import evaluate_model
         >>> y_true = np.array([0, 1, 0, 1])
         >>> y_pred = np.array([0, 1, 1, 1])
         >>> memory = 0.0
@@ -139,6 +141,11 @@ def evaluate_model(y_true: np.ndarray, y_pred: np.ndarray, memory: float, r_time
             "CompTime (s)": r_time,
         }
         return res_dict
+    # if y_pred or y_true is bool convert to int
+    if y_pred.dtype == bool:
+        y_pred = y_pred.astype(int)
+    if y_true.dtype == bool:
+        y_true = y_true.astype(int)
     score = metric(y_true, y_pred)
     res_dict = {"Metric": score, "Memory (MB)": memory, "CompTime (s)": r_time}
     return res_dict

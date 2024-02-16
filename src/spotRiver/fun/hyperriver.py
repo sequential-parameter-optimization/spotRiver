@@ -63,7 +63,6 @@ class HyperRiver:
             "metric_river": None,
             "metric_sklearn": mean_absolute_error,
             "weights": weights,
-            "weight_coeff": 0.0,
             "log_level": log_level,
             "var_name": [],
             "var_type": [],
@@ -98,15 +97,15 @@ class HyperRiver:
         # take the mean of the MAEs/ACCs of the predicted values and ignore the NaN values
         df_eval = df_eval.dropna()
         y_error = df_eval["Metric"].mean()
-        logger.debug("y_error from eval_oml_horizon: %s", y_error)
+        logger.debug("y_error in compute_y: %s", y_error)
         y_r_time = df_eval["CompTime (s)"].mean()
-        logger.debug("y_r_time from eval_oml_horizon: %s", y_r_time)
+        logger.debug("y_r_time in compute_y: %s", y_r_time)
         y_memory = df_eval["Memory (MB)"].mean()
-        logger.debug("y_memory from eval_oml_horizon: %s", y_memory)
+        logger.debug("y_memory in compute_y: %s", y_memory)
         weights = self.fun_control["weights"]
-        logger.debug("weights from eval_oml_horizon: %s", weights)
+        logger.debug("weights in compute_y: %s", weights)
         y = weights[0] * y_error + weights[1] * y_r_time + weights[2] * y_memory
-        logger.debug("weighted res from eval_oml_horizon: %s", y)
+        logger.debug("weighted res in compute_y: %s", y)
         return y
 
     def check_X_shape(self, X):
@@ -237,6 +236,9 @@ class HyperRiver:
         """
         logger.debug("X from fun_oml_horizon: %s", X)
         logger.debug("fun_control from fun_oml_horizon: %s", fun_control)
+        # List of objective function values, filled with append below
+        # List is required, if several configurations are evaluated, e.g.,
+        # from the initial design
         z_res = []
         self.fun_control.update(fun_control)
         self.check_X_shape(X)
@@ -254,5 +256,8 @@ class HyperRiver:
                 y = np.nan
                 print(f"Error in fun_oml_horizon(). Call to evaluate or compute_y failed. {err=}, {type(err)=}")
                 print("Setting y to np.nan.")
-            z_res.append(y / self.fun_control["n_samples"])
+            # Changed in v0.2.21:
+            # Score is not divided by the number of samples
+            # z_res.append(y / self.fun_control["n_samples"])
+            z_res.append(y)
         return np.array(z_res)

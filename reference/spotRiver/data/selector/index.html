@@ -468,8 +468,6 @@
       
         
       
-        
-      
     
     
     
@@ -940,6 +938,8 @@
       
         
       
+        
+      
     
     
     
@@ -956,7 +956,7 @@
             
   
   <span class="md-ellipsis">
-    tuner
+    utils
   </span>
   
 
@@ -965,78 +965,6 @@
         
         <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_1_7">
-            <span class="md-nav__icon md-icon"></span>
-            tuner
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../tuner/run/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    run
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_8" >
-        
-          
-          <label class="md-nav__link" for="__nav_2_1_8" id="__nav_2_1_8_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    utils
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_1_8">
             <span class="md-nav__icon md-icon"></span>
             utils
           </label>
@@ -1229,6 +1157,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#spotRiver.data.selector.get_train_test_from_data_set" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_train_test_from_data_set
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1281,7 +1218,7 @@
 
   <div class="doc doc-contents ">
   
-      <p>Selects the data set to be used.</p>
+      <p>Selects the river data set to be used.</p>
 
 
 
@@ -1303,7 +1240,13 @@
           </td>
           <td>
             <div class="doc-md-description">
-              <p>Data set to use. Defaults to &ldquo;Phishing&rdquo;.</p>
+              <p>Name of the data set to be used. Can be one of the following:
+- &ldquo;Bananas&rdquo;
+- &ldquo;CreditCard&rdquo;
+- &ldquo;Elec2&rdquo;
+- &ldquo;Higgs&rdquo;
+- &ldquo;HTTP&rdquo;
+- &ldquo;Phishing&rdquo;</p>
             </div>
           </td>
           <td>
@@ -1330,7 +1273,7 @@
           </td>
           <td>
             <div class="doc-md-description">
-              <p>Data set to use.</p>
+              <p>Data set to use. This is a dataset object from the river library.</p>
             </div>
           </td>
         </tr>
@@ -1346,17 +1289,20 @@
         </tr>
     </tbody>
   </table>
-      <p>Raises:
-    ValueError:
-        If data_set is not &ldquo;Bananas&rdquo; or &ldquo;CreditCard&rdquo; or &ldquo;Elec2&rdquo; or &ldquo;Higgs&rdquo; or
-        &ldquo;HTTP&rdquo; or &ldquo;MaliciousURL&rdquo; or &ldquo;Phishing&rdquo; or &ldquo;SMSSpam&rdquo; or &ldquo;SMTP&rdquo; or &ldquo;TREC07&rdquo;.</p>
 
 
 
 <p><strong>Examples:</strong></p>
-    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span><span class="p">,</span> <span class="n">n_samples</span> <span class="o">=</span> <span class="n">data_selector</span><span class="p">(</span><span class="s2">&quot;Phishing&quot;</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">spotPython.data.selector</span> <span class="kn">import</span> <span class="n">data_selector</span>
+<span class="go">    dataset, n_samples = data_selector(&quot;Phishing&quot;)</span>
 </code></pre></div>
 
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>The Higgs data set is very large and may take a long time to load.</li>
+</ul>
+</details>
           <details class="quote">
             <summary>Source code in <code>spotRiver/data/selector.py</code></summary>
             <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 4</span>
@@ -1410,35 +1356,37 @@
 <span class="normal">52</span>
 <span class="normal">53</span>
 <span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">data_selector</span><span class="p">(</span><span class="n">data_set</span><span class="p">):</span>
+<span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">data_selector</span><span class="p">(</span>
+    <span class="n">data_set</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Selects the data set to be used.</span>
+<span class="sd">    Selects the river data set to be used.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        data_set (str, optional):</span>
-<span class="sd">            Data set to use. Defaults to &quot;Phishing&quot;.</span>
+<span class="sd">        data_set (str):</span>
+<span class="sd">            Name of the data set to be used. Can be one of the following:</span>
+<span class="sd">            - &quot;Bananas&quot;</span>
+<span class="sd">            - &quot;CreditCard&quot;</span>
+<span class="sd">            - &quot;Elec2&quot;</span>
+<span class="sd">            - &quot;Higgs&quot;</span>
+<span class="sd">            - &quot;HTTP&quot;</span>
+<span class="sd">            - &quot;Phishing&quot;</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        dataset (object):</span>
-<span class="sd">            Data set to use.</span>
+<span class="sd">            Data set to use. This is a dataset object from the river library.</span>
 <span class="sd">        n_samples (int):</span>
 <span class="sd">            Number of samples in the data set.</span>
-<span class="sd">    Raises:</span>
-<span class="sd">        ValueError:</span>
-<span class="sd">            If data_set is not &quot;Bananas&quot; or &quot;CreditCard&quot; or &quot;Elec2&quot; or &quot;Higgs&quot; or</span>
-<span class="sd">            &quot;HTTP&quot; or &quot;MaliciousURL&quot; or &quot;Phishing&quot; or &quot;SMSSpam&quot; or &quot;SMTP&quot; or &quot;TREC07&quot;.</span>
 
 <span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; dataset, n_samples = data_selector(&quot;Phishing&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; from spotPython.data.selector import data_selector</span>
+<span class="sd">            dataset, n_samples = data_selector(&quot;Phishing&quot;)</span>
 
+<span class="sd">    Notes:</span>
+<span class="sd">        - The Higgs data set is very large and may take a long time to load.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;Bananas&quot;</span><span class="p">:</span>
         <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">Bananas</span><span class="p">()</span>
         <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">5300</span>
@@ -1454,26 +1402,219 @@
     <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;HTTP&quot;</span><span class="p">:</span>
         <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">HTTP</span><span class="p">()</span>
         <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">567_498</span>
-    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;MaliciousURL&quot;</span><span class="p">:</span>
-        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">MaliciousURL</span><span class="p">()</span>
-        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">2_396_130</span>
     <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;Phishing&quot;</span><span class="p">:</span>
         <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">Phishing</span><span class="p">()</span>
         <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">1250</span>
-    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;SMSSpam&quot;</span><span class="p">:</span>
-        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">SMSSpam</span><span class="p">()</span>
-        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">5574</span>
-    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;SMTP&quot;</span><span class="p">:</span>
-        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">SMTP</span><span class="p">()</span>
-        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">95_156</span>
-    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;TREC07&quot;</span><span class="p">:</span>
-        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">75_419</span>
-        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">TREC07</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s1">&#39;data_set must be &quot;Bananas&quot; or &quot;CreditCard&quot; or &quot;Elec2&quot; or &quot;Higgs&quot; or &quot;HTTP&quot; or &quot;MaliciousURL&quot; or &quot;Phishing&quot; or &quot;SMSSpam&quot; or &quot;SMTP&quot; or &quot;TREC07&quot;&#39;</span>
-        <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data set &#39;</span><span class="si">{</span><span class="n">data_set</span><span class="si">}</span><span class="s2">&#39; not found.&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">n_samples</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="spotRiver.data.selector.get_train_test_from_data_set" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_train_test_from_data_set</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">n_total</span><span class="p">,</span> <span class="n">test_size</span><span class="p">,</span> <span class="n">target_column</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span></code>
+
+<a href="#spotRiver.data.selector.get_train_test_from_data_set" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Converts a data set to a data frame with target column
+    and splits it into training and test sets.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>df</code></td>
+          <td>
+                <code>DataFrame</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>data set to be used.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>n_total</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>total number of samples to be used in the data set.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>test_size</code></td>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>percentage of the data set to be used as test set.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>target_column</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>name of the target column. Defaults to &ldquo;y&rdquo;.</p>
+            </div>
+          </td>
+          <td>
+                <code>&#39;y&#39;</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>train</code></td>          <td>
+                <code>tuple</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>training data set.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+<td><code>test</code></td>          <td>
+                <code>tuple</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>test data set.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+<td><code>n_samples</code></td>          <td>
+                <code>tuple</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>total number of samples (train and test) in the data set.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>spotRiver/data/selector.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_train_test_from_data_set</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">n_total</span><span class="p">,</span> <span class="n">test_size</span><span class="p">,</span> <span class="n">target_column</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a data set to a data frame with target column</span>
+<span class="sd">        and splits it into training and test sets.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df (DataFrame):</span>
+<span class="sd">            data set to be used.</span>
+<span class="sd">        n_total (int):</span>
+<span class="sd">            total number of samples to be used in the data set.</span>
+<span class="sd">        test_size (float):</span>
+<span class="sd">            percentage of the data set to be used as test set.</span>
+<span class="sd">        target_column (str, optional):</span>
+<span class="sd">            name of the target column. Defaults to &quot;y&quot;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        train:</span>
+<span class="sd">            training data set.</span>
+<span class="sd">        test:</span>
+<span class="sd">            test data set.</span>
+<span class="sd">        n_samples:</span>
+<span class="sd">            total number of samples (train and test) in the data set.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_features</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;x</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_features</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="c1"># update n_samples to the actual number of samples in the data set,</span>
+    <span class="c1"># because n_total might be smaller than n_samples which results in a smaller data set:</span>
+    <span class="n">test_size</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">test_size</span><span class="p">)</span>
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">n_train</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">test_size</span><span class="p">)</span> <span class="o">*</span> <span class="n">n_samples</span><span class="p">)</span>
+    <span class="n">train</span> <span class="o">=</span> <span class="n">df</span><span class="p">[:</span><span class="n">n_train</span><span class="p">]</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">n_train</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">n_samples</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>

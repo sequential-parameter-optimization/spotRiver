@@ -468,8 +468,6 @@
       
         
       
-        
-      
     
     
     
@@ -1083,6 +1081,8 @@
       
         
       
+        
+      
     
     
     
@@ -1099,7 +1099,7 @@
             
   
   <span class="md-ellipsis">
-    tuner
+    utils
   </span>
   
 
@@ -1108,78 +1108,6 @@
         
         <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_1_7">
-            <span class="md-nav__icon md-icon"></span>
-            tuner
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../tuner/run/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    run
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_8" >
-        
-          
-          <label class="md-nav__link" for="__nav_2_1_8" id="__nav_2_1_8_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    utils
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_1_8">
             <span class="md-nav__icon md-icon"></span>
             utils
           </label>
@@ -2088,14 +2016,7 @@ This metric will be used to evaluate the model&rsquo;s performance on the test d
 
           <details class="quote">
             <summary>Source code in <code>spotRiver/evaluation/eval_bml.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">154</span>
 <span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
@@ -2183,7 +2104,14 @@ This metric will be used to evaluate the model&rsquo;s performance on the test d
 <span class="normal">239</span>
 <span class="normal">240</span>
 <span class="normal">241</span>
-<span class="normal">242</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">eval_bml_horizon</span><span class="p">(</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">eval_bml_horizon</span><span class="p">(</span>
     <span class="n">model</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
     <span class="n">train</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
     <span class="n">test</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
@@ -2462,14 +2390,7 @@ The second one contains the true and predicted values for each observation in th
 
           <details class="quote">
             <summary>Source code in <code>spotRiver/evaluation/eval_bml.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">252</span>
 <span class="normal">253</span>
 <span class="normal">254</span>
 <span class="normal">255</span>
@@ -2544,7 +2465,14 @@ The second one contains the true and predicted values for each observation in th
 <span class="normal">324</span>
 <span class="normal">325</span>
 <span class="normal">326</span>
-<span class="normal">327</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">eval_bml_landmark</span><span class="p">(</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">eval_bml_landmark</span><span class="p">(</span>
     <span class="n">model</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
     <span class="n">train</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
     <span class="n">test</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
@@ -2781,14 +2709,7 @@ The second one contains the true and predicted values for each observation in th
 
           <details class="quote">
             <summary>Source code in <code>spotRiver/evaluation/eval_bml.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">369</span>
-<span class="normal">370</span>
-<span class="normal">371</span>
-<span class="normal">372</span>
-<span class="normal">373</span>
-<span class="normal">374</span>
-<span class="normal">375</span>
-<span class="normal">376</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">376</span>
 <span class="normal">377</span>
 <span class="normal">378</span>
 <span class="normal">379</span>
@@ -2848,7 +2769,14 @@ The second one contains the true and predicted values for each observation in th
 <span class="normal">433</span>
 <span class="normal">434</span>
 <span class="normal">435</span>
-<span class="normal">436</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">eval_bml_window</span><span class="p">(</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">eval_bml_window</span><span class="p">(</span>
     <span class="n">model</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
     <span class="n">train</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
     <span class="n">test</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
@@ -3171,14 +3099,7 @@ in the test set.</p>
 
           <details class="quote">
             <summary>Source code in <code>spotRiver/evaluation/eval_bml.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">453</span>
-<span class="normal">454</span>
-<span class="normal">455</span>
-<span class="normal">456</span>
-<span class="normal">457</span>
-<span class="normal">458</span>
-<span class="normal">459</span>
-<span class="normal">460</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">460</span>
 <span class="normal">461</span>
 <span class="normal">462</span>
 <span class="normal">463</span>
@@ -3369,7 +3290,14 @@ in the test set.</p>
 <span class="normal">648</span>
 <span class="normal">649</span>
 <span class="normal">650</span>
-<span class="normal">651</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">eval_oml_horizon</span><span class="p">(</span>
+<span class="normal">651</span>
+<span class="normal">652</span>
+<span class="normal">653</span>
+<span class="normal">654</span>
+<span class="normal">655</span>
+<span class="normal">656</span>
+<span class="normal">657</span>
+<span class="normal">658</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">eval_oml_horizon</span><span class="p">(</span>
     <span class="n">model</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
     <span class="n">train</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
     <span class="n">test</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
@@ -3514,7 +3442,7 @@ in the test set.</p>
             <span class="c1"># The following line, which returns y_pred, which is not used after v0.19:</span>
             <span class="c1"># _ = model.predict_one(xi)</span>
             <span class="c1"># model = model.learn_one(xi, yi)</span>
-            <span class="c1"># Starting with 0.21.0, the learn_one and learn_many methods of each estimator don&#39;t not </span>
+            <span class="c1"># Starting with 0.21.0, the learn_one and learn_many methods of each estimator don&#39;t not</span>
             <span class="c1"># return anything anymore.</span>
             <span class="c1"># This is to emphasize that the estimators are stateful.</span>
             <span class="n">model</span><span class="o">.</span><span class="n">learn_one</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">)</span>
@@ -3706,6 +3634,8 @@ This metric will be used to evaluate the model&rsquo;s performance on the test d
 
 <p><strong>Examples:</strong></p>
     <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">spotRiver.evaluation.eval_bml</span> <span class="kn">import</span> <span class="n">evaluate_model</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">memory</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -3756,7 +3686,14 @@ This metric will be used to evaluate the model&rsquo;s performance on the test d
 <span class="normal">141</span>
 <span class="normal">142</span>
 <span class="normal">143</span>
-<span class="normal">144</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate_model</span><span class="p">(</span><span class="n">y_true</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">memory</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">r_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">metric</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate_model</span><span class="p">(</span><span class="n">y_true</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">memory</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">r_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">metric</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Evaluate a machine learning model on a test dataset.</span>
 
@@ -3776,6 +3713,8 @@ This metric will be used to evaluate the model&rsquo;s performance on the test d
 
 <span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; from sklearn.metrics import accuracy_score</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from spotRiver.evaluation.eval_bml import evaluate_model</span>
 <span class="sd">        &gt;&gt;&gt; y_true = np.array([0, 1, 0, 1])</span>
 <span class="sd">        &gt;&gt;&gt; y_pred = np.array([0, 1, 1, 1])</span>
 <span class="sd">        &gt;&gt;&gt; memory = 0.0</span>
@@ -3793,6 +3732,11 @@ This metric will be used to evaluate the model&rsquo;s performance on the test d
             <span class="s2">&quot;CompTime (s)&quot;</span><span class="p">:</span> <span class="n">r_time</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">res_dict</span>
+    <span class="c1"># if y_pred or y_true is bool convert to int</span>
+    <span class="k">if</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">y_true</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">y_true</span> <span class="o">=</span> <span class="n">y_true</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
     <span class="n">score</span> <span class="o">=</span> <span class="n">metric</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
     <span class="n">res_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Metric&quot;</span><span class="p">:</span> <span class="n">score</span><span class="p">,</span> <span class="s2">&quot;Memory (MB)&quot;</span><span class="p">:</span> <span class="n">memory</span><span class="p">,</span> <span class="s2">&quot;CompTime (s)&quot;</span><span class="p">:</span> <span class="n">r_time</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">res_dict</span>
@@ -3915,14 +3859,7 @@ if its length is not divisible by the horizon. Defaults to False.</p>
 
           <details class="quote">
             <summary>Source code in <code>spotRiver/evaluation/eval_bml.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">330</span>
-<span class="normal">331</span>
-<span class="normal">332</span>
-<span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">337</span>
 <span class="normal">338</span>
 <span class="normal">339</span>
 <span class="normal">340</span>
@@ -3951,7 +3888,14 @@ if its length is not divisible by the horizon. Defaults to False.</p>
 <span class="normal">363</span>
 <span class="normal">364</span>
 <span class="normal">365</span>
-<span class="normal">366</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">gen_sliding_window</span><span class="p">(</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">gen_sliding_window</span><span class="p">(</span>
     <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">horizon</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">include_remainder</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates sliding windows of a given size from a DataFrame.</span>
@@ -4217,14 +4161,7 @@ This metric will be used to evaluate the model&rsquo;s performance on the test d
 
           <details class="quote">
             <summary>Source code in <code>spotRiver/evaluation/eval_bml.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">654</span>
-<span class="normal">655</span>
-<span class="normal">656</span>
-<span class="normal">657</span>
-<span class="normal">658</span>
-<span class="normal">659</span>
-<span class="normal">660</span>
-<span class="normal">661</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">661</span>
 <span class="normal">662</span>
 <span class="normal">663</span>
 <span class="normal">664</span>
@@ -4325,7 +4262,14 @@ This metric will be used to evaluate the model&rsquo;s performance on the test d
 <span class="normal">759</span>
 <span class="normal">760</span>
 <span class="normal">761</span>
-<span class="normal">762</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot_bml_oml_horizon_metrics</span><span class="p">(</span>
+<span class="normal">762</span>
+<span class="normal">763</span>
+<span class="normal">764</span>
+<span class="normal">765</span>
+<span class="normal">766</span>
+<span class="normal">767</span>
+<span class="normal">768</span>
+<span class="normal">769</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot_bml_oml_horizon_metrics</span><span class="p">(</span>
     <span class="n">df_eval</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">df_labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">log_x</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -4659,14 +4603,7 @@ If True, log scale is used. If False, linear scale is used. Default is False.</p
 
           <details class="quote">
             <summary>Source code in <code>spotRiver/evaluation/eval_bml.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">765</span>
-<span class="normal">766</span>
-<span class="normal">767</span>
-<span class="normal">768</span>
-<span class="normal">769</span>
-<span class="normal">770</span>
-<span class="normal">771</span>
-<span class="normal">772</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">772</span>
 <span class="normal">773</span>
 <span class="normal">774</span>
 <span class="normal">775</span>
@@ -4742,7 +4679,14 @@ If True, log scale is used. If False, linear scale is used. Default is False.</p
 <span class="normal">845</span>
 <span class="normal">846</span>
 <span class="normal">847</span>
-<span class="normal">848</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot_bml_oml_horizon_predictions</span><span class="p">(</span>
+<span class="normal">848</span>
+<span class="normal">849</span>
+<span class="normal">850</span>
+<span class="normal">851</span>
+<span class="normal">852</span>
+<span class="normal">853</span>
+<span class="normal">854</span>
+<span class="normal">855</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot_bml_oml_horizon_predictions</span><span class="p">(</span>
     <span class="n">df_true</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">df_labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">target_column</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Actual&quot;</span><span class="p">,</span>

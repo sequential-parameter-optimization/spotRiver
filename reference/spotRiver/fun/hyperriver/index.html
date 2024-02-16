@@ -468,8 +468,6 @@
       
         
       
-        
-      
     
     
     
@@ -1056,6 +1054,8 @@
       
         
       
+        
+      
     
     
     
@@ -1072,7 +1072,7 @@
             
   
   <span class="md-ellipsis">
-    tuner
+    utils
   </span>
   
 
@@ -1081,78 +1081,6 @@
         
         <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_1_7">
-            <span class="md-nav__icon md-icon"></span>
-            tuner
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../tuner/run/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    run
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_8" >
-        
-          
-          <label class="md-nav__link" for="__nav_2_1_8" id="__nav_2_1_8_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    utils
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_1_8">
             <span class="md-nav__icon md-icon"></span>
             utils
           </label>
@@ -1693,7 +1621,12 @@
 <span class="normal">255</span>
 <span class="normal">256</span>
 <span class="normal">257</span>
-<span class="normal">258</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">HyperRiver</span><span class="p">:</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">HyperRiver</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Hyperparameter Tuning for River.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1733,7 +1666,6 @@
             <span class="s2">&quot;metric_river&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
             <span class="s2">&quot;metric_sklearn&quot;</span><span class="p">:</span> <span class="n">mean_absolute_error</span><span class="p">,</span>
             <span class="s2">&quot;weights&quot;</span><span class="p">:</span> <span class="n">weights</span><span class="p">,</span>
-            <span class="s2">&quot;weight_coeff&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
             <span class="s2">&quot;log_level&quot;</span><span class="p">:</span> <span class="n">log_level</span><span class="p">,</span>
             <span class="s2">&quot;var_name&quot;</span><span class="p">:</span> <span class="p">[],</span>
             <span class="s2">&quot;var_type&quot;</span><span class="p">:</span> <span class="p">[],</span>
@@ -1768,15 +1700,15 @@
         <span class="c1"># take the mean of the MAEs/ACCs of the predicted values and ignore the NaN values</span>
         <span class="n">df_eval</span> <span class="o">=</span> <span class="n">df_eval</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
         <span class="n">y_error</span> <span class="o">=</span> <span class="n">df_eval</span><span class="p">[</span><span class="s2">&quot;Metric&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;y_error from eval_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y_error</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;y_error in compute_y: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y_error</span><span class="p">)</span>
         <span class="n">y_r_time</span> <span class="o">=</span> <span class="n">df_eval</span><span class="p">[</span><span class="s2">&quot;CompTime (s)&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;y_r_time from eval_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y_r_time</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;y_r_time in compute_y: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y_r_time</span><span class="p">)</span>
         <span class="n">y_memory</span> <span class="o">=</span> <span class="n">df_eval</span><span class="p">[</span><span class="s2">&quot;Memory (MB)&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;y_memory from eval_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y_memory</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;y_memory in compute_y: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y_memory</span><span class="p">)</span>
         <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">]</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;weights from eval_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;weights in compute_y: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">y_error</span> <span class="o">+</span> <span class="n">weights</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">y_r_time</span> <span class="o">+</span> <span class="n">weights</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">y_memory</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;weighted res from eval_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;weighted res in compute_y: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">y</span>
 
     <span class="k">def</span> <span class="nf">check_X_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
@@ -1907,6 +1839,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;X from fun_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;fun_control from fun_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">)</span>
+        <span class="c1"># List of objective function values, filled with append below</span>
+        <span class="c1"># List is required, if several configurations are evaluated, e.g.,</span>
+        <span class="c1"># from the initial design</span>
         <span class="n">z_res</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">fun_control</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_X_shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
@@ -1924,7 +1859,10 @@
                 <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in fun_oml_horizon(). Call to evaluate or compute_y failed. </span><span class="si">{</span><span class="n">err</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Setting y to np.nan.&quot;</span><span class="p">)</span>
-            <span class="n">z_res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;n_samples&quot;</span><span class="p">])</span>
+            <span class="c1"># Changed in v0.2.21:</span>
+            <span class="c1"># Score is not divided by the number of samples</span>
+            <span class="c1"># z_res.append(y / self.fun_control[&quot;n_samples&quot;])</span>
+            <span class="n">z_res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">z_res</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -2095,8 +2033,7 @@ Defaults to 50.</p>
 <span class="normal">70</span>
 <span class="normal">71</span>
 <span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">seed</span><span class="o">=</span><span class="mi">126</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">73</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">seed</span><span class="o">=</span><span class="mi">126</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the class.</span>
 
 <span class="sd">    Args:</span>
@@ -2131,7 +2068,6 @@ Defaults to 50.</p>
         <span class="s2">&quot;metric_river&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
         <span class="s2">&quot;metric_sklearn&quot;</span><span class="p">:</span> <span class="n">mean_absolute_error</span><span class="p">,</span>
         <span class="s2">&quot;weights&quot;</span><span class="p">:</span> <span class="n">weights</span><span class="p">,</span>
-        <span class="s2">&quot;weight_coeff&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
         <span class="s2">&quot;log_level&quot;</span><span class="p">:</span> <span class="n">log_level</span><span class="p">,</span>
         <span class="s2">&quot;var_name&quot;</span><span class="p">:</span> <span class="p">[],</span>
         <span class="s2">&quot;var_type&quot;</span><span class="p">:</span> <span class="p">[],</span>
@@ -2229,7 +2165,8 @@ Defaults to 50.</p>
 
           <details class="quote">
             <summary>Source code in <code>spotRiver/fun/hyperriver.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">112</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">111</span>
+<span class="normal">112</span>
 <span class="normal">113</span>
 <span class="normal">114</span>
 <span class="normal">115</span>
@@ -2253,8 +2190,7 @@ Defaults to 50.</p>
 <span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">check_X_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">check_X_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check the shape of X.</span>
 
@@ -2372,7 +2308,8 @@ Defaults to 50.</p>
 
           <details class="quote">
             <summary>Source code in <code>spotRiver/fun/hyperriver.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 76</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 75</span>
+<span class="normal"> 76</span>
 <span class="normal"> 77</span>
 <span class="normal"> 78</span>
 <span class="normal"> 79</span>
@@ -2405,8 +2342,7 @@ Defaults to 50.</p>
 <span class="normal">106</span>
 <span class="normal">107</span>
 <span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df_eval</span><span class="p">):</span>
+<span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df_eval</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the objective function value as a weighted sum of</span>
 <span class="sd">        the errors, running time, and memory usage.</span>
 
@@ -2431,15 +2367,15 @@ Defaults to 50.</p>
     <span class="c1"># take the mean of the MAEs/ACCs of the predicted values and ignore the NaN values</span>
     <span class="n">df_eval</span> <span class="o">=</span> <span class="n">df_eval</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
     <span class="n">y_error</span> <span class="o">=</span> <span class="n">df_eval</span><span class="p">[</span><span class="s2">&quot;Metric&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;y_error from eval_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y_error</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;y_error in compute_y: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y_error</span><span class="p">)</span>
     <span class="n">y_r_time</span> <span class="o">=</span> <span class="n">df_eval</span><span class="p">[</span><span class="s2">&quot;CompTime (s)&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;y_r_time from eval_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y_r_time</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;y_r_time in compute_y: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y_r_time</span><span class="p">)</span>
     <span class="n">y_memory</span> <span class="o">=</span> <span class="n">df_eval</span><span class="p">[</span><span class="s2">&quot;Memory (MB)&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;y_memory from eval_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y_memory</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;y_memory in compute_y: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y_memory</span><span class="p">)</span>
     <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">]</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;weights from eval_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;weights in compute_y: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">y_error</span> <span class="o">+</span> <span class="n">weights</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">y_r_time</span> <span class="o">+</span> <span class="n">weights</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">y_memory</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;weighted res from eval_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;weighted res in compute_y: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">y</span>
 </code></pre></div></td></tr></table></div>
           </details>
@@ -2556,7 +2492,8 @@ spotRiver.evaluation.eval_bml.</p>
 
           <details class="quote">
             <summary>Source code in <code>spotRiver/fun/hyperriver.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">139</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">138</span>
+<span class="normal">139</span>
 <span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
@@ -2599,8 +2536,7 @@ spotRiver.evaluation.eval_bml.</p>
 <span class="normal">179</span>
 <span class="normal">180</span>
 <span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+<span class="normal">182</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Evaluates a model using the eval_oml_horizon function from</span>
 <span class="sd">    spotRiver.evaluation.eval_bml.</span>
@@ -2756,7 +2692,8 @@ spotRiver.evaluation.eval_bml.</p>
 
           <details class="quote">
             <summary>Source code in <code>spotRiver/fun/hyperriver.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">209</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">208</span>
+<span class="normal">209</span>
 <span class="normal">210</span>
 <span class="normal">211</span>
 <span class="normal">212</span>
@@ -2805,7 +2742,12 @@ spotRiver.evaluation.eval_bml.</p>
 <span class="normal">255</span>
 <span class="normal">256</span>
 <span class="normal">257</span>
-<span class="normal">258</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fun_oml_horizon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fun_oml_horizon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The objective function for hyperparameter tuning. Prepares the data and calls the evaluate_model function.</span>
 
@@ -2836,6 +2778,9 @@ spotRiver.evaluation.eval_bml.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;X from fun_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;fun_control from fun_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">)</span>
+    <span class="c1"># List of objective function values, filled with append below</span>
+    <span class="c1"># List is required, if several configurations are evaluated, e.g.,</span>
+    <span class="c1"># from the initial design</span>
     <span class="n">z_res</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">fun_control</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">check_X_shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
@@ -2853,7 +2798,10 @@ spotRiver.evaluation.eval_bml.</p>
             <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in fun_oml_horizon(). Call to evaluate or compute_y failed. </span><span class="si">{</span><span class="n">err</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Setting y to np.nan.&quot;</span><span class="p">)</span>
-        <span class="n">z_res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;n_samples&quot;</span><span class="p">])</span>
+        <span class="c1"># Changed in v0.2.21:</span>
+        <span class="c1"># Score is not divided by the number of samples</span>
+        <span class="c1"># z_res.append(y / self.fun_control[&quot;n_samples&quot;])</span>
+        <span class="n">z_res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">z_res</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
@@ -2941,7 +2889,8 @@ spotRiver.evaluation.eval_bml.</p>
 
           <details class="quote">
             <summary>Source code in <code>spotRiver/fun/hyperriver.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">185</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">184</span>
+<span class="normal">185</span>
 <span class="normal">186</span>
 <span class="normal">187</span>
 <span class="normal">188</span>
@@ -2962,8 +2911,7 @@ spotRiver.evaluation.eval_bml.</p>
 <span class="normal">203</span>
 <span class="normal">204</span>
 <span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_river_df_eval_preds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+<span class="normal">206</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_river_df_eval_preds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the evaluation and prediction dataframes for a river model.</span>
 
 <span class="sd">    Args:</span>

@@ -669,6 +669,7 @@ def plot_bml_oml_horizon_metrics(
     metric=None,
     filename=None,
     show=False,
+    title="",
     **kwargs,
 ) -> None:
     """Plot evaluation metrics for machine learning models.
@@ -709,6 +710,8 @@ def plot_bml_oml_horizon_metrics(
             This metric will be used to evaluate the model's performance on the test dataset.
         filename (str, optional):
             The name of the file to save the plot to. If None, the plot is not saved. Default is None.
+        title (str, optional):
+            The title of the plot. Default is an empty string.
         **kwargs (Any): Additional keyword arguments to be passed to the plot function.
 
     Returns:
@@ -765,6 +768,8 @@ def plot_bml_oml_horizon_metrics(
                     axes[i].set_yscale("log")
         if filename is not None:
             plt.savefig(filename)
+    # add a title to the figure
+    fig.suptitle(f"Metrics for {title}")
     if show:
         plt.show()
 

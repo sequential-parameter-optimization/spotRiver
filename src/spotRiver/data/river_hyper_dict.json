@@ -214,7 +214,7 @@
                 1
             ],
             "type": "factor",
-            "default": 0,
+            "default": 1,
             "transform": "None",
             "core_model_parameter_type": "bool",
             "lower": 0,
@@ -387,7 +387,7 @@
                 1
             ],
             "type": "factor",
-            "default": 0,
+            "default": 1,
             "transform": "None",
             "core_model_parameter_type": "bool",
             "lower": 0,
@@ -551,7 +551,7 @@
                 1
             ],
             "type": "factor",
-            "default": 0,
+            "default": 1,
             "transform": "None",
             "core_model_parameter_type": "bool",
             "lower": 0,
@@ -690,7 +690,7 @@
                 1
             ],
             "type": "factor",
-            "default": 0,
+            "default": 1,
             "transform": "None",
             "core_model_parameter_type": "bool",
             "lower": 0,
@@ -850,7 +850,7 @@
                 1
             ],
             "type": "factor",
-            "default": 0,
+            "default": 1,
             "transform": "None",
             "core_model_parameter_type": "bool",
             "lower": 0,

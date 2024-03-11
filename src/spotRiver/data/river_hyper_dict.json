@@ -179,10 +179,10 @@
         },
         "memory_estimate_period": {
             "type": "int",
-            "default": 1000000,
-            "transform": "None",
-            "lower": 1000000,
-            "upper": 1000000
+            "default": 6,
+            "transform": "transform_power_10_int",
+            "lower": 3,
+            "upper": 8
         },
         "stop_mem_management": {
             "levels": [
@@ -352,10 +352,10 @@
         },
         "memory_estimate_period": {
             "type": "int",
-            "default": 1000000,
-            "transform": "None",
-            "lower": 1000000,
-            "upper": 1000000
+            "default": 6,
+            "transform": "transform_power_10_int",
+            "lower": 3,
+            "upper": 8
         },
         "stop_mem_management": {
             "levels": [
@@ -516,10 +516,10 @@
         },
         "memory_estimate_period": {
             "type": "int",
-            "default": 1000000,
-            "transform": "None",
-            "lower": 1000000,
-            "upper": 1000000
+            "default": 6,
+            "transform": "transform_power_10_int",
+            "lower": 3,
+            "upper": 8
         },
         "stop_mem_management": {
             "levels": [
@@ -655,10 +655,10 @@
         },
         "memory_estimate_period": {
             "type": "int",
-            "default": 1000000,
-            "transform": "None",
-            "lower": 1000000,
-            "upper": 1000000
+            "default": 6,
+            "transform": "transform_power_10_int",
+            "lower": 3,
+            "upper": 8
         },
         "stop_mem_management": {
             "levels": [
@@ -815,10 +815,10 @@
         },
         "memory_estimate_period": {
             "type": "int",
-            "default": 1000000,
-            "transform": "None",
-            "lower": 1000000,
-            "upper": 1000000
+            "default": 6,
+            "transform": "transform_power_10_int",
+            "lower": 3,
+            "upper": 8
         },
         "stop_mem_management": {
             "levels": [
@@ -982,13 +982,6 @@
             "core_model_parameter_type": "str",
             "lower": 0,
             "upper": 2
-        },
-        "memory_estimate_period": {
-            "type": "int",
-            "default": 1000000,
-            "transform": "None",
-            "lower": 1000000,
-            "upper": 1000000
         }
     }
 }

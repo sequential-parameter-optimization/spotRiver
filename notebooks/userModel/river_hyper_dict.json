@@ -1,67 +1,89 @@
 {
-    "AMFRegressor": {
-        "n_estimators": {
+    "HoeffdingTreeRegressor": {
+        "grace_period": {
             "type": "int",
-            "default": 10,
+            "default": 200,
             "transform": "None",
-            "lower": 2,
+            "lower": 10,
             "upper": 1000
         },
-        "step": {
-            "type": "float",
-            "default": 1.0,
-            "transform": "None",
-            "lower": 0.1,
-            "upper": 10
-        },
-        "use_aggregation": {
-            "levels": [
-                0,
-                1
-            ],
-            "type": "factor",
-            "default": 1,
-            "transform": "None",
-            "core_model_parameter_type": "bool",
-            "lower": 0,
-            "upper": 1
-        }
-    },
-    "AMFClassifier": {
-        "n_estimators": {
+        "max_depth": {
             "type": "int",
-            "default": 3,
+            "default": 20,
             "transform": "transform_power_2_int",
             "lower": 2,
-            "upper": 7
+            "upper": 20
         },
-        "step": {
+        "delta": {
             "type": "float",
-            "default": 1.0,
+            "default": 1e-07,
             "transform": "None",
-            "lower": 0.1,
-            "upper": 10
+            "lower": 1e-08,
+            "upper": 1e-06
         },
-        "use_aggregation": {
+        "tau": {
+            "type": "float",
+            "default": 0.05,
+            "transform": "None",
+            "lower": 0.01,
+            "upper": 0.1
+        },
+        "leaf_prediction": {
             "levels": [
-                0,
-                1
+                "mean",
+                "model",
+                "adaptive"
             ],
             "type": "factor",
-            "default": 1,
+            "default": "mean",
             "transform": "None",
-            "core_model_parameter_type": "bool",
+            "core_model_parameter_type": "str",
             "lower": 0,
-            "upper": 1
+            "upper": 2
         },
-        "dirichlet": {
-            "type": "float",
-            "default": 0.5,
+        "leaf_model": {
+            "levels": [
+                "LinearRegression",
+                "PARegressor",
+                "Perceptron"
+            ],
+            "type": "factor",
+            "default": "LinearRegression",
             "transform": "None",
-            "lower": 0.1,
-            "upper": 0.75
+            "class_name": "river.linear_model",
+            "core_model_parameter_type": "instance()",
+            "lower": 0,
+            "upper": 2
         },
-        "split_pure": {
+        "model_selector_decay": {
+            "type": "float",
+            "default": 0.95,
+            "transform": "None",
+            "lower": 0.9,
+            "upper": 0.99
+        },
+        "splitter": {
+            "levels": [
+                "EBSTSplitter",
+                "TEBSTSplitter",
+                "QOSplitter"
+            ],
+            "type": "factor",
+            "default": "TEBSTSplitter",
+            "transform": "None",
+            "class_name": "river.tree.splitter",
+            "core_model_parameter_type": "instance()",
+            "lower": 0,
+            "upper": 2
+        },
+        "min_samples_split": {
+            "type": "int",
+            "default": 5,
+            "transform": "None",
+            "lower": 5,
+            "upper": 5
+        },
+        "binary_split": {
             "levels": [
                 0,
                 1
@@ -72,9 +94,59 @@
             "core_model_parameter_type": "bool",
             "lower": 0,
             "upper": 1
+        },
+        "max_size": {
+            "type": "float",
+            "default": 500.0,
+            "transform": "None",
+            "lower": 250.0,
+            "upper": 1000.0
+        },
+        "memory_estimate_period": {
+            "type": "int",
+            "default": 1000000,
+            "transform": "None",
+            "lower": 1000000,
+            "upper": 1000000
+        },
+        "stop_mem_management": {
+            "levels": [
+                0,
+                1
+            ],
+            "type": "factor",
+            "default": 0,
+            "transform": "None",
+            "core_model_parameter_type": "bool",
+            "lower": 0,
+            "upper": 1
+        },
+        "remove_poor_attrs": {
+            "levels": [
+                0,
+                1
+            ],
+            "type": "factor",
+            "default": 0,
+            "transform": "None",
+            "core_model_parameter_type": "bool",
+            "lower": 0,
+            "upper": 1
+        },
+        "merit_preprune": {
+            "levels": [
+                0,
+                1
+            ],
+            "type": "factor",
+            "default": 1,
+            "transform": "None",
+            "core_model_parameter_type": "bool",
+            "lower": 0,
+            "upper": 1
         }
     },
-    "HoeffdingTreeRegressor": {
+    "HoeffdingTreeRegressor_ORIGINAL": {
         "grace_period": {
             "type": "int",
             "default": 200,
@@ -181,7 +253,7 @@
             "type": "int",
             "default": 1000000,
             "transform": "None",
-            "lower": 1000000,
+            "lower": 100000,
             "upper": 1000000
         },
         "stop_mem_management": {
@@ -209,6 +281,81 @@
             "upper": 1
         },
         "merit_preprune": {
+            "levels": [
+                0,
+                1
+            ],
+            "type": "factor",
+            "default": 0,
+            "transform": "None",
+            "core_model_parameter_type": "bool",
+            "lower": 0,
+            "upper": 1
+        }
+    },
+    "AMFRegressor": {
+        "n_estimators": {
+            "type": "int",
+            "default": 10,
+            "transform": "None",
+            "lower": 2,
+            "upper": 1000
+        },
+        "step": {
+            "type": "float",
+            "default": 1.0,
+            "transform": "None",
+            "lower": 0.1,
+            "upper": 10
+        },
+        "use_aggregation": {
+            "levels": [
+                0,
+                1
+            ],
+            "type": "factor",
+            "default": 1,
+            "transform": "None",
+            "core_model_parameter_type": "bool",
+            "lower": 0,
+            "upper": 1
+        }
+    },
+    "AMFClassifier": {
+        "n_estimators": {
+            "type": "int",
+            "default": 3,
+            "transform": "transform_power_2_int",
+            "lower": 2,
+            "upper": 7
+        },
+        "step": {
+            "type": "float",
+            "default": 1.0,
+            "transform": "None",
+            "lower": 0.1,
+            "upper": 10
+        },
+        "use_aggregation": {
+            "levels": [
+                0,
+                1
+            ],
+            "type": "factor",
+            "default": 1,
+            "transform": "None",
+            "core_model_parameter_type": "bool",
+            "lower": 0,
+            "upper": 1
+        },
+        "dirichlet": {
+            "type": "float",
+            "default": 0.5,
+            "transform": "None",
+            "lower": 0.1,
+            "upper": 0.75
+        },
+        "split_pure": {
             "levels": [
                 0,
                 1
@@ -354,7 +501,7 @@
             "type": "int",
             "default": 1000000,
             "transform": "None",
-            "lower": 1000000,
+            "lower": 100000,
             "upper": 1000000
         },
         "stop_mem_management": {
@@ -518,7 +665,7 @@
             "type": "int",
             "default": 1000000,
             "transform": "None",
-            "lower": 1000000,
+            "lower": 100000,
             "upper": 1000000
         },
         "stop_mem_management": {
@@ -657,7 +804,7 @@
             "type": "int",
             "default": 1000000,
             "transform": "None",
-            "lower": 1000000,
+            "lower": 100000,
             "upper": 1000000
         },
         "stop_mem_management": {
@@ -815,10 +962,10 @@
         },
         "memory_estimate_period": {
             "type": "int",
-            "default": 1000000,
-            "transform": "None",
-            "lower": 1000000,
-            "upper": 1000000
+            "default": 6,
+            "transform": "transform_power_10_int",
+            "lower": 3,
+            "upper": 8
         },
         "stop_mem_management": {
             "levels": [
@@ -982,13 +1129,6 @@
             "core_model_parameter_type": "str",
             "lower": 0,
             "upper": 2
-        },
-        "memory_estimate_period": {
-            "type": "int",
-            "default": 1000000,
-            "transform": "None",
-            "lower": 1000000,
-            "upper": 1000000
         }
     }
 }

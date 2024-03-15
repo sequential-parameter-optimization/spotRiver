@@ -1,4 +1,6 @@
 from river import datasets
+from spotRiver.data.csvdataset import CSVDataset
+from spotRiver.utils.data_conversion import convert_to_df
 
 
 def data_selector(
@@ -89,3 +91,46 @@ def get_train_test_from_data_set(df, n_total, test_size, target_column="y") -> t
     train = df[:n_train]
     test = df[n_train:]
     return train, test, n_samples
+
+
+def get_river_dataset_from_name(
+    data_set_name,
+    n_total=None,
+    river_datasets=None,
+):
+    """Converts a data set name to a pandas DataFrame.
+
+    Args:
+        data_set_name (str):
+            The name of the data set.
+            If the data set name is not in river_datasets, the data set is assumed to be a CSV file.
+        n_total (int):
+            The number of samples to be used from the data set.
+            If n_total is None, the full data set is used.
+            Defaults to None.
+        river_datasets (list):
+            A list of the available river data sets.
+            If the data set name is not in river_datasets,
+            the data set is assumed to be a CSV file.
+
+    Returns:
+        pd.DataFrame:
+            The data set as a pandas DataFrame.
+        n_samples (int):
+            The number of samples in the data set.
+    """
+    print(f"data_set_name: {data_set_name}")
+    print("river_datasets: ", river_datasets)
+    # data_set ends with ".csv" or data_set ends with ".pkl":
+    if data_set_name.endswith(".csv"):
+        print(f"data_set_name: {data_set_name}")
+        dataset = CSVDataset(filename=data_set_name, directory="./userData/").data
+        n_samples = dataset.shape[0]
+    elif data_set_name in river_datasets:
+        dataset, n_samples = data_selector(
+            data_set=data_set_name,
+        )
+        # convert the river datasets to a pandas DataFrame, the target column
+        # of the resulting DataFrame is target_column
+        dataset = convert_to_df(dataset, target_column="y", n_total=n_total)
+    return dataset, n_samples

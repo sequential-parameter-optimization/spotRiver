@@ -1,6 +1,7 @@
 from river import datasets
 import pandas as pd
 from tabulate import tabulate
+from sklearn.model_selection import train_test_split
 
 
 def convert_to_df(dataset: datasets.base.Dataset, target_column: str = "y", n_total: int = None) -> pd.DataFrame:
@@ -97,3 +98,57 @@ def rename_df_to_xy(df, target_column="y"):
     n_features = len(df.columns) - 1
     df.columns = [f"x{i}" for i in range(1, n_features + 1)] + [target_column]
     return df
+
+
+def split_df(dataset: pd.DataFrame, test_size: float, target_type: str, seed: int) -> tuple:
+    """
+    Split a pandas DataFrame into a training and a test set.
+
+    Args:
+        dataset (pd.DataFrame):
+            The input data set.
+        test_size (float):
+            The percentage of the data set to be used as test set.
+        target_type (str):
+            The type of the target column. Can be "int", "float" or None
+        seed (int):
+            The seed for the random number generator.
+
+    Returns:
+        tuple: The tuple (train, test, n_samples).
+
+    Examples:
+        >>> from spotRiver.utils.data_conversion import split_df
+            df = pd.DataFrame({
+            "feature1": [1, 2, 3],
+            "feature2": [4, 5, 6],
+            "target": [7, 8, 9]})
+            train, test, n_samples = split_df(df, 0.2, "int", 42)
+
+    """
+    # Rename the columns of a DataFrame to x1, x2, ..., xn, y.
+    # From now on we assume that the target column is called "y" and
+    # is of type int (binary classification)
+    df = rename_df_to_xy(df=dataset, target_column="y")
+    if target_type == "float":
+        df["y"] = df["y"].astype(float)
+    elif target_type == "int":
+        df["y"] = df["y"].astype(int)
+    else:
+        pass
+    target_column = "y"
+    # split the data set into a training and a test set,
+    # where the test set is a percentage of the data set given as test_size:
+    X = df.drop(columns=[target_column])
+    Y = df[target_column]
+    # Split the data into training and test sets
+    # test_size is the percentage of the data that should be held over for testing
+    # random_state is a seed for the random number generator to make your train and test splits reproducible
+    train_features, test_features, train_target, test_target = train_test_split(
+        X, Y, test_size=test_size, random_state=seed
+    )
+    # combine the training features and the training target into a training DataFrame
+    train = pd.concat([train_features, train_target], axis=1)
+    test = pd.concat([test_features, test_target], axis=1)
+    n_samples = train.shape[0] + test.shape[0]
+    return train, test, n_samples

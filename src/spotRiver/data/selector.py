@@ -18,6 +18,13 @@ def data_selector(
             - "Higgs"
             - "HTTP"
             - "Phishing"
+            - "AirlinePassengers"
+            - "Bikes"
+            - "ChickWeights"
+            - "Taxis"
+            - "TrumpApproval"
+            - "WaterFlow"
+            - "WebTraffic"
 
     Returns:
         dataset (object):
@@ -33,6 +40,7 @@ def data_selector(
         - The Higgs data set is very large and may take a long time to load.
 
     """
+    # TODO: Check and update the number of samples for each data set.
     dataset = None
     if data_set == "Bananas":
         dataset = datasets.Bananas()
@@ -52,6 +60,24 @@ def data_selector(
     elif data_set == "Phishing":
         dataset = datasets.Phishing()
         n_samples = 1250
+    elif data_set == "AirlinePassengers":
+        dataset = datasets.AirlinePassengers()
+        n_samples = 144
+    elif data_set == "Bikes":
+        dataset = datasets.Bikes()
+        n_samples = 182470
+    elif data_set == "ChickWeights":
+        dataset = datasets.ChickWeights()
+        n_samples = 578
+    elif data_set == "Taxis":
+        dataset = datasets.Taxis()
+        n_samples = 1458644
+    elif data_set == "TrumpApproval":
+        dataset = datasets.TrumpApproval()
+        n_samples = 1_000
+    elif data_set == "WaterFlow":
+        dataset = datasets.WaterFlow()
+        n_samples = 1_000
     else:
         raise ValueError(f"Data set '{data_set}' not found.")
     return dataset, n_samples

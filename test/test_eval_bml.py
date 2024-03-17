@@ -95,7 +95,7 @@ def test_eval_oml_horizon_with_default():
 
 
     X_start = get_default_hyperparameters_as_array(fun_control)
-    model_default = get_one_core_model_from_X(X_start, fun_control)
+    model_default = get_one_core_model_from_X(X_start, fun_control, default=True)
     df_eval_default, df_true_default = eval_oml_horizon(
                         model=model_default,
                         train=fun_control["train"],

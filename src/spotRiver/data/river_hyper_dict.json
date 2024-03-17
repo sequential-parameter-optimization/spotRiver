@@ -1293,11 +1293,11 @@
             "upper": 0.02
         },
         "clip_gradient": {
-            "type": "float",
-            "default": 1000000000000.0,
-            "transform": "None",
-            "lower": 100000000000.0,
-            "upper": 10000000000000.0
+            "type": "int",
+            "default": 12,
+            "transform": "transform_power_10",
+            "lower": 11,
+            "upper": 13
         }
     },
     "LogisticRegression": {

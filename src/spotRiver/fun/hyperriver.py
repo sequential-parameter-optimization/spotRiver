@@ -246,7 +246,10 @@ class HyperRiver:
         for config in generate_one_config_from_var_dict(var_dict, self.fun_control):
             logger.debug("config from fun_oml_horizon: %s", config)
             if self.fun_control["prep_model"] is not None:
-                model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**config))
+                # model = compose.Pipeline(self.fun_control["prep_model"], self.fun_control["core_model"](**config))
+                prep = self.fun_control["prep_model"]
+                core = self.fun_control["core_model"](**config)
+                model = prep | core
             else:
                 model = self.fun_control["core_model"](**config)
             try:

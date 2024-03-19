@@ -36,7 +36,7 @@ dependencies = [
   "river>=0.21.0",
   "scikit-learn",
   "scipy",
-  "spotPython>=0.13.4",
+  "spotPython>=0.13.7",
   "seaborn",
   "tabulate",
   "tensorboard",

@@ -784,6 +784,7 @@ def plot_bml_oml_horizon_predictions(
     grid=True,
     figsize: tuple = None,
     filename=None,
+    title="",
     **kwargs,
 ) -> None:
     """Plot actual vs predicted values for machine learning models.
@@ -820,6 +821,8 @@ def plot_bml_oml_horizon_predictions(
             The size of the figure. Default is None.
         filename (str, optional):
             The name of the file to save the plot to. If None, the plot is not saved. Default is None.
+        title (str, optional):
+            The title of the plot. Default is an empty string.
         **kwargs (Any): Additional keyword arguments to be passed to the plot function.
 
     Returns:
@@ -848,7 +851,7 @@ def plot_bml_oml_horizon_predictions(
             df.loc[: skip_first_n - 1, "Prediction"] = np.nan
             plt.plot(df.index, df["Prediction"], label=label, **kwargs)
         plt.plot(df_plot[0].index, df_plot[0][target_column], label="Actual", color="black", **kwargs)
-        plt.title("Actual vs Prediction")
+        plt.title(f"Actual vs Prediction for {title}")
         if log_x:
             plt.xscale("log")
         if log_y:

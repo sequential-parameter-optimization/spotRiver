@@ -2,6 +2,7 @@ from river import datasets
 import pandas as pd
 from tabulate import tabulate
 from sklearn.model_selection import train_test_split
+from numpy.typing import ArrayLike
 
 
 def convert_to_df(dataset: datasets.base.Dataset, target_column: str = "y", n_total: int = None) -> pd.DataFrame:
@@ -100,7 +101,9 @@ def rename_df_to_xy(df, target_column="y"):
     return df
 
 
-def split_df(dataset: pd.DataFrame, test_size: float, target_type: str, seed: int) -> tuple:
+def split_df(
+    dataset: pd.DataFrame, test_size: float, target_type: str, seed: int, stratify: ArrayLike, shuffle=True
+) -> tuple:
     """
     Split a pandas DataFrame into a training and a test set.
 
@@ -113,6 +116,10 @@ def split_df(dataset: pd.DataFrame, test_size: float, target_type: str, seed: in
             The type of the target column. Can be "int", "float" or None
         seed (int):
             The seed for the random number generator.
+        stratify (ArrayLike):
+            The array of target values.
+        shuffle (bool, optional):
+            Whether or not to shuffle the data before splitting. Defaults to True.
 
     Returns:
         tuple: The tuple (train, test, n_samples).
@@ -145,7 +152,7 @@ def split_df(dataset: pd.DataFrame, test_size: float, target_type: str, seed: in
     # test_size is the percentage of the data that should be held over for testing
     # random_state is a seed for the random number generator to make your train and test splits reproducible
     train_features, test_features, train_target, test_target = train_test_split(
-        X, Y, test_size=test_size, random_state=seed
+        X, Y, test_size=test_size, random_state=seed, shuffle=shuffle, stratify=stratify
     )
     # combine the training features and the training target into a training DataFrame
     train = pd.concat([train_features, train_target], axis=1)

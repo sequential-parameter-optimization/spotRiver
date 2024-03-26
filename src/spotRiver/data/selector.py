@@ -132,7 +132,7 @@ def get_river_dataset_from_name(
             If the data set name is not in river_datasets, the data set is assumed to be a CSV file.
         n_total (int):
             The number of samples to be used from the data set.
-            If n_total is None, the full data set is used.
+            If n_total is None or inf, the full data set is used.
             Defaults to None.
         river_datasets (list):
             A list of the available river data sets.

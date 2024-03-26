@@ -3,6 +3,7 @@ import pandas as pd
 from tabulate import tabulate
 from sklearn.model_selection import train_test_split
 from numpy.typing import ArrayLike
+from math import inf
 
 
 def convert_to_df(dataset: datasets.base.Dataset, target_column: str = "y", n_total: int = None) -> pd.DataFrame:
@@ -15,7 +16,8 @@ def convert_to_df(dataset: datasets.base.Dataset, target_column: str = "y", n_to
             The name of the target column in the resulting DataFrame.
             Defaults to "y".
         n_total (int, optional):
-            The number of samples to be converted
+            The number of samples to be converted.
+            If set to None or inf, the full dataset is converted.
             Defaults to None, i.e, the full dataset is converted.
 
     Returns:
@@ -39,7 +41,7 @@ def convert_to_df(dataset: datasets.base.Dataset, target_column: str = "y", n_to
     """
     data_dict = {key: [] for key in list(dataset.take(1))[0][0].keys()}
     data_dict[target_column] = []
-    if n_total is None:
+    if n_total is None or n_total == inf:
         for x in dataset:
             for key, value in x[0].items():
                 data_dict[key].append(value)

@@ -102,7 +102,7 @@ def rename_df_to_xy(df, target_column="y"):
 
 
 def split_df(
-    dataset: pd.DataFrame, test_size: float, target_type: str, seed: int, stratify: ArrayLike, shuffle=True
+    dataset: pd.DataFrame, test_size: float, seed: int, stratify: ArrayLike, shuffle=True, target_type: str = None
 ) -> tuple:
     """
     Split a pandas DataFrame into a training and a test set.
@@ -113,7 +113,9 @@ def split_df(
         test_size (float):
             The percentage of the data set to be used as test set.
         target_type (str):
-            The type of the target column. Can be "int", "float" or None
+            The type of the target column. Can be "int", "float" or None.
+            If None, the type of the target column is not changed.
+            Otherwise, the target column is converted to the specified type.
         seed (int):
             The seed for the random number generator.
         stratify (ArrayLike):
@@ -134,8 +136,7 @@ def split_df(
 
     """
     # Rename the columns of a DataFrame to x1, x2, ..., xn, y.
-    # From now on we assume that the target column is called "y" and
-    # is of type int (binary classification)
+    # From now on we assume that the target column is called "y":
     df = rename_df_to_xy(df=dataset, target_column="y")
     if target_type == "float":
         df["y"] = df["y"].astype(float)

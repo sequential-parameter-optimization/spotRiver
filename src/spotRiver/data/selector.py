@@ -123,7 +123,7 @@ def get_river_dataset_from_name(
     data_set_name,
     n_total=None,
     river_datasets=None,
-):
+) -> tuple:
     """Converts a data set name to a pandas DataFrame.
 
     Args:
@@ -140,23 +140,17 @@ def get_river_dataset_from_name(
             the data set is assumed to be a CSV file.
 
     Returns:
-        pd.DataFrame:
+        dataset (pd.DataFrame):
             The data set as a pandas DataFrame.
         n_samples (int):
             The number of samples in the data set.
     """
-    print(f"data_set_name: {data_set_name}")
-    print("river_datasets: ", river_datasets)
-    # data_set ends with ".csv" or data_set ends with ".pkl":
     if data_set_name.endswith(".csv"):
-        print(f"data_set_name: {data_set_name}")
         dataset = CSVDataset(filename=data_set_name, directory="./userData/").data
         n_samples = dataset.shape[0]
     elif data_set_name in river_datasets:
         dataset, n_samples = data_selector(
             data_set=data_set_name,
         )
-        # convert the river datasets to a pandas DataFrame, the target column
-        # of the resulting DataFrame is target_column
         dataset = convert_to_df(dataset, target_column="y", n_total=n_total)
     return dataset, n_samples

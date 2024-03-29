@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spotRiver"
-version = "0.3.2"
+version = "0.3.3"
 authors = [
   { name="T. Bartz-Beielstein", email="tbb@bartzundbartz.de" }
 ]
@@ -36,7 +36,7 @@ dependencies = [
   "river>=0.21.0",
   "scikit-learn",
   "scipy",
-  "spotPython>=0.14.1",
+  "spotPython>=0.14.4",
   "seaborn",
   "tabulate",
   "tensorboard",

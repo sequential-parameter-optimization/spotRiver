@@ -5,17 +5,15 @@ from river import preprocessing
 from sklearn.metrics import mean_absolute_error
 from spotRiver.evaluation.eval_bml import eval_oml_horizon
 from sklearn.metrics import accuracy_score
-from river import preprocessing
 from river.forest import AMFClassifier
 from river.datasets import Bananas
-from spotRiver.data.river_hyper_dict import RiverHyperDict
+from spotRiver.hyperdict.river_hyper_dict import RiverHyperDict
 from spotRiver.utils.data_conversion import convert_to_df
 from spotPython.hyperparameters.values import add_core_model_to_fun_control
 from spotPython.utils.init import fun_control_init
 from spotPython.hyperparameters.values import modify_hyper_parameter_bounds
 from spotPython.hyperparameters.values import get_one_core_model_from_X
 from spotPython.hyperparameters.values import get_default_hyperparameters_as_array
-from spotRiver.evaluation.eval_bml import eval_oml_horizon
 
 
 def test_eval_oml_horizon():
@@ -42,20 +40,21 @@ def test_eval_oml_horizon():
 
     # evaluate the model
     res, preds = eval_oml_horizon(
-        model = model,
-        train = train,
-        test = test,
-        target_column = target_column,
-        horizon = horizon,
-        include_remainder = True,
-        metric = metric,
-        oml_grace_period = horizon,
+        model=model,
+        train=train,
+        test=test,
+        target_column=target_column,
+        horizon=horizon,
+        include_remainder=True,
+        metric=metric,
+        oml_grace_period=horizon,
     )
 
     # result should have one value for the initial model and one value for each horizon
     assert res.shape[0] == 1 + test.shape[0] // horizon
     # predictions  should be based on the test set only
     assert preds.shape == (test.shape[0], 3)
+
 
 def test_eval_oml_horizon_with_default():
     PREFIX = "0000"
@@ -92,7 +91,6 @@ def test_eval_oml_horizon_with_default():
                                 filename=None)
     modify_hyper_parameter_bounds(fun_control, "n_estimators", bounds=[2,20])
     modify_hyper_parameter_bounds(fun_control, "step", bounds=[0.5,2])
-
 
     X_start = get_default_hyperparameters_as_array(fun_control)
     model_default = get_one_core_model_from_X(X_start, fun_control, default=True)

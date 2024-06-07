@@ -79,9 +79,9 @@ class HyperRiver:
         Args:
             df_eval (pd.DataFrame):
                 DataFrame with the evaluation results. Columns must have the following names:
-                - "Metric": The evaluation metric.
-                - "CompTime (s)": The running time.
-                - "Memory (MB)": The memory usage.
+                    - "Metric": The evaluation metric.
+                    - "CompTime (s)": The running time.
+                    - "Memory (MB)": The memory usage.
 
         Returns:
             (float): objective function value. Weighted mean of the errors, running time, and memory usage.
@@ -141,19 +141,22 @@ class HyperRiver:
         spotRiver.evaluation.eval_bml.
 
         Args:
-            model (object): The model to be evaluated.
-            fun_control (dict): A dictionary containing the following keys:
-                - train (pd.DataFrame): The training data.
-                - test (pd.DataFrame): The testing data.
-                - target_column (str): The name of the target column.
-                - horizon (int): The horizon value.
-                - oml_grace_period (int): The oml_grace_period value.
-                - metric_sklearn (str): The metric to be used for evaluation.
+            model (object):
+                The model to be evaluated.
+            fun_control (dict):
+                A dictionary containing the following keys:
+                    - train (pd.DataFrame): The training data.
+                    - test (pd.DataFrame): The testing data.
+                    - target_column (str): The name of the target column.
+                    - horizon (int): The horizon value.
+                    - oml_grace_period (int): The oml_grace_period value.
+                    - metric_sklearn (str): The metric to be used for evaluation.
 
         Returns:
-            (Tuple[pd.DataFrame, pd.DataFrame]): A tuple containing two dataframes:
-                - df_eval: The evaluation dataframe.
-                - df_preds: The predictions dataframe.
+            (Tuple[pd.DataFrame, pd.DataFrame]):
+                A tuple containing two dataframes:
+                    - df_eval: The evaluation dataframe.
+                    - df_preds: The predictions dataframe.
 
         Examples:
             >>> model = SomeModel()
@@ -208,18 +211,19 @@ class HyperRiver:
     def fun_oml_horizon(self, X: np.ndarray, fun_control: Optional[Dict[str, Any]] = None) -> np.ndarray:
         """
         The objective function for hyperparameter tuning. Prepares the data and calls the evaluate_model function.
-
         This function takes in input data and a dictionary of control parameters to compute the objective function values for hyperparameter tuning.
 
         Args:
-            X (np.ndarray): The input data.
-            fun_control (dict, optional): A dictionary containing the following keys:
-                - train (pd.DataFrame): The training data.
-                - test (pd.DataFrame): The testing data.
-                - target_column (str): The name of the target column.
-                - horizon (int): The horizon value.
-                - oml_grace_period (int): The oml_grace_period value.
-                - metric_sklearn (str): The metric to be used for evaluation.
+            X (np.ndarray):
+                The input data.
+            fun_control (dict, optional):
+                A dictionary containing the following keys:
+                    - train (pd.DataFrame): The training data.
+                    - test (pd.DataFrame): The testing data.
+                    - target_column (str): The name of the target column.
+                    - horizon (int): The horizon value.
+                    - oml_grace_period (int): The oml_grace_period value.
+                    - metric_sklearn (str): The metric to be used for evaluation.
 
         Returns:
             (np.ndarray): The objective function values.

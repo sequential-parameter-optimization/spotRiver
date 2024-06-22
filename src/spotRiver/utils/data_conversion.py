@@ -114,6 +114,11 @@ def split_df(
             The input data set.
         test_size (float):
             The percentage of the data set to be used as test set.
+            If float, should be between 0.0 and 1.0 and represent the proportion
+            of the dataset to include in the test split.
+            If int, represents the absolute number of test samples.
+            If None, the value is set to the complement of the train size.
+            If train_size is also None, it will be set to 0.25.
         target_type (str):
             The type of the target column. Can be "int", "float" or None.
             If None, the type of the target column is not changed.

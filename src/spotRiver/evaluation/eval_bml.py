@@ -523,7 +523,7 @@ def eval_oml_horizon(
         >>> from river import linear_model
             from river import preprocessing
             from sklearn.metrics import mean_absolute_error
-            from spotRiver.evaluation.eval.bml import eval_oml_horizon
+            from spotRiver.evaluation.eval_bml import eval_oml_horizon
             model = (
                     preprocessing.StandardScaler() |
                     linear_model.LinearRegression(intercept_lr=.5)
@@ -532,6 +532,7 @@ def eval_oml_horizon(
             train = pd.DataFrame({"x": np.arange(1, 11), "y": np.arange(2, 22, 2)})
             test = pd.DataFrame({"x": np.arange(11, 111), "y": np.arange(22, 222, 2)})
             target_column = "y"
+            metric = mean_absolute_error
             eval_oml_horizon(
                 model = model,
                 train = train,

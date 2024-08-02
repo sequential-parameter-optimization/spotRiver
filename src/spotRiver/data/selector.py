@@ -145,12 +145,12 @@ def get_river_dataset_from_name(
         n_samples (int):
             The number of samples in the data set.
     """
-    if data_set_name.endswith(".csv"):
-        dataset = CSVDataset(filename=data_set_name, directory="./userData/").data
-        n_samples = dataset.shape[0]
-    elif data_set_name in river_datasets:
+    if data_set_name in river_datasets:
         dataset, n_samples = data_selector(
             data_set=data_set_name,
         )
         dataset = convert_to_df(dataset, target_column="y", n_total=n_total)
-    return dataset, n_samples
+        return dataset, n_samples
+    else:
+        print(f"Data set '{data_set_name}' not found in river datasets.")
+        return None, None

@@ -468,6 +468,8 @@
       
         
       
+        
+      
     
     
     
@@ -930,7 +932,7 @@
             
   
   <span class="md-ellipsis">
-    plot
+    hyperdict
   </span>
   
 
@@ -939,6 +941,76 @@
         
         <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            hyperdict
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hyperdict/river_hyper_dict/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    river_hyper_dict
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_6" id="__nav_2_1_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    plot
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_6">
             <span class="md-nav__icon md-icon"></span>
             plot
           </label>
@@ -993,10 +1065,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_7" >
         
           
-          <label class="md-nav__link" for="__nav_2_1_6" id="__nav_2_1_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2_1_7" id="__nav_2_1_7_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -1007,8 +1079,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_1_6">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_7">
             <span class="md-nav__icon md-icon"></span>
             preprocess
           </label>
@@ -1065,10 +1137,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_8" >
         
           
-          <label class="md-nav__link" for="__nav_2_1_7" id="__nav_2_1_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2_1_8" id="__nav_2_1_8_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -1079,8 +1151,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_1_7">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_8">
             <span class="md-nav__icon md-icon"></span>
             utils
           </label>
@@ -1627,7 +1699,15 @@
 <span class="normal">260</span>
 <span class="normal">261</span>
 <span class="normal">262</span>
-<span class="normal">263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">HyperRiver</span><span class="p">:</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">HyperRiver</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Hyperparameter Tuning for River.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1683,9 +1763,9 @@
 <span class="sd">        Args:</span>
 <span class="sd">            df_eval (pd.DataFrame):</span>
 <span class="sd">                DataFrame with the evaluation results. Columns must have the following names:</span>
-<span class="sd">                - &quot;Metric&quot;: The evaluation metric.</span>
-<span class="sd">                - &quot;CompTime (s)&quot;: The running time.</span>
-<span class="sd">                - &quot;Memory (MB)&quot;: The memory usage.</span>
+<span class="sd">                    - &quot;Metric&quot;: The evaluation metric.</span>
+<span class="sd">                    - &quot;CompTime (s)&quot;: The running time.</span>
+<span class="sd">                    - &quot;Memory (MB)&quot;: The memory usage.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            (float): objective function value. Weighted mean of the errors, running time, and memory usage.</span>
@@ -1745,19 +1825,22 @@
 <span class="sd">        spotRiver.evaluation.eval_bml.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            model (object): The model to be evaluated.</span>
-<span class="sd">            fun_control (dict): A dictionary containing the following keys:</span>
-<span class="sd">                - train (pd.DataFrame): The training data.</span>
-<span class="sd">                - test (pd.DataFrame): The testing data.</span>
-<span class="sd">                - target_column (str): The name of the target column.</span>
-<span class="sd">                - horizon (int): The horizon value.</span>
-<span class="sd">                - oml_grace_period (int): The oml_grace_period value.</span>
-<span class="sd">                - metric_sklearn (str): The metric to be used for evaluation.</span>
+<span class="sd">            model (object):</span>
+<span class="sd">                The model to be evaluated.</span>
+<span class="sd">            fun_control (dict):</span>
+<span class="sd">                A dictionary containing the following keys:</span>
+<span class="sd">                    - train (pd.DataFrame): The training data.</span>
+<span class="sd">                    - test (pd.DataFrame): The testing data.</span>
+<span class="sd">                    - target_column (str): The name of the target column.</span>
+<span class="sd">                    - horizon (int): The horizon value.</span>
+<span class="sd">                    - oml_grace_period (int): The oml_grace_period value.</span>
+<span class="sd">                    - metric_sklearn (str): The metric to be used for evaluation.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            (Tuple[pd.DataFrame, pd.DataFrame]): A tuple containing two dataframes:</span>
-<span class="sd">                - df_eval: The evaluation dataframe.</span>
-<span class="sd">                - df_preds: The predictions dataframe.</span>
+<span class="sd">            (Tuple[pd.DataFrame, pd.DataFrame]):</span>
+<span class="sd">                A tuple containing two dataframes:</span>
+<span class="sd">                    - df_eval: The evaluation dataframe.</span>
+<span class="sd">                    - df_preds: The predictions dataframe.</span>
 
 <span class="sd">        Examples:</span>
 <span class="sd">            &gt;&gt;&gt; model = SomeModel()</span>
@@ -1812,18 +1895,19 @@
     <span class="k">def</span> <span class="nf">fun_oml_horizon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The objective function for hyperparameter tuning. Prepares the data and calls the evaluate_model function.</span>
-
 <span class="sd">        This function takes in input data and a dictionary of control parameters to compute the objective function values for hyperparameter tuning.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            X (np.ndarray): The input data.</span>
-<span class="sd">            fun_control (dict, optional): A dictionary containing the following keys:</span>
-<span class="sd">                - train (pd.DataFrame): The training data.</span>
-<span class="sd">                - test (pd.DataFrame): The testing data.</span>
-<span class="sd">                - target_column (str): The name of the target column.</span>
-<span class="sd">                - horizon (int): The horizon value.</span>
-<span class="sd">                - oml_grace_period (int): The oml_grace_period value.</span>
-<span class="sd">                - metric_sklearn (str): The metric to be used for evaluation.</span>
+<span class="sd">            X (np.ndarray):</span>
+<span class="sd">                The input data.</span>
+<span class="sd">            fun_control (dict, optional):</span>
+<span class="sd">                A dictionary containing the following keys:</span>
+<span class="sd">                    - train (pd.DataFrame): The training data.</span>
+<span class="sd">                    - test (pd.DataFrame): The testing data.</span>
+<span class="sd">                    - target_column (str): The name of the target column.</span>
+<span class="sd">                    - horizon (int): The horizon value.</span>
+<span class="sd">                    - oml_grace_period (int): The oml_grace_period value.</span>
+<span class="sd">                    - metric_sklearn (str): The metric to be used for evaluation.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            (np.ndarray): The objective function values.</span>
@@ -1851,6 +1935,9 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;config from fun_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;prep_model&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">model</span> <span class="o">=</span> <span class="n">compose</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;prep_model&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;core_model&quot;</span><span class="p">](</span><span class="o">**</span><span class="n">config</span><span class="p">))</span>
+                <span class="c1"># prep = self.fun_control[&quot;prep_model&quot;]</span>
+                <span class="c1"># core = self.fun_control[&quot;core_model&quot;](**config)</span>
+                <span class="c1"># model = prep | core</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;core_model&quot;</span><span class="p">](</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
@@ -1859,6 +1946,7 @@
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
                 <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in fun_oml_horizon(). Call to evaluate or compute_y failed. </span><span class="si">{</span><span class="n">err</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;model: </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Setting y to np.nan.&quot;</span><span class="p">)</span>
             <span class="c1"># Changed in v0.2.21:</span>
             <span class="c1"># Score is not divided by the number of samples</span>
@@ -2263,9 +2351,9 @@ Defaults to 50.</p>
           <td>
             <div class="doc-md-description">
               <p>DataFrame with the evaluation results. Columns must have the following names:
-- &ldquo;Metric&rdquo;: The evaluation metric.
-- &ldquo;CompTime (s)&rdquo;: The running time.
-- &ldquo;Memory (MB)&rdquo;: The memory usage.</p>
+    - &ldquo;Metric&rdquo;: The evaluation metric.
+    - &ldquo;CompTime (s)&rdquo;: The running time.
+    - &ldquo;Memory (MB)&rdquo;: The memory usage.</p>
             </div>
           </td>
           <td>
@@ -2353,9 +2441,9 @@ Defaults to 50.</p>
 <span class="sd">    Args:</span>
 <span class="sd">        df_eval (pd.DataFrame):</span>
 <span class="sd">            DataFrame with the evaluation results. Columns must have the following names:</span>
-<span class="sd">            - &quot;Metric&quot;: The evaluation metric.</span>
-<span class="sd">            - &quot;CompTime (s)&quot;: The running time.</span>
-<span class="sd">            - &quot;Memory (MB)&quot;: The memory usage.</span>
+<span class="sd">                - &quot;Metric&quot;: The evaluation metric.</span>
+<span class="sd">                - &quot;CompTime (s)&quot;: The running time.</span>
+<span class="sd">                - &quot;Memory (MB)&quot;: The memory usage.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        (float): objective function value. Weighted mean of the errors, running time, and memory usage.</span>
@@ -2439,12 +2527,12 @@ spotRiver.evaluation.eval_bml.</p>
           <td>
             <div class="doc-md-description">
               <p>A dictionary containing the following keys:
-- train (pd.DataFrame): The training data.
-- test (pd.DataFrame): The testing data.
-- target_column (str): The name of the target column.
-- horizon (int): The horizon value.
-- oml_grace_period (int): The oml_grace_period value.
-- metric_sklearn (str): The metric to be used for evaluation.</p>
+    - train (pd.DataFrame): The training data.
+    - test (pd.DataFrame): The testing data.
+    - target_column (str): The name of the target column.
+    - horizon (int): The horizon value.
+    - oml_grace_period (int): The oml_grace_period value.
+    - metric_sklearn (str): The metric to be used for evaluation.</p>
             </div>
           </td>
           <td>
@@ -2472,8 +2560,8 @@ spotRiver.evaluation.eval_bml.</p>
           <td>
             <div class="doc-md-description">
               <p>A tuple containing two dataframes:
-- df_eval: The evaluation dataframe.
-- df_preds: The predictions dataframe.</p>
+    - df_eval: The evaluation dataframe.
+    - df_preds: The predictions dataframe.</p>
             </div>
           </td>
         </tr>
@@ -2541,25 +2629,31 @@ spotRiver.evaluation.eval_bml.</p>
 <span class="normal">179</span>
 <span class="normal">180</span>
 <span class="normal">181</span>
-<span class="normal">182</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Evaluates a model using the eval_oml_horizon function from</span>
 <span class="sd">    spotRiver.evaluation.eval_bml.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        model (object): The model to be evaluated.</span>
-<span class="sd">        fun_control (dict): A dictionary containing the following keys:</span>
-<span class="sd">            - train (pd.DataFrame): The training data.</span>
-<span class="sd">            - test (pd.DataFrame): The testing data.</span>
-<span class="sd">            - target_column (str): The name of the target column.</span>
-<span class="sd">            - horizon (int): The horizon value.</span>
-<span class="sd">            - oml_grace_period (int): The oml_grace_period value.</span>
-<span class="sd">            - metric_sklearn (str): The metric to be used for evaluation.</span>
+<span class="sd">        model (object):</span>
+<span class="sd">            The model to be evaluated.</span>
+<span class="sd">        fun_control (dict):</span>
+<span class="sd">            A dictionary containing the following keys:</span>
+<span class="sd">                - train (pd.DataFrame): The training data.</span>
+<span class="sd">                - test (pd.DataFrame): The testing data.</span>
+<span class="sd">                - target_column (str): The name of the target column.</span>
+<span class="sd">                - horizon (int): The horizon value.</span>
+<span class="sd">                - oml_grace_period (int): The oml_grace_period value.</span>
+<span class="sd">                - metric_sklearn (str): The metric to be used for evaluation.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        (Tuple[pd.DataFrame, pd.DataFrame]): A tuple containing two dataframes:</span>
-<span class="sd">            - df_eval: The evaluation dataframe.</span>
-<span class="sd">            - df_preds: The predictions dataframe.</span>
+<span class="sd">        (Tuple[pd.DataFrame, pd.DataFrame]):</span>
+<span class="sd">            A tuple containing two dataframes:</span>
+<span class="sd">                - df_eval: The evaluation dataframe.</span>
+<span class="sd">                - df_preds: The predictions dataframe.</span>
 
 <span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; model = SomeModel()</span>
@@ -2606,8 +2700,8 @@ spotRiver.evaluation.eval_bml.</p>
 
   <div class="doc doc-contents ">
   
-      <p>The objective function for hyperparameter tuning. Prepares the data and calls the evaluate_model function.</p>
-<p>This function takes in input data and a dictionary of control parameters to compute the objective function values for hyperparameter tuning.</p>
+      <p>The objective function for hyperparameter tuning. Prepares the data and calls the evaluate_model function.
+This function takes in input data and a dictionary of control parameters to compute the objective function values for hyperparameter tuning.</p>
 
 
 
@@ -2644,12 +2738,12 @@ spotRiver.evaluation.eval_bml.</p>
           <td>
             <div class="doc-md-description">
               <p>A dictionary containing the following keys:
-- train (pd.DataFrame): The training data.
-- test (pd.DataFrame): The testing data.
-- target_column (str): The name of the target column.
-- horizon (int): The horizon value.
-- oml_grace_period (int): The oml_grace_period value.
-- metric_sklearn (str): The metric to be used for evaluation.</p>
+    - train (pd.DataFrame): The training data.
+    - test (pd.DataFrame): The testing data.
+    - target_column (str): The name of the target column.
+    - horizon (int): The horizon value.
+    - oml_grace_period (int): The oml_grace_period value.
+    - metric_sklearn (str): The metric to be used for evaluation.</p>
             </div>
           </td>
           <td>
@@ -2698,10 +2792,7 @@ spotRiver.evaluation.eval_bml.</p>
 
           <details class="quote">
             <summary>Source code in <code>spotRiver/fun/hyperriver.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">211</span>
 <span class="normal">212</span>
 <span class="normal">213</span>
 <span class="normal">214</span>
@@ -2753,21 +2844,30 @@ spotRiver.evaluation.eval_bml.</p>
 <span class="normal">260</span>
 <span class="normal">261</span>
 <span class="normal">262</span>
-<span class="normal">263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fun_oml_horizon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fun_oml_horizon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fun_control</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The objective function for hyperparameter tuning. Prepares the data and calls the evaluate_model function.</span>
-
 <span class="sd">    This function takes in input data and a dictionary of control parameters to compute the objective function values for hyperparameter tuning.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        X (np.ndarray): The input data.</span>
-<span class="sd">        fun_control (dict, optional): A dictionary containing the following keys:</span>
-<span class="sd">            - train (pd.DataFrame): The training data.</span>
-<span class="sd">            - test (pd.DataFrame): The testing data.</span>
-<span class="sd">            - target_column (str): The name of the target column.</span>
-<span class="sd">            - horizon (int): The horizon value.</span>
-<span class="sd">            - oml_grace_period (int): The oml_grace_period value.</span>
-<span class="sd">            - metric_sklearn (str): The metric to be used for evaluation.</span>
+<span class="sd">        X (np.ndarray):</span>
+<span class="sd">            The input data.</span>
+<span class="sd">        fun_control (dict, optional):</span>
+<span class="sd">            A dictionary containing the following keys:</span>
+<span class="sd">                - train (pd.DataFrame): The training data.</span>
+<span class="sd">                - test (pd.DataFrame): The testing data.</span>
+<span class="sd">                - target_column (str): The name of the target column.</span>
+<span class="sd">                - horizon (int): The horizon value.</span>
+<span class="sd">                - oml_grace_period (int): The oml_grace_period value.</span>
+<span class="sd">                - metric_sklearn (str): The metric to be used for evaluation.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        (np.ndarray): The objective function values.</span>
@@ -2795,6 +2895,9 @@ spotRiver.evaluation.eval_bml.</p>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;config from fun_oml_horizon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;prep_model&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">model</span> <span class="o">=</span> <span class="n">compose</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;prep_model&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;core_model&quot;</span><span class="p">](</span><span class="o">**</span><span class="n">config</span><span class="p">))</span>
+            <span class="c1"># prep = self.fun_control[&quot;prep_model&quot;]</span>
+            <span class="c1"># core = self.fun_control[&quot;core_model&quot;](**config)</span>
+            <span class="c1"># model = prep | core</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_control</span><span class="p">[</span><span class="s2">&quot;core_model&quot;</span><span class="p">](</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
@@ -2803,6 +2906,7 @@ spotRiver.evaluation.eval_bml.</p>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in fun_oml_horizon(). Call to evaluate or compute_y failed. </span><span class="si">{</span><span class="n">err</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;model: </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Setting y to np.nan.&quot;</span><span class="p">)</span>
         <span class="c1"># Changed in v0.2.21:</span>
         <span class="c1"># Score is not divided by the number of samples</span>
@@ -2896,10 +3000,7 @@ spotRiver.evaluation.eval_bml.</p>
 
           <details class="quote">
             <summary>Source code in <code>spotRiver/fun/hyperriver.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">187</span>
 <span class="normal">188</span>
 <span class="normal">189</span>
 <span class="normal">190</span>
@@ -2918,7 +3019,10 @@ spotRiver.evaluation.eval_bml.</p>
 <span class="normal">203</span>
 <span class="normal">204</span>
 <span class="normal">205</span>
-<span class="normal">206</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_river_df_eval_preds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_river_df_eval_preds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the evaluation and prediction dataframes for a river model.</span>
 
 <span class="sd">    Args:</span>

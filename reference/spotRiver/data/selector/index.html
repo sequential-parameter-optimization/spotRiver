@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/data/selector/">
       
       
-        <link rel="prev" href="../river_hyper_dict/">
+        <link rel="prev" href="../opm/">
       
       
         <link rel="next" href="../synth/">
@@ -468,6 +468,8 @@
       
         
       
+        
+      
     
     
     
@@ -814,7 +816,7 @@
             
   
   <span class="md-ellipsis">
-    plot
+    hyperdict
   </span>
   
 
@@ -823,6 +825,76 @@
         
         <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            hyperdict
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hyperdict/river_hyper_dict/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    river_hyper_dict
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_6" id="__nav_2_1_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    plot
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_6">
             <span class="md-nav__icon md-icon"></span>
             plot
           </label>
@@ -877,10 +949,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_7" >
         
           
-          <label class="md-nav__link" for="__nav_2_1_6" id="__nav_2_1_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2_1_7" id="__nav_2_1_7_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -891,8 +963,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_1_6">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_7">
             <span class="md-nav__icon md-icon"></span>
             preprocess
           </label>
@@ -949,10 +1021,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_8" >
         
           
-          <label class="md-nav__link" for="__nav_2_1_7" id="__nav_2_1_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2_1_8" id="__nav_2_1_8_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -963,8 +1035,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_1_7">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_8">
             <span class="md-nav__icon md-icon"></span>
             utils
           </label>
@@ -1158,6 +1230,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#spotRiver.data.selector.get_river_dataset_from_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_river_dataset_from_name()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#spotRiver.data.selector.get_train_test_from_data_set" class="md-nav__link">
     <span class="md-ellipsis">
       get_train_test_from_data_set()
@@ -1247,7 +1328,14 @@
 - &ldquo;Elec2&rdquo;
 - &ldquo;Higgs&rdquo;
 - &ldquo;HTTP&rdquo;
-- &ldquo;Phishing&rdquo;</p>
+- &ldquo;Phishing&rdquo;
+- &ldquo;AirlinePassengers&rdquo;
+- &ldquo;Bikes&rdquo;
+- &ldquo;ChickWeights&rdquo;
+- &ldquo;Taxis&rdquo;
+- &ldquo;TrumpApproval&rdquo;
+- &ldquo;WaterFlow&rdquo;
+- &ldquo;WebTraffic&rdquo;</p>
             </div>
           </td>
           <td>
@@ -1306,9 +1394,7 @@
 </details>
           <details class="quote">
             <summary>Source code in <code>spotRiver/data/selector.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 6</span>
 <span class="normal"> 7</span>
 <span class="normal"> 8</span>
 <span class="normal"> 9</span>
@@ -1357,7 +1443,35 @@
 <span class="normal">52</span>
 <span class="normal">53</span>
 <span class="normal">54</span>
-<span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">data_selector</span><span class="p">(</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">data_selector</span><span class="p">(</span>
     <span class="n">data_set</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1372,6 +1486,13 @@
 <span class="sd">            - &quot;Higgs&quot;</span>
 <span class="sd">            - &quot;HTTP&quot;</span>
 <span class="sd">            - &quot;Phishing&quot;</span>
+<span class="sd">            - &quot;AirlinePassengers&quot;</span>
+<span class="sd">            - &quot;Bikes&quot;</span>
+<span class="sd">            - &quot;ChickWeights&quot;</span>
+<span class="sd">            - &quot;Taxis&quot;</span>
+<span class="sd">            - &quot;TrumpApproval&quot;</span>
+<span class="sd">            - &quot;WaterFlow&quot;</span>
+<span class="sd">            - &quot;WebTraffic&quot;</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        dataset (object):</span>
@@ -1387,6 +1508,7 @@
 <span class="sd">        - The Higgs data set is very large and may take a long time to load.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO: Check and update the number of samples for each data set.</span>
     <span class="n">dataset</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;Bananas&quot;</span><span class="p">:</span>
         <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">Bananas</span><span class="p">()</span>
@@ -1406,9 +1528,208 @@
     <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;Phishing&quot;</span><span class="p">:</span>
         <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">Phishing</span><span class="p">()</span>
         <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">1250</span>
+    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;AirlinePassengers&quot;</span><span class="p">:</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">AirlinePassengers</span><span class="p">()</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">144</span>
+    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;Bikes&quot;</span><span class="p">:</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">Bikes</span><span class="p">()</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">182470</span>
+    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;ChickWeights&quot;</span><span class="p">:</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">ChickWeights</span><span class="p">()</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">578</span>
+    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;Taxis&quot;</span><span class="p">:</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">Taxis</span><span class="p">()</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">1458644</span>
+    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;TrumpApproval&quot;</span><span class="p">:</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">TrumpApproval</span><span class="p">()</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">1_000</span>
+    <span class="k">elif</span> <span class="n">data_set</span> <span class="o">==</span> <span class="s2">&quot;WaterFlow&quot;</span><span class="p">:</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">WaterFlow</span><span class="p">()</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">1_000</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data set &#39;</span><span class="si">{</span><span class="n">data_set</span><span class="si">}</span><span class="s2">&#39; not found.&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">n_samples</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="spotRiver.data.selector.get_river_dataset_from_name" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_river_dataset_from_name</span><span class="p">(</span><span class="n">data_set_name</span><span class="p">,</span> <span class="n">n_total</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">river_datasets</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#spotRiver.data.selector.get_river_dataset_from_name" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Converts a data set name to a pandas DataFrame.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>data_set_name</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The name of the data set.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>n_total</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The number of samples to be used from the data set.
+If n_total is None or inf, the full data set is used.
+Defaults to None.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>river_datasets</code></td>
+          <td>
+                <code>list</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A list of the available river data sets.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>dataset</code></td>          <td>
+                <code><span title="pd.DataFrame">DataFrame</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The data set as a pandas DataFrame.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+<td><code>n_samples</code></td>          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The number of samples in the data set.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>spotRiver/data/selector.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_river_dataset_from_name</span><span class="p">(</span>
+    <span class="n">data_set_name</span><span class="p">,</span>
+    <span class="n">n_total</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">river_datasets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a data set name to a pandas DataFrame.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data_set_name (str):</span>
+<span class="sd">            The name of the data set.</span>
+<span class="sd">        n_total (int):</span>
+<span class="sd">            The number of samples to be used from the data set.</span>
+<span class="sd">            If n_total is None or inf, the full data set is used.</span>
+<span class="sd">            Defaults to None.</span>
+<span class="sd">        river_datasets (list):</span>
+<span class="sd">            A list of the available river data sets.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dataset (pd.DataFrame):</span>
+<span class="sd">            The data set as a pandas DataFrame.</span>
+<span class="sd">        n_samples (int):</span>
+<span class="sd">            The number of samples in the data set.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">data_set_name</span> <span class="ow">in</span> <span class="n">river_datasets</span><span class="p">:</span>
+        <span class="n">dataset</span><span class="p">,</span> <span class="n">n_samples</span> <span class="o">=</span> <span class="n">data_selector</span><span class="p">(</span>
+            <span class="n">data_set</span><span class="o">=</span><span class="n">data_set_name</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">convert_to_df</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">target_column</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">n_total</span><span class="o">=</span><span class="n">n_total</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">n_samples</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data set &#39;</span><span class="si">{</span><span class="n">data_set_name</span><span class="si">}</span><span class="s2">&#39; not found in river datasets.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -1550,40 +1871,40 @@
 
           <details class="quote">
             <summary>Source code in <code>spotRiver/data/selector.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_train_test_from_data_set</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">n_total</span><span class="p">,</span> <span class="n">test_size</span><span class="p">,</span> <span class="n">target_column</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_train_test_from_data_set</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">n_total</span><span class="p">,</span> <span class="n">test_size</span><span class="p">,</span> <span class="n">target_column</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a data set to a data frame with target column</span>
 <span class="sd">        and splits it into training and test sets.</span>
 

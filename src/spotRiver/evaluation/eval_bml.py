@@ -211,7 +211,11 @@ def eval_bml_horizon(
     # Fit the model on the training data
     rm = ResourceMonitor()
     with rm:
-        model.fit(train.loc[:, train.columns != target_column], train[target_column])
+        try:
+            model.fit(train.loc[:, train.columns != target_column], train[target_column])
+        except Exception as e:
+            print(f"Train data: {train}")
+            print(f"An error occurred while fitting the model: {e}")
     # Evaluate the model on empty arrays to get initial resource usage
     df_eval = pd.DataFrame.from_dict(
         [evaluate_model(y_true=np.array([]), y_pred=np.array([]), memory=rm.memory, r_time=rm.r_time, metric=metric)]
@@ -225,7 +229,11 @@ def eval_bml_horizon(
     for batch_number, batch_df in test.groupby(np.arange(len(test)) // horizon):
         rm = ResourceMonitor()
         with rm:
-            preds = model.predict(batch_df.loc[:, batch_df.columns != target_column])
+            try:
+                preds = model.predict(batch_df.loc[:, batch_df.columns != target_column])
+            except Exception as e:
+                print(f"Batch data: {batch_df}")
+                print(f"An error occurred while predicting: {e}")
         diffs = batch_df[target_column].values - preds
         df_eval.loc[batch_number + 1] = pd.Series(
             evaluate_model(
@@ -593,20 +601,25 @@ def eval_oml_horizon(
     train_y = train_y.tail(oml_grace_period)
     rm = ResourceMonitor()
     with rm:
-        for xi, yi in river_stream.iter_pandas(train_X, train_y):
-            # Before v0.19 we had to call predict_one before learn_one
-            # in order for the whole pipeline to be updated.
-            # Since v0.19, calling learn_one in a pipeline will update each part
-            # of the pipeline in turn.
-            # Before v0.19, predict_one has to be called for updating the unsupervised parts
-            # of the pipeline.
-            # The following line, which returns y_pred, which is not used after v0.19:
-            # _ = model.predict_one(xi)
-            # model = model.learn_one(xi, yi)
-            # Starting with 0.21.0, the learn_one and learn_many methods of each estimator don't not
-            # return anything anymore.
-            # This is to emphasize that the estimators are stateful.
-            model.learn_one(xi, yi)
+        try:
+            for xi, yi in river_stream.iter_pandas(train_X, train_y):
+                # Before v0.19 we had to call predict_one before learn_one
+                # in order for the whole pipeline to be updated.
+                # Since v0.19, calling learn_one in a pipeline will update each part
+                # of the pipeline in turn.
+                # Before v0.19, predict_one has to be called for updating the unsupervised parts
+                # of the pipeline.
+                # The following line, which returns y_pred, which is not used after v0.19:
+                # _ = model.predict_one(xi)
+                # model = model.learn_one(xi, yi)
+                # Starting with 0.21.0, the learn_one and learn_many methods of each estimator don't not
+                # return anything anymore.
+                # This is to emphasize that the estimators are stateful.
+                model.learn_one(xi, yi)
+        except Exception as e:
+            print(f"train_X data: {train_X}")
+            print(f"train_y data: {train_y}")
+            print(f"An error occurred while fitting the model: {e}")
 
     # Create empty lists to collect data
     eval_data = []
@@ -631,14 +644,19 @@ def eval_oml_horizon(
         test_y = new_df[target_column]
         rm = ResourceMonitor()
         with rm:
-            for xi, yi in river_stream.iter_pandas(test_X, test_y):
-                pred = model.predict_one(xi)
-                preds.append(pred)
-                # model = model.learn_one(xi, yi)
-                # Starting with 0.21.0, the learn_one and learn_many methods of each estimator don't not
-                # return anything anymore.
-                # This is to emphasize that the estimators are stateful.
-                model.learn_one(xi, yi)
+            try:
+                for xi, yi in river_stream.iter_pandas(test_X, test_y):
+                    pred = model.predict_one(xi)
+                    preds.append(pred)
+                    # model = model.learn_one(xi, yi)
+                    # Starting with 0.21.0, the learn_one and learn_many methods of each estimator don't not
+                    # return anything anymore.
+                    # This is to emphasize that the estimators are stateful.
+                    model.learn_one(xi, yi)
+            except Exception as e:
+                print(f"test_X data: {test_X}")
+                print(f"test_y data: {test_y}")
+                print(f"An error occurred while predicting: {e}")
         preds = pd.Series(preds)
         diffs = new_df[target_column].values - preds
 

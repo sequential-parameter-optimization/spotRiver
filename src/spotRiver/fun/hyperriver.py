@@ -262,6 +262,7 @@ class HyperRiver:
             except Exception as err:
                 y = np.nan
                 print(f"Error in fun_oml_horizon(). Call to evaluate or compute_y failed. {err=}, {type(err)=}")
+                print(f"model: {model}")
                 print("Setting y to np.nan.")
             # Changed in v0.2.21:
             # Score is not divided by the number of samples

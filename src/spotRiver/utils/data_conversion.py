@@ -24,7 +24,9 @@ def convert_to_df(dataset: datasets.base.Dataset, target_column: str = "y", n_to
         (pd.DataFrame): A pandas DataFrame representation of the given dataset.
 
     Examples:
-        >>> dataset = datasets.TrumpApproval()
+        >>> from river import datasets
+            from spotRiver.utils.data_conversion import convert_to_df
+            dataset = datasets.TrumpApproval()
             target_column = "Approval"
             df = convert_to_df(dataset, target_column)
             df.rename(columns={

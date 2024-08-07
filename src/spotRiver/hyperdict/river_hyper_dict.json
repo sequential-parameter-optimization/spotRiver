@@ -457,10 +457,10 @@
     "AMFRegressor": {
         "n_estimators": {
             "type": "int",
-            "default": 10,
-            "transform": "None",
+            "default": 3,
+            "transform": "transform_power_2_int",
             "lower": 2,
-            "upper": 1000
+            "upper": 7
         },
         "step": {
             "type": "float",

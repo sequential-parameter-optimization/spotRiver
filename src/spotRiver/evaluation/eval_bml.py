@@ -689,6 +689,8 @@ def plot_bml_oml_horizon_metrics(
     filename=None,
     show=False,
     title="",
+    skip_first_n=0,
+    skip_last_n=0,
     **kwargs,
 ) -> None:
     """Plot evaluation metrics for machine learning models.
@@ -731,6 +733,11 @@ def plot_bml_oml_horizon_metrics(
             The name of the file to save the plot to. If None, the plot is not saved. Default is None.
         title (str, optional):
             The title of the plot. Default is an empty string.
+        skip_first_n (int, optional):
+            The number of rows to skip from the beginning of the dataframe. Default is 0.
+        skip_last_n (int, optional):
+            The number of rows to skip from the end of the dataframe. Default is 0.
+        show (bool, optional):
         **kwargs (Any): Additional keyword arguments to be passed to the plot function.
 
     Returns:
@@ -775,7 +782,14 @@ def plot_bml_oml_horizon_metrics(
                 else:
                     label = df_labels[j]
                 # Plot metric values against dataset names
-                axes[i].plot(df.index.values.tolist(), df[metrics[i]].values.tolist(), label=label, **kwargs)
+                # skip the first skip_first_n and last skip_last_n
+                axes[i].plot(
+                    df.index.values.tolist()[skip_first_n:-skip_last_n],
+                    df[metrics[i]].values.tolist()[skip_first_n:-skip_last_n],
+                    label=label,
+                    **kwargs,
+                )
+                # axes[i].plot(df.index.values.tolist(), df[metrics[i]].values.tolist(), label=label, **kwargs)
                 # Set title and legend
                 axes[i].set_title(titles[i])
                 axes[i].legend(loc="upper right")

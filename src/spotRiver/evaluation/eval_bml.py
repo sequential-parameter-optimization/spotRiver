@@ -788,7 +788,7 @@ def plot_bml_oml_horizon_metrics(
         if filename is not None:
             plt.savefig(filename)
     # add a title to the figure
-    fig.suptitle(f"Metrics for {title}")
+    fig.suptitle(f"{title}")
     if show:
         plt.show()
 

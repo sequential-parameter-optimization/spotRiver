@@ -6,6 +6,7 @@ The original database is available from CT's OPM
 
 The data contains 985,862 observations of up to 14 variables.
 """
+
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 import logging

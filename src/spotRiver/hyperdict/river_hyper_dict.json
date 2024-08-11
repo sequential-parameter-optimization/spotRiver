@@ -460,7 +460,7 @@
             "default": 3,
             "transform": "transform_power_2_int",
             "lower": 2,
-            "upper": 7
+            "upper": 5
         },
         "step": {
             "type": "float",

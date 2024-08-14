@@ -749,6 +749,26 @@ def plot_bml_oml_horizon_metrics(
         >>> df_eval = pd.DataFrame({"Metric": [0.5, 0.75, 0.9], "CompTime (s)": [0.1, 0.2, 0.3], "Memory (MB)": [0.1, 0.2, 0.3]})
         >>> df_labels = ["Model 1", "Model 2", "Model 3"]
         >>> plot_bml_oml_horizon_metrics(df_eval, df_labels, metric=accuracy_score)
+        >>>
+        >>> from river import linear_model, datasets, preprocessing
+            from spotRiver.evaluation.eval_bml import eval_oml_horizon
+            from spotRiver.utils.data_conversion import convert_to_df
+            from sklearn.metrics import mean_absolute_error
+            metric = mean_absolute_error
+            model = (preprocessing.StandardScaler() |
+                    linear_model.LinearRegression())
+            dataset = datasets.TrumpApproval()
+            target_column = "Approve"
+            df = convert_to_df(dataset, target_column)
+            train = df[:500]
+            test = df[500:]
+            horizon = 10
+            df_eval, df_preds = eval_oml_horizon(
+                model, train, test, target_column,
+                horizon, metric=metric)
+            from spotRiver.evaluation.eval_bml import plot_bml_oml_horizon_metrics
+            df_labels = ["OML Linear"]
+            plot_bml_oml_horizon_metrics(df_eval, df_labels, metric=metric, filename=None)
     """
     if figsize is None:
         figsize = (10, 5)
@@ -781,15 +801,17 @@ def plot_bml_oml_horizon_metrics(
                     label = f"{j}"
                 else:
                     label = df_labels[j]
-                # Plot metric values against dataset names
-                # skip the first skip_first_n and last skip_last_n
+                # Define indices for slicing based on skip_first_n and skip_last_n
+                start = skip_first_n
+                end = None if skip_last_n == 0 else -skip_last_n
+
+                # Plot metric values against dataset names, skipping specified entries
                 axes[i].plot(
-                    df.index.values.tolist()[skip_first_n:-skip_last_n],
-                    df[metrics[i]].values.tolist()[skip_first_n:-skip_last_n],
+                    df.index.values.tolist()[start:end],
+                    df[metrics[i]].values.tolist()[start:end],
                     label=label,
                     **kwargs,
                 )
-                # axes[i].plot(df.index.values.tolist(), df[metrics[i]].values.tolist(), label=label, **kwargs)
                 # Set title and legend
                 axes[i].set_title(titles[i])
                 axes[i].legend(loc="upper right")

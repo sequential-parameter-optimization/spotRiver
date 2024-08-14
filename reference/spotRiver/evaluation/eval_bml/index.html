@@ -4023,7 +4023,7 @@ if its length is not divisible by the horizon. Defaults to False.</p>
 
 
 <h2 id="spotRiver.evaluation.eval_bml.plot_bml_oml_horizon_metrics" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">plot_bml_oml_horizon_metrics</span><span class="p">(</span><span class="n">df_eval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">df_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log_x</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cumulative</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">plot_bml_oml_horizon_metrics</span><span class="p">(</span><span class="n">df_eval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">df_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log_x</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cumulative</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">skip_first_n</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">skip_last_n</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 <a href="#spotRiver.evaluation.eval_bml.plot_bml_oml_horizon_metrics" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -4201,6 +4201,48 @@ This metric will be used to evaluate the model&rsquo;s performance on the test d
             </td>
           </tr>
           <tr class="doc-section-item">
+            <td><code>skip_first_n</code></td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The number of rows to skip from the beginning of the dataframe. Default is 0.</p>
+              </div>
+            </td>
+            <td>
+                  <code>0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>skip_last_n</code></td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The number of rows to skip from the end of the dataframe. Default is 0.</p>
+              </div>
+            </td>
+            <td>
+                  <code>0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>show</code></td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
             <td><code>**kwargs</code></td>
             <td>
                   <code>Any</code>
@@ -4247,6 +4289,26 @@ This metric will be used to evaluate the model&rsquo;s performance on the test d
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df_eval</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;Metric&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">],</span> <span class="s2">&quot;CompTime (s)&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span> <span class="s2">&quot;Memory (MB)&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Model 1&quot;</span><span class="p">,</span> <span class="s2">&quot;Model 2&quot;</span><span class="p">,</span> <span class="s2">&quot;Model 3&quot;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plot_bml_oml_horizon_metrics</span><span class="p">(</span><span class="n">df_eval</span><span class="p">,</span> <span class="n">df_labels</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">accuracy_score</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">river</span> <span class="kn">import</span> <span class="n">linear_model</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">preprocessing</span>
+<span class="go">    from spotRiver.evaluation.eval_bml import eval_oml_horizon</span>
+<span class="go">    from spotRiver.utils.data_conversion import convert_to_df</span>
+<span class="go">    from sklearn.metrics import mean_absolute_error</span>
+<span class="go">    metric = mean_absolute_error</span>
+<span class="go">    model = (preprocessing.StandardScaler() |</span>
+<span class="go">            linear_model.LinearRegression())</span>
+<span class="go">    dataset = datasets.TrumpApproval()</span>
+<span class="go">    target_column = &quot;Approve&quot;</span>
+<span class="go">    df = convert_to_df(dataset, target_column)</span>
+<span class="go">    train = df[:500]</span>
+<span class="go">    test = df[500:]</span>
+<span class="go">    horizon = 10</span>
+<span class="go">    df_eval, df_preds = eval_oml_horizon(</span>
+<span class="go">        model, train, test, target_column,</span>
+<span class="go">        horizon, metric=metric)</span>
+<span class="go">    from spotRiver.evaluation.eval_bml import plot_bml_oml_horizon_metrics</span>
+<span class="go">    df_labels = [&quot;OML Linear&quot;]</span>
+<span class="go">    plot_bml_oml_horizon_metrics(df_eval, df_labels, metric=metric, filename=None)</span>
 </code></pre></div>
 
             <details class="quote">
@@ -4364,7 +4426,43 @@ This metric will be used to evaluate the model&rsquo;s performance on the test d
 <span class="normal">790</span>
 <span class="normal">791</span>
 <span class="normal">792</span>
-<span class="normal">793</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot_bml_oml_horizon_metrics</span><span class="p">(</span>
+<span class="normal">793</span>
+<span class="normal">794</span>
+<span class="normal">795</span>
+<span class="normal">796</span>
+<span class="normal">797</span>
+<span class="normal">798</span>
+<span class="normal">799</span>
+<span class="normal">800</span>
+<span class="normal">801</span>
+<span class="normal">802</span>
+<span class="normal">803</span>
+<span class="normal">804</span>
+<span class="normal">805</span>
+<span class="normal">806</span>
+<span class="normal">807</span>
+<span class="normal">808</span>
+<span class="normal">809</span>
+<span class="normal">810</span>
+<span class="normal">811</span>
+<span class="normal">812</span>
+<span class="normal">813</span>
+<span class="normal">814</span>
+<span class="normal">815</span>
+<span class="normal">816</span>
+<span class="normal">817</span>
+<span class="normal">818</span>
+<span class="normal">819</span>
+<span class="normal">820</span>
+<span class="normal">821</span>
+<span class="normal">822</span>
+<span class="normal">823</span>
+<span class="normal">824</span>
+<span class="normal">825</span>
+<span class="normal">826</span>
+<span class="normal">827</span>
+<span class="normal">828</span>
+<span class="normal">829</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot_bml_oml_horizon_metrics</span><span class="p">(</span>
     <span class="n">df_eval</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">df_labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">log_x</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -4376,6 +4474,8 @@ This metric will be used to evaluate the model&rsquo;s performance on the test d
     <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">skip_first_n</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">skip_last_n</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot evaluation metrics for machine learning models.</span>
@@ -4418,6 +4518,11 @@ This metric will be used to evaluate the model&rsquo;s performance on the test d
 <span class="sd">            The name of the file to save the plot to. If None, the plot is not saved. Default is None.</span>
 <span class="sd">        title (str, optional):</span>
 <span class="sd">            The title of the plot. Default is an empty string.</span>
+<span class="sd">        skip_first_n (int, optional):</span>
+<span class="sd">            The number of rows to skip from the beginning of the dataframe. Default is 0.</span>
+<span class="sd">        skip_last_n (int, optional):</span>
+<span class="sd">            The number of rows to skip from the end of the dataframe. Default is 0.</span>
+<span class="sd">        show (bool, optional):</span>
 <span class="sd">        **kwargs (Any): Additional keyword arguments to be passed to the plot function.</span>
 
 <span class="sd">    Returns:</span>
@@ -4429,6 +4534,26 @@ This metric will be used to evaluate the model&rsquo;s performance on the test d
 <span class="sd">        &gt;&gt;&gt; df_eval = pd.DataFrame({&quot;Metric&quot;: [0.5, 0.75, 0.9], &quot;CompTime (s)&quot;: [0.1, 0.2, 0.3], &quot;Memory (MB)&quot;: [0.1, 0.2, 0.3]})</span>
 <span class="sd">        &gt;&gt;&gt; df_labels = [&quot;Model 1&quot;, &quot;Model 2&quot;, &quot;Model 3&quot;]</span>
 <span class="sd">        &gt;&gt;&gt; plot_bml_oml_horizon_metrics(df_eval, df_labels, metric=accuracy_score)</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; from river import linear_model, datasets, preprocessing</span>
+<span class="sd">            from spotRiver.evaluation.eval_bml import eval_oml_horizon</span>
+<span class="sd">            from spotRiver.utils.data_conversion import convert_to_df</span>
+<span class="sd">            from sklearn.metrics import mean_absolute_error</span>
+<span class="sd">            metric = mean_absolute_error</span>
+<span class="sd">            model = (preprocessing.StandardScaler() |</span>
+<span class="sd">                    linear_model.LinearRegression())</span>
+<span class="sd">            dataset = datasets.TrumpApproval()</span>
+<span class="sd">            target_column = &quot;Approve&quot;</span>
+<span class="sd">            df = convert_to_df(dataset, target_column)</span>
+<span class="sd">            train = df[:500]</span>
+<span class="sd">            test = df[500:]</span>
+<span class="sd">            horizon = 10</span>
+<span class="sd">            df_eval, df_preds = eval_oml_horizon(</span>
+<span class="sd">                model, train, test, target_column,</span>
+<span class="sd">                horizon, metric=metric)</span>
+<span class="sd">            from spotRiver.evaluation.eval_bml import plot_bml_oml_horizon_metrics</span>
+<span class="sd">            df_labels = [&quot;OML Linear&quot;]</span>
+<span class="sd">            plot_bml_oml_horizon_metrics(df_eval, df_labels, metric=metric, filename=None)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">figsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
@@ -4461,8 +4586,17 @@ This metric will be used to evaluate the model&rsquo;s performance on the test d
                     <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">&quot;</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">label</span> <span class="o">=</span> <span class="n">df_labels</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-                <span class="c1"># Plot metric values against dataset names</span>
-                <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">df</span><span class="p">[</span><span class="n">metrics</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="c1"># Define indices for slicing based on skip_first_n and skip_last_n</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">skip_first_n</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">skip_last_n</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="o">-</span><span class="n">skip_last_n</span>
+
+                <span class="c1"># Plot metric values against dataset names, skipping specified entries</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                    <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">],</span>
+                    <span class="n">df</span><span class="p">[</span><span class="n">metrics</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">],</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+                <span class="p">)</span>
                 <span class="c1"># Set title and legend</span>
                 <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">titles</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
                 <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">)</span>
@@ -4712,43 +4846,7 @@ If True, log scale is used. If False, linear scale is used. Default is False.</p
 
             <details class="quote">
               <summary>Source code in <code>spotRiver/evaluation/eval_bml.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">796</span>
-<span class="normal">797</span>
-<span class="normal">798</span>
-<span class="normal">799</span>
-<span class="normal">800</span>
-<span class="normal">801</span>
-<span class="normal">802</span>
-<span class="normal">803</span>
-<span class="normal">804</span>
-<span class="normal">805</span>
-<span class="normal">806</span>
-<span class="normal">807</span>
-<span class="normal">808</span>
-<span class="normal">809</span>
-<span class="normal">810</span>
-<span class="normal">811</span>
-<span class="normal">812</span>
-<span class="normal">813</span>
-<span class="normal">814</span>
-<span class="normal">815</span>
-<span class="normal">816</span>
-<span class="normal">817</span>
-<span class="normal">818</span>
-<span class="normal">819</span>
-<span class="normal">820</span>
-<span class="normal">821</span>
-<span class="normal">822</span>
-<span class="normal">823</span>
-<span class="normal">824</span>
-<span class="normal">825</span>
-<span class="normal">826</span>
-<span class="normal">827</span>
-<span class="normal">828</span>
-<span class="normal">829</span>
-<span class="normal">830</span>
-<span class="normal">831</span>
-<span class="normal">832</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">832</span>
 <span class="normal">833</span>
 <span class="normal">834</span>
 <span class="normal">835</span>
@@ -4798,7 +4896,43 @@ If True, log scale is used. If False, linear scale is used. Default is False.</p
 <span class="normal">879</span>
 <span class="normal">880</span>
 <span class="normal">881</span>
-<span class="normal">882</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot_bml_oml_horizon_predictions</span><span class="p">(</span>
+<span class="normal">882</span>
+<span class="normal">883</span>
+<span class="normal">884</span>
+<span class="normal">885</span>
+<span class="normal">886</span>
+<span class="normal">887</span>
+<span class="normal">888</span>
+<span class="normal">889</span>
+<span class="normal">890</span>
+<span class="normal">891</span>
+<span class="normal">892</span>
+<span class="normal">893</span>
+<span class="normal">894</span>
+<span class="normal">895</span>
+<span class="normal">896</span>
+<span class="normal">897</span>
+<span class="normal">898</span>
+<span class="normal">899</span>
+<span class="normal">900</span>
+<span class="normal">901</span>
+<span class="normal">902</span>
+<span class="normal">903</span>
+<span class="normal">904</span>
+<span class="normal">905</span>
+<span class="normal">906</span>
+<span class="normal">907</span>
+<span class="normal">908</span>
+<span class="normal">909</span>
+<span class="normal">910</span>
+<span class="normal">911</span>
+<span class="normal">912</span>
+<span class="normal">913</span>
+<span class="normal">914</span>
+<span class="normal">915</span>
+<span class="normal">916</span>
+<span class="normal">917</span>
+<span class="normal">918</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot_bml_oml_horizon_predictions</span><span class="p">(</span>
     <span class="n">df_true</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">df_labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">target_column</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Actual&quot;</span><span class="p">,</span>

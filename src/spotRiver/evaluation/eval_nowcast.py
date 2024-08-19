@@ -28,8 +28,8 @@ def eval_nowcast_model(
             from river import linear_model
             from river import preprocessing, datasets, utils, metrics
             import matplotlib.pyplot as plt
-            from spotRiver.utils.features import get_ordinal_date
-            from spotRiver.evaluation.eval_nowcast import eval_nowcast_model, plot_nowcast_model
+            from spotriver.utils.features import get_ordinal_date
+            from spotriver.evaluation.eval_nowcast import eval_nowcast_model, plot_nowcast_model
 
             model = compose.Pipeline(
                 ('ordinal_date', compose.FuncTransformer(get_ordinal_date)),

@@ -1,6 +1,6 @@
 from river import datasets
-from spotRiver.data.csvdataset import CSVDataset
-from spotRiver.utils.data_conversion import convert_to_df
+from spotriver.data.csvdataset import CSVDataset
+from spotriver.utils.data_conversion import convert_to_df
 
 
 def data_selector(
@@ -33,7 +33,7 @@ def data_selector(
             Number of samples in the data set.
 
     Examples:
-        >>> from spotPython.data.selector import data_selector
+        >>> from spotpython.data.selector import data_selector
             dataset, n_samples = data_selector("Phishing")
 
     Notes:

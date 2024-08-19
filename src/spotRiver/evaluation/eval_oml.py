@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from river.evaluate import iter_progressive_val_score
-from spotPython.utils.progress import progress_bar
+from spotpython.utils.progress import progress_bar
 from numpy import mean
 from numpy import zeros
 from numpy import array
@@ -47,8 +47,8 @@ def eval_oml_iter_progressive(dataset, metric, models, step=100, weight_coeff=0.
             from river import linear_model
             from river import preprocessing, datasets, utils, metrics
             import matplotlib.pyplot as plt
-            from spotRiver.utils.features import get_ordinal_date
-            from spotRiver.evaluation.eval_nowcast import eval_nowcast_model, plot_nowcast_model
+            from spotriver.utils.features import get_ordinal_date
+            from spotriver.evaluation.eval_nowcast import eval_nowcast_model, plot_nowcast_model
             model = compose.Pipeline(
                 ('ordinal_date', compose.FuncTransformer(get_ordinal_date)),
                 ('scale', preprocessing.StandardScaler()),
@@ -104,7 +104,7 @@ def plot_oml_iter_progressive(result, log_x=False, log_y=False, figsize=None, fi
         https://riverml.xyz/0.15.0/recipes/on-hoeffding-trees/
 
     Examples:
-        >>> from spotRiver.evaluation.eval_oml import plot_oml_iter_progressive
+        >>> from spotriver.evaluation.eval_oml import plot_oml_iter_progressive
 
         >>> result = {
         ...     "model1": {
@@ -177,7 +177,7 @@ def fun_eval_oml_iter_progressive(result, metric=None, weights=None):
         https://riverml.xyz/0.15.0/recipes/on-hoeffding-trees/
 
     Examples:
-        >>> from spotRiver.evaluation.eval_oml import fun_eval_oml_iter_progressive
+        >>> from spotriver.evaluation.eval_oml import fun_eval_oml_iter_progressive
 
         >>> result = {
         ...     "model1": {

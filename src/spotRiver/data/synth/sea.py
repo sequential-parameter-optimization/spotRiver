@@ -28,7 +28,7 @@ class SEA(datasets.base.SyntheticDataset):
         (Generator): A generator of features and labels.
 
     Examples:
-        >>> from spotRiver.data.synth import SEA
+        >>> from spotriver.data.synth import SEA
             dataset = synth.SEA(variant=0, seed=42)
             for x, y in dataset.take(5):
                 print(x, y)

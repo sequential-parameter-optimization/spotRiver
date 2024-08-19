@@ -1,5 +1,5 @@
-from spotRiver.data.selector import data_selector
-from spotRiver.utils.data_conversion import convert_to_df
+from spotriver.data.selector import data_selector
+from spotriver.utils.data_conversion import convert_to_df
 
 def test_data_selector():
     data_set_values = [

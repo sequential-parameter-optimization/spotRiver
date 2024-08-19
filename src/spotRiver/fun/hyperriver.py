@@ -3,12 +3,12 @@ import numpy as np
 import pandas as pd
 from river import compose
 from typing import Optional, Dict, Any, Tuple
-from spotPython.hyperparameters.values import assign_values
-from spotPython.hyperparameters.values import (
+from spotpython.hyperparameters.values import assign_values
+from spotpython.hyperparameters.values import (
     generate_one_config_from_var_dict,
 )
 
-from spotRiver.evaluation.eval_bml import eval_oml_horizon
+from spotriver.evaluation.eval_bml import eval_oml_horizon
 
 import logging
 from sklearn.metrics import mean_absolute_error
@@ -45,7 +45,7 @@ class HyperRiver:
             (NoneType): None
 
         Examples:
-            >>> from spotRiver.fun.hyperriver import HyperRiver
+            >>> from spotriver.fun.hyperriver import HyperRiver
             >>> import pandas as pd
             >>> hr = HyperRiver(weights=[1, 2, 3])
             >>> df_eval = pd.DataFrame( [[1, 2, 3], [3, 4, 5]], columns=['Metric', 'CompTime (s)', 'Memory (MB)'])
@@ -87,7 +87,7 @@ class HyperRiver:
             (float): objective function value. Weighted mean of the errors, running time, and memory usage.
 
         Examples:
-            >>> from spotRiver.fun.hyperriver import HyperRiver
+            >>> from spotriver.fun.hyperriver import HyperRiver
                 hr = HyperRiver()
                 # set the weights
                 hr.fun_control["weights"] = [1, 1, 1]
@@ -138,7 +138,7 @@ class HyperRiver:
     def evaluate_model(self, model: object, fun_control: dict) -> Tuple[pd.DataFrame, pd.DataFrame]:
         """
         Evaluates a model using the eval_oml_horizon function from
-        spotRiver.evaluation.eval_bml.
+        spotriver.evaluation.eval_bml.
 
         Args:
             model (object):

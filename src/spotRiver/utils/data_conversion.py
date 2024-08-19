@@ -25,7 +25,7 @@ def convert_to_df(dataset: datasets.base.Dataset, target_column: str = "y", n_to
 
     Examples:
         >>> from river import datasets
-            from spotRiver.utils.data_conversion import convert_to_df
+            from spotriver.utils.data_conversion import convert_to_df
             dataset = datasets.TrumpApproval()
             target_column = "Approval"
             df = convert_to_df(dataset, target_column)
@@ -87,7 +87,7 @@ def rename_df_to_xy(df, target_column="y"):
         (pd.DataFrame): The renamed DataFrame.
 
     Examples:
-        >>> from spotRiver.utils.data_conversion import rename_df_to_xy
+        >>> from spotriver.utils.data_conversion import rename_df_to_xy
             df = pd.DataFrame({
             "feature1": [1, 2, 3],
             "feature2": [4, 5, 6],
@@ -136,7 +136,7 @@ def split_df(
         tuple: The tuple (train, test, n_samples).
 
     Examples:
-        >>> from spotRiver.utils.data_conversion import split_df
+        >>> from spotriver.utils.data_conversion import split_df
             df = pd.DataFrame({
             "feature1": [1, 2, 3],
             "feature2": [4, 5, 6],

@@ -16,7 +16,7 @@ class AirlinePassengers(base.FileDataset):
     Note: The code can be used as a template for creating new datasets based on CSV files.
 
     Examples:
-        >>> from spotRiver.data.airline_passengers import AirlinePassengers
+        >>> from spotriver.data.airline_passengers import AirlinePassengers
             dataset = AirlinePassengers()
             for x, y in dataset.take(5):
                 print(x, y)

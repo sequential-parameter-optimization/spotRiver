@@ -23,9 +23,9 @@ class GenericData(base.GenericFileDataset):
         (Generator): An iterator over the data in the file.
 
     Examples:
-        >>> from spotRiver.data.generic import GenericData
+        >>> from spotriver.data.generic import GenericData
             import importlib.resources as pkg_resources
-            import spotRiver.data as data
+            import spotriver.data as data
             inp_file = pkg_resources.files(data)
             csv_path = str(inp_file.resolve())
             dataset = GenericData(filename="UnivariateData.csv",

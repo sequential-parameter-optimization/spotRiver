@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from spotRiver.data.opm import fetch_opm
+from spotriver.data.opm import fetch_opm
 from sklearn.impute import SimpleImputer
 
 

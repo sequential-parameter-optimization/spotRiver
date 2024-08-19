@@ -1,5 +1,5 @@
 import pandas as pd
-from spotRiver.fun.hyperriver import HyperRiver
+from spotriver.fun.hyperriver import HyperRiver
 
 def test_compute_y():
     # create two Hyperriver objects

@@ -18,7 +18,7 @@ def corrplot(df: pd.DataFrame, numeric_only=True) -> None:
         (pd.DataFrame): A styled correlation matrix heatmap.
 
     Examples:
-        >>> from spotRiver.plot.stats import corrplot
+        >>> from spotriver.plot.stats import corrplot
             import pandas as pd
             X = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6], 'C': [7, 8, 9]})
             corrplot(X)

@@ -15,7 +15,7 @@ def generate_drift(data: pd.DataFrame, drift_values=[1.1, 10.0, 0.1, 1.1]) -> np
 
     Examples:
         >>> import numpy as np
-        >>> from spotRiver.drift.drift_generator import generate_drift
+        >>> from spotriver.drift.drift_generator import generate_drift
         >>> data = np.array([[1, 2, 3], [4, 5, 6]])
         >>> generate_drift(data, drift_values=[1.1, 10.0, 0.1, 1.1])
         array([ 1.1, 10. ,  0.1,  1.1])

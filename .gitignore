@@ -129,12 +129,12 @@ dmypy.json
 .pyre/
 docs/.DS_Store
 notebooks/.DS_Store
-src/spotRiver/data/.DS_Store
-src/spotRiver/.DS_Store
-src/spotRiver/fun/.DS_Store
+src/spotriver/data/.DS_Store
+src/spotriver/.DS_Store
+src/spotriver/fun/.DS_Store
 test/.DS_Store
 src/.DS_Store
-spotRiver.code-workspace
+spotriver.code-workspace
 .DS_Store
 notebooks/data/opm_2001-2020.csv
 notebooks/opm.csv

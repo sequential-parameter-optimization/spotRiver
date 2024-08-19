@@ -18,7 +18,7 @@ class CSVDataset:
         **desc (Any): Additional keyword arguments.
 
     Examples:
-        >>> from spotRiver.data.csvdataset import CSVDataset
+        >>> from spotriver.data.csvdataset import CSVDataset
             dataset = CSVDataset(csv_file='data.csv', target_column='prognosis', feature_type=int)
             print(dataset.data.shape)
     """

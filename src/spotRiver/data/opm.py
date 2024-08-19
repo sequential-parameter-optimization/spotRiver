@@ -18,7 +18,7 @@ from sklearn.utils import Bunch
 from typing import Union, Tuple
 from urllib.request import urlretrieve
 
-from spotRiver.data.base import get_data_home
+from spotriver.data.base import get_data_home
 
 logger = logging.Logger(__name__)
 
@@ -53,7 +53,7 @@ def fetch_opm(
     Args:
         data_home : str or pathlib.Path, default=None
             Specify another download and cache folder for the datasets. By default
-            all spotRiver data is stored in '~/spotriver_data' subfolders.
+            all spotriver data is stored in '~/spotriver_data' subfolders.
         download_if_missing : bool, default=True
             If False, raise an IOError if the data is not locally available
             rather than trying to download the data from the source site.
@@ -81,7 +81,7 @@ def fetch_opm(
             return a pd.DataFrame instead of a Bunch.
 
     Examples:
-        >>> from spotRiver.data import fetch_opm
+        >>> from spotriver.data import fetch_opm
             # Fetch the OPM dataset and return a pandas DataFrame
             opm_df = fetch_opm()
             # Fetch the OPM dataset, include categorical columns, and return a Bunch object

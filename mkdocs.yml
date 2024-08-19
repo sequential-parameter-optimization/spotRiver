@@ -1,7 +1,7 @@
-site_name: spotRiver
-site_description: spotPython for River - Online machine learning in Python
-site_url: https://github.com/sequential-parameter-optimization/spotRiver
-repo_url: https://github.com/sequential-parameter-optimization/spotRiver
+site_name: spotriver
+site_description: spotpython for River - Online machine learning in Python
+site_url: https://github.com/sequential-parameter-optimization/spotriver
+repo_url: https://github.com/sequential-parameter-optimization/spotriver
 
 # Copyright
 copyright: Copyright &copy; 2019 - 2023
@@ -67,7 +67,7 @@ markdown_extensions:
   - sane_lists
 use_directory_urls: true
 watch:
-- src/spotRiver
+- src/spotriver
 extra:
   social:
     - icon: fontawesome/brands/twitter

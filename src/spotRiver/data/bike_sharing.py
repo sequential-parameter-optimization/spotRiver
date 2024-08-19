@@ -16,7 +16,7 @@ def get_bike_sharing_data(train_size=0.6):
             test (pd.DataFrame): The test set.
 
     Examples:
-        >>> from spotRiver.data.bike_sharing import get_bike_sharing_data
+        >>> from spotriver.data.bike_sharing import get_bike_sharing_data
         >>> df, train, test = get_bike_sharing_data(train_size=0.6)
     """
 

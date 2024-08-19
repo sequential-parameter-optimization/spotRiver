@@ -1,13 +1,13 @@
-# spotRiver Examples
+# spotriver Examples
 
 ## Friedman Drift
 
 ```{python}
 import numpy as np
 import pandas as pd
-from spotRiver.evaluation.eval_oml import eval_oml_iter_progressive, plot_oml_iter_progressive
-from spotRiver.evaluation.eval_bml import eval_bml_horizon, eval_bml_landmark, eval_bml_window, eval_oml_horizon, plot_bml_oml_horizon_predictions, plot_bml_oml_horizon_metrics
-from spotRiver.utils.data_conversion import convert_to_df
+from spotriver.evaluation.eval_oml import eval_oml_iter_progressive, plot_oml_iter_progressive
+from spotriver.evaluation.eval_bml import eval_bml_horizon, eval_bml_landmark, eval_bml_window, eval_oml_horizon, plot_bml_oml_horizon_predictions, plot_bml_oml_horizon_metrics
+from spotriver.utils.data_conversion import convert_to_df
 from river import metrics as river_metrics, compose, feature_extraction, linear_model, preprocessing, stats
 from river import stream as river_stream
 from river import preprocessing as river_preprocessing

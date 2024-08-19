@@ -1,6 +1,6 @@
-include src/spotRiver/data/*.rst
-include src/spotRiver/data/*.tar
-include src/spotRiver/data/*.c
-include src/spotRiver/data/*.csv
-include src/spotRiver/data/*.json
-include src/spotRiver/hyperdict/*.json
+include src/spotriver/data/*.rst
+include src/spotriver/data/*.tar
+include src/spotriver/data/*.c
+include src/spotriver/data/*.csv
+include src/spotriver/data/*.json
+include src/spotriver/hyperdict/*.json

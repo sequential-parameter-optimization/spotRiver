@@ -8,26 +8,26 @@ from numpy.random import default_rng
 import numpy as np
 from numpy import array
 
-from spotRiver.utils.features import get_weekday_distances
-from spotRiver.utils.features import get_ordinal_date
-from spotRiver.utils.features import get_month_distances
-from spotRiver.utils.features import get_hour_distances
-from spotRiver.evaluation.eval_oml import fun_eval_oml_iter_progressive
-from spotRiver.evaluation.eval_oml import eval_oml_iter_progressive
-from spotRiver.evaluation.eval_bml import eval_oml_horizon
-from spotRiver.evaluation.eval_nowcast import eval_nowcast_model
+from spotriver.utils.features import get_weekday_distances
+from spotriver.utils.features import get_ordinal_date
+from spotriver.utils.features import get_month_distances
+from spotriver.utils.features import get_hour_distances
+from spotriver.evaluation.eval_oml import fun_eval_oml_iter_progressive
+from spotriver.evaluation.eval_oml import eval_oml_iter_progressive
+from spotriver.evaluation.eval_bml import eval_oml_horizon
+from spotriver.evaluation.eval_nowcast import eval_nowcast_model
 
-from spotPython.hyperparameters.values import (
+from spotpython.hyperparameters.values import (
     assign_values,
 )
-from spotPython.hyperparameters.prepare import (
+from spotpython.hyperparameters.prepare import (
     get_dict_with_levels_and_types,
     get_one_config_from_var_dict,
     iterate_dict_values,
     convert_keys,
 )
 
-from spotPython.utils.transform import transform_hyper_parameter_values
+from spotpython.utils.transform import transform_hyper_parameter_values
 
 import logging
 import statistics

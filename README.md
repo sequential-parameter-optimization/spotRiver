@@ -1,4 +1,4 @@
-# spotRiver
+# spotriver
 
 # Development
 
@@ -72,7 +72,7 @@ https://scipy-lectures.org/advanced/optimizing/index.html
    * `pyproject.toml`: see [pyproject.toml](./pyproject.toml). 
    * Important: Follow the instructions from [https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html](https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html) for including data files (like *.csv, *.tar, etc.). These files can be specified in the following `MANIFEST` file:
      * `MANIFEST`: see [MANIFEST](MANIFEST.in). It describes the data files to be included, e.g.:
-       * `include src/spotRiver/data/*.rst`
+       * `include src/spotriver/data/*.rst`
     * `LICENSE`: see [LICENSE](./LICENSE)
 
 ### Installation
@@ -82,5 +82,5 @@ https://scipy-lectures.org/advanced/optimizing/index.html
     * `python3 -m pip install --upgrade build`
   * Start the package building process via:  `python3 -m build` 
   * This command should output a lot of text and once completed should generate two files in the `dist` directory.
-  * You can use the local `spotRiver*.tar.gz` file from the `dist` folder for your package installation with `pip`, e.g.;
-  * `python3 -m pip install ./dist/spotRiver-*.tar.gz`
+  * You can use the local `spotriver*.tar.gz` file from the `dist` folder for your package installation with `pip`, e.g.;
+  * `python3 -m pip install ./dist/spotriver-*.tar.gz`

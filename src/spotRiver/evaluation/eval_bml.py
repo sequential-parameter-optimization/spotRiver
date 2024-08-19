@@ -48,7 +48,7 @@ class ResourceMonitor:
 
     Examples:
         >>> import time
-        >>> from spotRiver.evaluation.eval_bml import ResourceMonitor
+        >>> from spotriver.evaluation.eval_bml import ResourceMonitor
         >>> with ResourceMonitor() as rm:
         ...     time.sleep(1)
         ...     print(rm.result())
@@ -89,7 +89,7 @@ class ResourceMonitor:
 
         Examples:
             >>> import time
-            >>> from spotRiver.evaluation.eval_bml import ResourceMonitor
+            >>> from spotriver.evaluation.eval_bml import ResourceMonitor
             >>> with ResourceMonitor() as rm:
             ...     time.sleep(1)
             ...     print(rm.result())
@@ -123,7 +123,7 @@ def evaluate_model(y_true: np.ndarray, y_pred: np.ndarray, memory: float, r_time
     Examples:
         >>> from sklearn.metrics import accuracy_score
         >>> import numpy as np
-        >>> from spotRiver.evaluation.eval_bml import evaluate_model
+        >>> from spotriver.evaluation.eval_bml import evaluate_model
         >>> y_true = np.array([0, 1, 0, 1])
         >>> y_pred = np.array([0, 1, 1, 1])
         >>> memory = 0.0
@@ -531,7 +531,7 @@ def eval_oml_horizon(
         >>> from river import linear_model
             from river import preprocessing
             from sklearn.metrics import mean_absolute_error
-            from spotRiver.evaluation.eval_bml import eval_oml_horizon
+            from spotriver.evaluation.eval_bml import eval_oml_horizon
             model = (
                     preprocessing.StandardScaler() |
                     linear_model.LinearRegression(intercept_lr=.5)
@@ -745,14 +745,14 @@ def plot_bml_oml_horizon_metrics(
 
     Examples:
         >>> from sklearn.metrics import accuracy_score
-        >>> from spotRiver.evaluation.eval_bml import plot_bml_oml_horizon_metrics
+        >>> from spotriver.evaluation.eval_bml import plot_bml_oml_horizon_metrics
         >>> df_eval = pd.DataFrame({"Metric": [0.5, 0.75, 0.9], "CompTime (s)": [0.1, 0.2, 0.3], "Memory (MB)": [0.1, 0.2, 0.3]})
         >>> df_labels = ["Model 1", "Model 2", "Model 3"]
         >>> plot_bml_oml_horizon_metrics(df_eval, df_labels, metric=accuracy_score)
         >>>
         >>> from river import linear_model, datasets, preprocessing
-            from spotRiver.evaluation.eval_bml import eval_oml_horizon
-            from spotRiver.utils.data_conversion import convert_to_df
+            from spotriver.evaluation.eval_bml import eval_oml_horizon
+            from spotriver.utils.data_conversion import convert_to_df
             from sklearn.metrics import mean_absolute_error
             metric = mean_absolute_error
             model = (preprocessing.StandardScaler() |
@@ -766,7 +766,7 @@ def plot_bml_oml_horizon_metrics(
             df_eval, df_preds = eval_oml_horizon(
                 model, train, test, target_column,
                 horizon, metric=metric)
-            from spotRiver.evaluation.eval_bml import plot_bml_oml_horizon_metrics
+            from spotriver.evaluation.eval_bml import plot_bml_oml_horizon_metrics
             df_labels = ["OML Linear"]
             plot_bml_oml_horizon_metrics(df_eval, df_labels, metric=metric, filename=None)
     """
@@ -885,7 +885,7 @@ def plot_bml_oml_horizon_predictions(
 
     Examples:
         >>> from sklearn.metrics import accuracy_score
-        >>> from spotRiver.evaluation.eval_bml import plot_bml_oml_horizon_predictions
+        >>> from spotriver.evaluation.eval_bml import plot_bml_oml_horizon_predictions
         >>> df_true = pd.DataFrame({"Actual": [0.5, 0.75, 0.9], "Prediction": [0.1, 0.2, 0.3]})
         >>> df_labels = ["Model 1", "Model 2", "Model 3"]
         >>> plot_bml_oml_horizon_predictions(df_true, df_labels, target_column="Actual")

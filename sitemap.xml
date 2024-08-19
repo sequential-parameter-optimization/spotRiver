@@ -1,138 +1,138 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/about/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/about/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/download/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/download/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/examples/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/examples/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/hyperparameter-tuning-cookbook/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/hyperparameter-tuning-cookbook/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/SUMMARY/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/SUMMARY/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/data/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/data/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/data/airline_passengers/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/data/airline_passengers/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/data/base/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/data/base/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/data/bike_sharing/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/data/bike_sharing/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/data/csvdataset/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/data/csvdataset/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/data/generic/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/data/generic/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/data/opm/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/data/opm/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/data/selector/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/data/selector/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/data/synth/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/data/synth/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/data/synth/sea/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/data/synth/sea/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/drift/drift_generator/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/drift/drift_generator/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/evaluation/eval_bml/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/evaluation/eval_bml/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/evaluation/eval_nowcast/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/evaluation/eval_nowcast/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/evaluation/eval_oml/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/evaluation/eval_oml/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/fun/hyperriver/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/fun/hyperriver/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/fun/hyperriver_old/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/fun/hyperriver_old/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/hyperdict/river_hyper_dict/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/hyperdict/river_hyper_dict/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/plot/stats/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/plot/stats/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/preprocess/impute/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/preprocess/impute/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/utils/data_conversion/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/utils/data_conversion/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/sequential-parameter-optimization/spotRiver/reference/spotRiver/utils/features/</loc>
-         <lastmod>2024-08-14</lastmod>
+         <loc>https://github.com/sequential-parameter-optimization/spotriver/reference/spotriver/utils/features/</loc>
+         <lastmod>2024-08-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>

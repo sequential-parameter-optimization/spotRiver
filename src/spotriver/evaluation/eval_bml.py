@@ -6,6 +6,7 @@ from river import stream as river_stream
 from typing import Optional
 from dataclasses import dataclass
 from typing import Tuple, Generator
+import matplotlib
 import matplotlib.pyplot as plt
 import copy
 
@@ -691,6 +692,7 @@ def plot_bml_oml_horizon_metrics(
     title="",
     skip_first_n=0,
     skip_last_n=0,
+    tkagg=False,
     **kwargs,
 ) -> None:
     """Plot evaluation metrics for machine learning models.
@@ -738,7 +740,14 @@ def plot_bml_oml_horizon_metrics(
         skip_last_n (int, optional):
             The number of rows to skip from the end of the dataframe. Default is 0.
         show (bool, optional):
-        **kwargs (Any): Additional keyword arguments to be passed to the plot function.
+            A flag indicating whether to show the plot. If True, the plot is displayed.
+            If False, the plot is not displayed. Default is False.
+        tkagg (bool, optional):
+            A flag indicating whether to use the TkAgg backend for plotting.
+            If True, the TkAgg backend is used. If False, the default backend is used.
+            Default: False.
+        **kwargs (Any):
+            Additional keyword arguments to be passed to the plot function.
 
     Returns:
         (NoneType): This function does not return anything.
@@ -770,6 +779,8 @@ def plot_bml_oml_horizon_metrics(
             df_labels = ["OML Linear"]
             plot_bml_oml_horizon_metrics(df_eval, df_labels, metric=metric, filename=None)
     """
+    if tkagg:
+        matplotlib.use("TkAgg")
     if figsize is None:
         figsize = (10, 5)
     # Check if metric is None or null and raise ValueError if it is
@@ -840,6 +851,7 @@ def plot_bml_oml_horizon_predictions(
     figsize: tuple = None,
     filename=None,
     title="",
+    tkagg=False,
     **kwargs,
 ) -> None:
     """Plot actual vs predicted values for machine learning models.
@@ -878,6 +890,10 @@ def plot_bml_oml_horizon_predictions(
             The name of the file to save the plot to. If None, the plot is not saved. Default is None.
         title (str, optional):
             The title of the plot. Default is an empty string.
+        tkagg (bool, optional):
+            A flag indicating whether to use the TkAgg backend for plotting.
+            If True, the TkAgg backend is used. If False, the default backend is used.
+            Default: False.
         **kwargs (Any): Additional keyword arguments to be passed to the plot function.
 
     Returns:
@@ -891,6 +907,8 @@ def plot_bml_oml_horizon_predictions(
         >>> plot_bml_oml_horizon_predictions(df_true, df_labels, target_column="Actual")
 
     """
+    if tkagg:
+        matplotlib.use("TkAgg")
     if figsize is None:
         figsize = (10, 5)
     if df_true is not None:
